@@ -25,3 +25,4 @@ Co-orientador: Dr. Paulo Hubert
 - [https://towardsdatascience.com/recognizing-speech-commands-using-recurrent-neural-networks-with-attention-c2b2ba17c837](https://towardsdatascience.com/recognizing-speech-commands-using-recurrent-neural-networks-with-attention-c2b2ba17c837) (Acesso em 2019-04-14)
 
 - [https://github.com/douglas125/SpeechCmdRecognition](https://github.com/douglas125/SpeechCmdRecognition) (Acesso em 2019-04-14)
+

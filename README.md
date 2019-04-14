@@ -22,3 +22,4 @@ Co-orientador: Dr. Paulo
 
   - <https://github.com/douglas125/SpeechCmdRecognition> (Acesso em
     2019-04-14)
+s
