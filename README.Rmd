@@ -27,6 +27,12 @@ Co-orientador: Dr. Paulo Hubert
 - PLP: Perceptual Linear Predictive
 
 
+## Dados
+
+Em construção.
+
+![](jpg/fontes_de_dados_distrib.jpeg)
+
 ## Referências
 
 ### Fontes de dados

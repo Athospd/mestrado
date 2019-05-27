@@ -20,6 +20,12 @@ Co-orientador: Dr. Paulo Hubert
   - LPCC: Linear Prediction Cepstral Coefficients
   - PLP: Perceptual Linear Predictive
 
+## Dados
+
+Em construção.
+
+![](jpg/fontes_de_dados_distrib.jpeg)
+
 ## Referências
 
 ### Fontes de dados
