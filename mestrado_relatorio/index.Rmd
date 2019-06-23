@@ -1,0 +1,50 @@
+--- 
+title: "Mestrado"
+author: "Athos Petri Damiani"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: 
+  # bookdown::gitbook
+  bookdown::pdf_document2
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: athospd/mestrado
+description: "Documentação do Mestrado"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
+library(stats)
+library(readr)
+library(purrr)
+library(slickR)
+library(dplyr)
+library(ggplot2)
+library(forcats)
+```
+
+
+# Projeto
+
+Projeto de pesquisa *"Detectores acústicos automáticos de espécies de aves noturnas em seu bioma natural"* do Departamento de Engenharia Mecânica da Escola Politécnica (Laboratório de Acústica e Meio Ambiente).
+
+**Orientador:** Prof. Dr. Linilson Padovese
+
+**Co-orientador:** Dr. Paulo Hubert
+
+## Escopo
+
+
+## Cronograma
+
+
+## Notas
+
+> "There is the need for shared datasets with annotations of a wide variety of calls for a large number of species if methods that are suitable for conservation work are to be developed."
+> --- Automated birdsong recognition in complex acoustic environments: a review
