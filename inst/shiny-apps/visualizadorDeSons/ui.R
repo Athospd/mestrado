@@ -1,10 +1,12 @@
+library(reactable)
 library(shiny)
-library(shinyWidgets)
 library(shinydashboard)
 library(httr)
-library(shinyhttr)
+library(shinycssloaders)
+library(magrittr)
 
-source("modules/pb.R")
+addResourcePath("data_raw", "/media/athos/DATA/OneDrive/Documents/mestrado/data-raw")
+addResourcePath("data", "/media/athos/DATA/OneDrive/Documents/mestrado/data")
 
 dashboardPage(
   dashboardHeader(title = "Visualizador de Sons"),
@@ -20,7 +22,20 @@ dashboardPage(
   dashboardBody(
     tabItems(
       tabItem(
-        "corujinhas_do_mato"
+        "corujinhas_do_mato",
+        fluidRow(
+          box(width = 12,
+              selectizeInput("arquivo", label = "Arquivo", choices = list.files("/media/athos/DATA/OneDrive/Documents/mestrado/data/Glaucidium-minutissimum")),
+              uiOutput("audio") %>% withSpinner(color="#0dc5c1", proxy.height = 158, size = 0.3)
+          ),
+
+          box(width = 12,
+              plotOutput("grafico")  %>% withSpinner(color="#0dc5c1")
+          ),
+          box(width = 12,
+              reactableOutput("segmentacao")  %>% withSpinner(color="#0dc5c1")
+          )
+        )
       )
     )
   )

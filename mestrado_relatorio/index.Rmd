@@ -3,9 +3,7 @@ title: "Mestrado"
 author: "Athos Petri Damiani"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
-output: 
-  # bookdown::gitbook
-  bookdown::pdf_document2
+output: bookdown::pdf_book
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
@@ -16,8 +14,9 @@ description: "Documentação do Mestrado"
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
+
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 library(stats)

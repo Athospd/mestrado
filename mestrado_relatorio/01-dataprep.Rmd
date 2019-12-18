@@ -1,9 +1,6 @@
 # Bancos de Dados
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 library(readr)
@@ -26,11 +23,61 @@ library(forcats)
 
 ![](img/fontes_de_dados_distrib.jpeg)
 
-## Xeno-Canto
 
-## Wikiaves
-
-## FNJV
+## Espécies
 
 
 
+## Coleta dos Dados
+
+### Xeno-Canto
+
+```{r}
+
+```
+
+### Wikiaves
+
+```{r}
+
+```
+
+### FNJV
+
+```{r}
+
+```
+
+
+
+
+## Anotações dos Cantos (Variável Resposta)
+
+### Identificação das sílabas
+
+### Rotulações
+
+
+
+
+## Pré-processamento
+
+### Redução de Resolução
+
+```{r}
+
+```
+
+
+### Redução de Ruído
+
+### Normalização
+
+### Spectrograma
+
+### Filtro Passa-banda
+
+### Fatiamento
+
+
+## Extração de Atributos

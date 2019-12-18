@@ -1,0 +1,16 @@
+# Pré-processamento
+
+
+## Redução de Ruído
+
+
+
+## Normalização
+
+
+
+## Filtro Passa-banda
+
+
+
+

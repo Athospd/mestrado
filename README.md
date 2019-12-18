@@ -22,10 +22,6 @@ Co-orientador: Dr. Paulo Hubert
 
 ## Dados
 
-Em construção.
-
-![](jpg/fontes_de_dados_distrib.jpeg)
-
 ## Referências
 
 ### Fontes de dados
@@ -44,6 +40,8 @@ Em construção.
   - <https://www.kaggle.com/c/mlsp-2013-birds>
 
 ### Artigos de bioacústica
+
+  - <https://pdfs.semanticscholar.org/74e1/fd40d99b811e7a6b2fa897c9d72b471aaf13.pdf>
 
   - <https://lis-unicamp.github.io/wp-content/uploads/2017/07/LeandroTacioli-Mestrado.pdf>
     (Acesso em
@@ -74,7 +72,21 @@ Em construção.
   - <https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0179403>
     (Acesso em 2019-04-14)
 
-  - <http://www.naturalhistory.com.br/wasis.html> (Acesso em 2019-04-14)
+  - <http://www.naturalhistory.com.br/wasis.html> (Acesso em
+    2019-04-14)
+
+  - <http://c4dm.eecs.qmul.ac.uk/papers/2017/OSA_article_HPamula_etal_04082017.pdf>
+    (Acesso em 2019-07-02)
+
+  - <http://ceur-ws.org/Vol-1609/16090560.pdf> (Acesso em 2019-07-06)
+
+  - <https://arxiv.org/ftp/arxiv/papers/1609/1609.08408.pdf> (Acesso em
+    2019-07-06)
+
+  - <https://haythamfayek.com/2016/04/21/speech-processing-for-machine-learning.html>
+
+  - <https://blogs.rstudio.com/tensorflow/posts/2019-02-07-audio-background/>
+    (Acesso em 2019-08-01)
 
 ## Notas
 

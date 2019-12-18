@@ -3,3 +3,5 @@
 .RData
 .Ruserdata
 ignorar/
+data/
+data-raw/
