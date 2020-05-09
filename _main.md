@@ -94,3 +94,5 @@ Co-orientador: Dr. Paulo Hubert
 > variety of calls for a large number of species if methods that are
 > suitable for conservation work are to be developed.” — Automated
 > birdsong recognition in complex acoustic environments: a review
+
+<!--chapter:end:README.Rmd-->
