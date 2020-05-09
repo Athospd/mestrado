@@ -1,0 +1,13 @@
+Package: mestrado
+Title: Meu mestrado
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Athos",
+           family = "Damiani",
+           role = c("aut", "cre"),
+           email = "athos.damiani@gmail.com")
+Description: Funções para replicar o meu projeto de mestrado.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1

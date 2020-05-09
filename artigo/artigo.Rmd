@@ -1,0 +1,216 @@
+---
+title: Automatic Acoustic Identifier for Brazilian Bird Species  
+affiliation:
+  ## use one only of the following
+  # author-columnar: true         ## one column per author
+  institution-columnar: true  ## one column per institution (multiple autors eventually)
+  # wide: true                  ## one column wide author/affiliation fields
+
+  institution:
+    - name: University of São Paulo
+      department: School of Mechanic Engineering
+      location: Prof. Mello Moraes Avenue, 2231, São Paulo, Brazil 05508--900
+      mark: 1
+      author:
+        - name: Prof. Dr. Linilson Rodrigues Padovese
+        - email: lrpadove@usp.br
+    - name:  University of São Paulo
+      department: Institute of Mathematics and Statistics
+      location: Matão St, 1010, São Paulo, Brazil 05508-090
+      mark: 2
+      author:
+        - name: Prof. Dr. Paulo Hubert
+        - email: paulo.hubert@gmail.com
+    - name: University of São Paulo
+      department: School of Mechanic Engineering
+      location: Prof. Mello Moraes Avenue, 2231, São Paulo, Brazil 05508--900
+      mark: 3
+      author:
+        - name: Athos Petri Damiani
+        - email: athos.damiani@gmail.com
+keywords: ["bioacoustics", "machine learning", "deep learning", "acoustic ecology", "soundscape monitoring", "signal processing", "biodiversity conservation", "neural networks"]
+abstract: |
+  Recentemente, estudos em bioacústica vem sendo aplicados em diversas áreas da
+  Biologia, desde a Sistemática, passando pela Etologia, até a conservação da biodiversidade.
+  Ainda é pouco explorado, porém, o potencial de aplicação destas ferramentas no estudo de
+  espécies ameaçadas e da fauna noturna. Este projeto pretende desenvolver uma metodologia
+  de obtenção e análise de dados de presença/ausência de aves noturnas, em particular de
+  Strigiformes, por meio do desenvolvimento de detectores acústico utilizando machine
+  learning, para identificação tanto em grandes bancos de dados de paisagens acústicas, como
+  em equipamentos de monitoramento instalado em campo, desenvolvidos pelo Laboratório de
+  Acústica e Meio Ambiente da Poli-USP. Serão utilizadas topologias de redes neurais com
+  treinamento supervisionado, baseado nas Multilayer Perceptron e Redes Neurais
+  Probabilísticas.
+
+bibliography: mybibfile.bib
+output: rticles::ieee_article
+---
+
+Introduction
+=============
+<!-- no \IEEEPARstart -->
+Biodiversity analysis campaigns, mainly related to insects, birds, mammals and anurans, have traditionally been carried out in a “manual” manner, through the use of specialists in loco, using hearing and vision. These campaigns are time consuming, expensive, largely dependent on the experience and knowledge of each specialist, and limited in time and space. The presence or absence of a species in a certain site depends on the coincidence of both the species and the specialist in the same time and space.
+
+In order to provide tools to increase the capacity for studying and analyzing biodiversity, both in terrestrial and underwater biomes, the concept of monitoring soundscapes has been used. For this, ambient acoustic recording equipment is used which, through microphones and hydrophones, capture environmental audio whether in the infrasound, audible or ultrasound bands. These devices can be autonomous in the sense that they have internal energy and storage capacity that allow them to work for a few days or several months. But they can also be permanent in the sense that they have no energy restrictions (either through the use of solar panels, or from another external energy source), with eventual transmission of information in real time. The generated database contains information that enables a great diversity of studies and analysis, such as: animal communication and behavior, landscape ecology and conservation biology, research in population dynamics (Campos-Cerqueira, 2016), communities monitoring (Dawson and Efford, 2009), detection of endemic, threatened or even unknown species (Vernier, 2012) and in studies regarding migration (Salamon et al, 2016).
+
+Among these, the development of bird sound classification systems has been widely debated and reviewed in the literature, and some references consulted are listed at the end of the proposal. Several problems remain open, with the main one, perhaps, being about find ways of dealing with the immense variability of vocalizations and ambient acoustic conditions. Annually, transdisciplinary teams composed of researchers from different international organizations are mobilized to propose solutions to this type of challenge in an event called BirdCLEF (https://www.imageclef.org/node/230), which is an important source of information about this subject.
+
+Lacmam (Laboratory of Acoustics and Environment of EP--USP) has several years of experience in this activity, either in the development of its own hardware and software technology, or in conducting long-term campaigns for monitoring and analyzing soundscapes, both terrestrial and underwater (Figure 1 and Figure 2), as detailed in Methodology Session.
+
+In this context, this project aims to take an additional step in innovation by developing technology for automatic detection of certain acoustic events. Of particular interest is the detection of some species of Strigiformes (owls), incorporating machine learning methods in the soundscape monitoring technology package already developed by the laboratory, in favor of the conservation of species and ecosystems. In the context of the species detection problem, there is a particularly challenging issue: detection of night birds due to the specialist's limited sight and locomotion caused by the biome.
+
+On the other hand, 24 hours persistent acoustic monitoring equipments has relatively low cost and can be cover a wide region. Therefore an installation of automated detection software on these equipments, or using these softwares for analysis of large acoustic databases, enables an efficient and effective method/permanent monitoring in large areas at the same time that it provides quality information on ecological behavior.
+
+Although the proposal's emphasis is on the automated recognition of some given bird species, the methodology to be developed may also be applied to other species of birds, anurans and, even in underwater fauna, such as marine mammals and chorus fish, among others.
+
+This project was inspired by needs pointed out by managers from Federal and State Conservation Unities as well as by Environment Conservation NGOs. These are concrete demands to which we hope to contribute.
+
+Objectives
+============
+
+
+
+Team and Infrastructure
+============
+
+
+Test Data 
+============
+
+## INB-Resende
+
+## Morro Grande
+
+
+Training Data 
+============
+
+## Data Gathering
+
+## Data Annotation
+
+Data Preprocessing
+============
+
+Modeling
+==============
+
+
+Results
+==============
+
+<!-- An example of a floating figure using the graphicx package. -->
+<!-- Note that \label must occur AFTER (or within) \caption. -->
+<!-- For figures, \caption should occur after the \includegraphics. -->
+<!-- Note that IEEEtran v1.7 and later has special internal code that -->
+<!-- is designed to preserve the operation of \label within \caption -->
+<!-- even when the captionsoff option is in effect. However, because -->
+<!-- of issues like this, it may be the safest practice to put all your -->
+<!-- \label just after \caption rather than within \caption{}. -->
+
+<!-- Reminder: the "draftcls" or "draftclsnofoot", not "draft", class -->
+<!-- option should be used if it is desired that the figures are to be -->
+<!-- displayed while in draft mode. -->
+
+<!-- \begin{figure}[!t] -->
+<!-- \centering -->
+<!-- \includegraphics[width=2.5in]{myfigure} -->
+<!-- where an .eps filename suffix will be assumed under latex,  -->
+<!-- and a .pdf suffix will be assumed for pdflatex; or what has been declared -->
+<!-- via \DeclareGraphicsExtensions. -->
+<!-- \caption{Simulation results for the network.} -->
+<!-- \label{fig_sim} -->
+<!-- \end{figure} -->
+
+<!-- Note that the IEEE typically puts floats only at the top, even when this -->
+<!-- results in a large percentage of a column being occupied by floats. -->
+
+
+<!-- An example of a double column floating figure using two subfigures. -->
+<!-- (The subfig.sty package must be loaded for this to work.) -->
+<!-- The subfigure \label commands are set within each subfloat command, -->
+<!-- and the \label for the overall figure must come after \caption. -->
+<!-- \hfil is used as a separator to get equal spacing. -->
+<!-- Watch out that the combined width of all the subfigures on a  -->
+<!-- line do not exceed the text width or a line break will occur. -->
+
+<!-- \begin{figure*}[!t] -->
+<!-- \centering -->
+<!-- \subfloat[Case I]{\includegraphics[width=2.5in]{box}% -->
+<!-- \label{fig_first_case}} -->
+<!-- \hfil -->
+<!-- \subfloat[Case II]{\includegraphics[width=2.5in]{box}% -->
+<!-- \label{fig_second_case}} -->
+<!-- \caption{Simulation results for the network.} -->
+<!-- \label{fig_sim} -->
+<!-- \end{figure*} -->
+
+<!-- Note that often IEEE papers with subfigures do not employ subfigure -->
+<!-- captions (using the optional argument to \subfloat[]), but instead will -->
+<!-- reference/describe all of them (a), (b), etc., within the main caption. -->
+<!-- Be aware that for subfig.sty to generate the (a), (b), etc., subfigure -->
+<!-- labels, the optional argument to \subfloat must be present. If a -->
+<!-- subcaption is not desired, just leave its contents blank, -->
+<!-- e.g., \subfloat[]. -->
+
+
+<!-- An example of a floating table. Note that, for IEEE style tables, the -->
+<!-- \caption command should come BEFORE the table and, given that table -->
+<!-- captions serve much like titles, are usually capitalized except for words -->
+<!-- such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to -->
+<!-- and up, which are usually not capitalized unless they are the first or -->
+<!-- last word of the caption. Table text will default to \footnotesize as -->
+<!-- the IEEE normally uses this smaller font for tables. -->
+<!-- The \label must come after \caption as always. -->
+
+<!-- \begin{table}[!t] -->
+<!-- % increase table row spacing, adjust to taste -->
+<!-- \renewcommand{\arraystretch}{1.3} -->
+<!-- if using array.sty, it might be a good idea to tweak the value of -->
+<!-- \extrarowheight as needed to properly center the text within the cells -->
+<!-- \caption{An Example of a Table} -->
+<!-- \label{table_example} -->
+<!-- \centering -->
+<!-- % Some packages, such as MDW tools, offer better commands for making tables -->
+<!-- % than the plain LaTeX2e tabular which is used here. -->
+<!-- \begin{tabular}{|c||c|} -->
+<!-- \hline -->
+<!-- One & Two\\ -->
+<!-- \hline -->
+<!-- Three & Four\\ -->
+<!-- \hline -->
+<!-- \end{tabular} -->
+<!-- \end{table} -->
+
+
+<!-- Note that the IEEE does not put floats in the very first column -->
+<!-- - or typically anywhere on the first page for that matter. Also, -->
+<!-- in-text middle ("here") positioning is typically not used, but it -->
+<!-- is allowed and encouraged for Computer Society conferences (but -->
+<!-- not Computer Society journals). Most IEEE journals/conferences use -->
+<!-- top floats exclusively.  -->
+<!-- Note that, LaTeX2e, unlike IEEE journals/conferences, places -->
+<!-- footnotes above bottom floats. This can be corrected via the -->
+<!-- \fnbelowfloat command of the stfloats package. -->
+
+
+Conclusion
+============
+
+The conclusion goes here.
+
+<!-- conference papers do not normally have an appendix -->
+
+Acknowledgment {#acknowledgment}
+==============
+
+The authors would like to thank...
+
+Bibliography styles
+===================
+
+Here are two sample references: @Feynman1963118 [@Dirac1953888].
+
+\newpage
+References {#references .numbered}
+==========
