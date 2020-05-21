@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width">
+<meta property="og:title" content="Automatic Acoustic Identifier for Brazilian Bird Species" />
+
+
+
+
+
+
+<meta name="description" content="Automatic Acoustic Identifier for Brazilian Bird Species">
+
+<script id="pandoc-meta" type="application/json">
+{"department":"Mechanic Engineering","newpage_html_class":"page-break-after","location":"São Paulo, Brazil","link-citations":"yes","committee":[{"prefix":"Prof. Dr.","name":"Paulo Hubert","position":"Faculty Advisor"},{"prefix":"Prof. Dr.","name":"Linilson Padovese","position":"Chair of Department"}],"toc-title":"Contents","lof":true,"paged-footnotes":true,"bibliography":["packages.bib","references.bib"],"date":[{"year":"2020","month":"May"}],"subtitle":"Monograph","university":"University of São Paulo","lot":true,"output":{"pagedown::thesis_paged":{"self_contained":"no","toc":true,"css":["custom.css","thesis"],"pandoc_args":"–mathjax","number_sections":"yes"}},"sign_page":false,"author":[{"name":"Athos P. Damiani"},{"name":"Prof. Dr. Paulo do C. Hubert Jr"},{"name":"Prof. Dr. Linilson Padovese"}],"abstract":"This is the abstract.","title":"Automatic Acoustic Identifier for Brazilian Bird Species","institute":"Politechnic School of Engineering"}
+</script>
+
+<title>Automatic Acoustic Identifier for Brazilian Bird Species</title>
+
+
+<link href="monografia_files/paged-0.10.1/css/thesis.css" rel="stylesheet" />
+<script src="monografia_files/paged-0.10.1/js/config.js"></script>
+<script src="monografia_files/paged-0.10.1/js/paged.js"></script>
+<script src="monografia_files/paged-0.10.1/js/hooks.js"></script>
+
+
+
+<link rel="stylesheet" href="custom.css" type="text/css" />
+
+</head>
+
+<body>
+
+<div class="running-h1-title"></div>
+
+<div class="running-h2-title"></div>
+
+
+
+<!--
+Title Page
+-->
+<div class="front-page">
+  
+<h2 class="author">Politechnic School of Engineering</h2>
+<p class="department">Department of Mechanic Engineering</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div id="header" class="title-page">
+<h1 class="title">Automatic Acoustic Identifier for Brazilian Bird Species</h1>
+<h1 class="subtitle"><span>Monograph</span></h1>
+<br>
+<br>
+<h2 class="author">Athos P. Damiani</h2>
+<h2 class="author">Prof. Dr. Paulo do C. Hubert Jr</h2>
+<h2 class="author">Prof. Dr. Linilson Padovese</h2>
+</div>
+<br>
+<br>
+<br>
+<h2 class="degree"></h2>
+<br>
+<p class="institute">University of São Paulo<br>São Paulo, Brazil</p>
+<br>
+<p class="copyright">May 2020 </p>
+
+<!--
+Bellow is the signature page
+if the user wants one the YAML
+should be "sign_page: true" -->
+
+
+<!-- Pre content section
+-Example, if user want a dedication page then they include "dedication: 'some text' in the YAML"
+-If you want other pages not found in this template simply add it to this section in the same way
+using the ""
+-->
+
+
+<div class="abstract">
+<h1 class="abstract">Abstract</h1>
+This is the abstract.
+</div>
+
+
+
+</div>
+
+<!-- This
+Container for the table of content, table of tables and table of figures etc.
+- See pagedown::html_paged for details on how to use.
+-->
+
+<div class="front-matter-container">
+
+<div id="TOC" class="level1 toc front-matter">
+<h1 class="toc-title">Contents</h1>
+<ul>
+<li><a href="#LOT">List of Tables</a></li>
+<li><a href="#LOF">List of Figures</a></li>
+<li><a href="#literature-review">Literature Review</a></li>
+<li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
+<li><a href="#notes"><span class="toc-section-number">1.1</span> Notes</a></li>
+</ul></li>
+<li><a href="#the-data"><span class="toc-section-number">2</span> The Data</a><ul>
+<li><a href="#trainingtesting-data"><span class="toc-section-number">2.1</span> Training/Testing data</a></li>
+</ul></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+
+</div>
+
+<div id="LOT" class="section level1 lot unnumbered front-matter">
+<h1>List of Tables</h1>
+<ul>
+<li><a href="#tab:mp3-counts">2.1</a> MP3 files downloaded.</li>
+</ul>
+</div>
+<div id="LOF" class="section level1 lof unnumbered front-matter">
+<h1>List of Figures</h1>
+<ul>
+</ul>
+</div>
+<div id="literature-review" class="section level1 unnumbered">
+<h1>Literature Review</h1>
+<p>This is where you can include a lit review if you don’t wish for it to be an individual chapter or to be numbered. To make sure that a section heading is not numbered use the <code>{-}</code> notation beside the header text like this:</p>
+<p>asdasd
+asd
+sa</p>
+</div>
+<div id="introduction" class="section level1 chapter">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Biodiversity analysis campaigns, mainly related to insects, birds, mammals and anurans, have traditionally been carried out in a “manual” manner, through the use of specialists in loco, using hearing and vision. These campaigns are time consuming, expensive, largely dependent on the experience and knowledge of each specialist, and limited in time and space. The presence or absence of a species in a certain site depends on the coincidence of both the species and the specialist in the same time and space.</p>
+<p>In order to provide tools to increase the capacity for studying and analyzing biodiversity, both in terrestrial and underwater biomes, the concept of monitoring soundscapes has been used. For this, ambient acoustic recording equipment is used which, through microphones and hydrophones, capture environmental audio whether in the infrasound, audible or ultrasound bands. These devices can be autonomous in the sense that they have internal energy and storage capacity that allow them to work for a few days or several months. But they can also be permanent in the sense that they have no energy restrictions (either through the use of solar panels, or from another external energy source), with eventual transmission of information in real time. The generated database contains information that enables a great diversity of studies and analysis, such as: animal communication and behavior, landscape ecology and conservation biology, research in population dynamics (Campos-Cerqueira, 2016), communities monitoring (Dawson and Efford, 2009), detection of endemic, threatened or even unknown species (Vernier, 2012) and in studies regarding migration (Salamon et al, 2016).</p>
+<p>Among these, the development of bird sound classification systems has been widely debated and reviewed in the literature, and some references consulted are listed at the end of the proposal. Several problems remain open, with the main one, perhaps, being about find ways of dealing with the immense variability of vocalizations and ambient acoustic conditions. Annually, transdisciplinary teams composed of researchers from different international organizations are mobilized to propose solutions to this type of challenge in an event called BirdCLEF<span id="fn1" class="footnote" data-pagedown-footnote-number="1" style="white-space: pre-line;"><a href="https://www.imageclef.org/node/230" class="uri">https://www.imageclef.org/node/230</a></span> , which is an important source of information about this subject.</p>
+<p>Lacmam (Laboratory of Acoustics and Environment of EP–USP) has several years of experience in this activity, either in the development of its own hardware and software technology, or in conducting long-term campaigns for monitoring and analyzing soundscapes, both terrestrial and underwater (Figure 1 and Figure 2), as detailed in Methodology Session.</p>
+<p>In this context, this project aims to take an additional step in innovation by developing technology for automatic detection of certain acoustic events. Of particular interest is the detection of some species of Strigiformes (owls), incorporating machine learning methods in the soundscape monitoring technology package already developed by the laboratory, in favor of the conservation of species and ecosystems. In the context of the species detection problem, there is a particularly challenging issue: detection of night birds due to the specialist’s limited sight and locomotion caused by the biome.</p>
+<p>On the other hand, 24 hours persistent acoustic monitoring equipments has relatively low cost and can be cover a wide region. Therefore an installation of automated detection software on these equipments, or using these softwares for analysis of large acoustic databases, enables an efficient and effective method/permanent monitoring in large areas at the same time that it provides quality information on ecological behavior.</p>
+<p>Although the proposal’s emphasis is on the automated recognition of some given bird species, the methodology to be developed may also be applied to other species of birds, anurans and, even in underwater fauna, such as marine mammals and chorus fish, among others.</p>
+<p>This project was inspired by needs pointed out by managers from Federal and State Conservation Unities as well as by Environment Conservation NGOs. These are concrete demands to which we hope to contribute.</p>
+<div id="notes" class="section level2">
+<h2><span class="header-section-number">1.1</span> Notes</h2>
+<blockquote>
+<p>“There is the need for shared datasets with annotations of a wide variety of calls for a large number of species if methods that are suitable for conservation work are to be developed.”
+— Automated birdsong recognition in complex acoustic environments: a review</p>
+</blockquote>
+</div>
+</div>
+<div id="the-data" class="section level1 chapter">
+<h1><span class="header-section-number">2</span> The Data</h1>
+<div id="trainingtesting-data" class="section level2">
+<h2><span class="header-section-number">2.1</span> Training/Testing data</h2>
+<p>Two main data sources with almost ready to use labels were gathered:</p>
+<ul>
+<li><a href="Xeno-Canto.org">Xeno-Canto.org</a></li>
+<li><a href="https://www.wikiaves.com.br/">Wikiaves.com.br</a></li>
+</ul>
+<p>Those websites are the biggest repository of Brazilian bird species sounds. The table <a href="#tab:mp3-counts">2.1</a> show the counts of MP3 downloaded by species.</p>
+<table>
+<caption><span id="tab:mp3-counts">Table 2.1: </span>MP3 files downloaded.</caption>
+<thead>
+<tr class="header">
+<th align="left">Species</th>
+<th align="right">#mp3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Megascops-choliba</td>
+<td align="right">803</td>
+</tr>
+<tr class="even">
+<td align="left">Pulsatrix-koeniswaldiana</td>
+<td align="right">334</td>
+</tr>
+<tr class="odd">
+<td align="left">Strix-hylophila</td>
+<td align="right">318</td>
+</tr>
+<tr class="even">
+<td align="left">Megascops-atricapilla</td>
+<td align="right">258</td>
+</tr>
+<tr class="odd">
+<td align="left">Glaucidium-minutissimum</td>
+<td align="right">208</td>
+</tr>
+<tr class="even">
+<td align="left">Total</td>
+<td align="right">1921</td>
+</tr>
+</tbody>
+</table>
+<p>No providence was made if the same audio happened to appear at both sources.</p>
+<p>The {warbleR} <span class="citation">(Araya-Salas and Smith-Vidaurre <a href="#ref-warbleR2017">2017</a>)</span> and {wikiaves} <span class="citation">(Damiani <a href="#ref-R-wikiaves">2020</a>)</span> packages were used to retrieve all the mp3 available automatically.</p>
+</div>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<!-- This '<div id="refs"></div>' needs to 
+be here if you have appendix pages 
+otherwise you can remove it.-->
+<div id="refs">
+<div id="ref-warbleR2017">
+<p>Araya-Salas, M., and G. Smith-Vidaurre. 2017. “WarbleR: An R Package to Streamline Analysis of Animal Acoustic Signals.” <em>Methods in Ecology and Evolution</em>. <a href="http://dx.doi.org/10.1111/2041-210X.12624">http://dx.doi.org/10.1111/2041-210X.12624</a>.</p>
+</div>
+<div id="ref-R-wikiaves">
+<p>Damiani, Athos. 2020. <em>Wikiaves: API to Retrieve Sounds from Wikiaves.com.br</em>.</p>
+</div>
+</div>
+</div>
+
+
+
+<script>
+// when the page is about to reload via servr, remember the scroll position
+document.addEventListener('servr:reload', function(e) {
+  sessionStorage.setItem('pagedown-scroll', window.scrollY);
+});
+</script>
+</body>
+</html>

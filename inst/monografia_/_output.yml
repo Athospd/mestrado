@@ -1,0 +1,19 @@
+bookdown::gitbook:
+  css: style.css
+  config:
+    toc:
+      before: |
+        <li><a href="./">Meu Mestrado - Monografia</a></li>
+      after: |
+        <li><a href="https://github.com/rstudio/bookdown" target="blank">Feito com bookdown</a></li>
+    edit: https://github.com/athospd/mestrado%s
+    download: ["pdf", "epub"]
+bookdown::pdf_book:
+  includes:
+    in_header: 
+      - "preamble.tex"
+      - "cover.tex"
+  latex_engine: xelatex
+  citation_package: natbib
+  keep_tex: yes
+bookdown::epub_book: default

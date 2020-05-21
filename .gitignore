@@ -5,3 +5,5 @@
 ignorar/
 data/
 data-raw/
+docs
+inst/doc

@@ -1,0 +1,10 @@
+# References {-}
+
+```{r, include=FALSE}
+knitr::write_bib(c('knitr', 'rmarkdown', 'xaringan', 'wikiaves', 'warbleR'), 'packages.bib')
+```
+
+<!-- This '<div id="refs"></div>' needs to 
+be here if you have appendix pages 
+otherwise you can remove it.-->
+<div id="refs"></div> 

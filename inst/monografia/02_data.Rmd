@@ -1,0 +1,27 @@
+# The Data {.chapter}
+
+## Training/Testing data
+
+Two main data sources with almost ready to use labels were gathered:
+
+- [Xeno-Canto.org](Xeno-Canto.org)
+- [Wikiaves.com.br](https://www.wikiaves.com.br/)
+
+Those websites are the biggest repository of Brazilian bird species sounds. The table \@ref(tab:mp3-counts) show the counts of MP3 downloaded by species.
+
+```{r mp3-counts}
+library(magrittr)
+data.frame(Species = list.files("../../data-raw/wav_16khz/") %>%
+             stringr::str_remove_all("[.0-9]|(wav)") %>%
+             stringr::str_remove_all("-$")
+) %>%
+  dplyr::count(Species, name = "#mp3", sort = TRUE) %>%
+  janitor::adorn_totals() %>%
+  knitr::kable(caption = "MP3 files downloaded.") %>%
+  kableExtra::kable_styling(font_size = 12) %>%
+  kableExtra::row_spec(6, bold = TRUE)
+```
+
+No providence was made if the same audio happened to appear at both sources.
+
+The {warbleR} [@warbleR2017] and {wikiaves} [@R-wikiaves] packages were used to retrieve all the mp3 available automatically. A tutorial to reproduce the extraction can be found in this link  

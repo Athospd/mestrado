@@ -1,0 +1,60 @@
+---
+title: Automatic Acoustic Identifier for Brazilian Bird Species
+subtitle: Monograph
+author: 
+  - name: Athos P. Damiani
+  - name: Prof. Dr. Paulo do C. Hubert Jr
+  - name: Prof. Dr. Linilson Padovese
+institute: Politechnic School of Engineering
+department: Mechanic Engineering
+university: University of São Paulo
+location: São Paulo, Brazil
+date:
+  - year: 2020
+    month: May
+sign_page: false
+abstract: This is the abstract.
+committee:
+  - name: Paulo Hubert
+    prefix: Prof. Dr.
+    position: Faculty Advisor
+  - name: Linilson Padovese
+    prefix: Prof. Dr.
+    position: Chair of Department
+lof: true
+lot: true
+toc-title: Contents
+paged-footnotes: true
+output:
+  pagedown::thesis_paged: 
+    css: ["custom.css", "thesis"]
+    toc: true
+    number_sections: yes
+    pandoc_args: --mathjax
+    self_contained: no
+bibliography: [packages.bib, references.bib]
+link-citations: yes
+# uncomment this line to produce HTML and PDF in RStudio:
+# knit: pagedown::chrome_print
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE,
+                      message = FALSE,
+                      fig.align = 'center')
+```
+
+```{r child = '001_literature_review.Rmd'}
+```
+
+```{r child = '01_introduction.Rmd'}
+```
+
+```{r child = '02_data.Rmd'}
+```
+
+
+
+```{r child = '99_references.Rmd'}
+```

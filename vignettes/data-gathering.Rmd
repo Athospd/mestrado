@@ -1,0 +1,69 @@
+---
+title: "Data and MP3 Gathering"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{data-gathering}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, eval = FALSE)
+```
+
+```{r}
+library(fs)
+```
+
+Steps:
+- 1) create a vector of all species of interest.
+- 2) decide if want to download mp3 or not.
+- 3) set directory for mp3 storage.
+
+```{r, eval = FALSE}
+# list here all the species.
+bird_species <- c("megascops choliba",
+                  "strix hylophila",
+                  "pulsatrix koeniswaldiana",
+                  "megascops atricapilla",
+                  "glaucidium minutissimum")
+
+# Should the MP3 be downloaded to the hard disk?
+download <- TRUE
+
+# insert here which folder do you want to store the mp3 files.
+dir <- "data-raw/mp3_originals"
+if(!dir.exists(dir)) fs::dir_create(dir)
+```
+
+## Xeno-canto data and MP3
+
+The [`warbleR::querxc()`](https://cran.r-project.org/web/packages/warbleR/vignettes/warbleR_workflow_01.html#obtain_metadata_and_recordings_from_xeno-canto) function retrieve mp3 files from xeno-canto.org repository.
+
+```{r, eval = FALSE}
+library(warbleR)
+
+# set donwload = TRUE for download the files to your hard disk.
+metadata_xc <- tibble::tibble(species = bird_species)
+metadata_xc$mp3_xc = purrr::map(bird_species, ~querxc(.x, download = download, path = dir))
+```
+
+## Wikiaves data and MP3
+
+The package [{wikiaves}](https://athospd.github.io/wikiaves/) is not on CRAN yet. Github install only.
+
+```{r, eval = FALSE}
+# install.packages("remotes")
+remotes::install_github("Athospd/wikiaves")
+library(wikiaves)
+```
+
+
+```{r, eval = FALSE}
+# set donwload = TRUE for download the files to your hard disk.
+metadata_wa <- bird_species %>% 
+  wa_metadata(download = download, path = dir) %>% 
+  tidyr::nest(mp3_wa = c(-term))
+```
+
+

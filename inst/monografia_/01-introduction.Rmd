@@ -1,0 +1,24 @@
+\mainmatter
+
+# Introduction
+
+Biodiversity analysis campaigns, mainly related to insects, birds, mammals and anurans, have traditionally been carried out in a “manual” manner, through the use of specialists in loco, using hearing and vision. These campaigns are time consuming, expensive, largely dependent on the experience and knowledge of each specialist, and limited in time and space. The presence or absence of a species in a certain site depends on the coincidence of both the species and the specialist in the same time and space.
+
+In order to provide tools to increase the capacity for studying and analyzing biodiversity, both in terrestrial and underwater biomes, the concept of monitoring soundscapes has been used. For this, ambient acoustic recording equipment is used which, through microphones and hydrophones, capture environmental audio whether in the infrasound, audible or ultrasound bands. These devices can be autonomous in the sense that they have internal energy and storage capacity that allow them to work for a few days or several months. But they can also be permanent in the sense that they have no energy restrictions (either through the use of solar panels, or from another external energy source), with eventual transmission of information in real time. The generated database contains information that enables a great diversity of studies and analysis, such as: animal communication and behavior, landscape ecology and conservation biology, research in population dynamics (Campos-Cerqueira, 2016), communities monitoring (Dawson and Efford, 2009), detection of endemic, threatened or even unknown species (Vernier, 2012) and in studies regarding migration (Salamon et al, 2016).
+
+Among these, the development of bird sound classification systems has been widely debated and reviewed in the literature, and some references consulted are listed at the end of the proposal. Several problems remain open, with the main one, perhaps, being about find ways of dealing with the immense variability of vocalizations and ambient acoustic conditions. Annually, transdisciplinary teams composed of researchers from different international organizations are mobilized to propose solutions to this type of challenge in an event called BirdCLEF (https://www.imageclef.org/node/230), which is an important source of information about this subject.
+
+Lacmam (Laboratory of Acoustics and Environment of EP--USP) has several years of experience in this activity, either in the development of its own hardware and software technology, or in conducting long-term campaigns for monitoring and analyzing soundscapes, both terrestrial and underwater (Figure 1 and Figure 2), as detailed in Methodology Session.
+
+In this context, this project aims to take an additional step in innovation by developing technology for automatic detection of certain acoustic events. Of particular interest is the detection of some species of Strigiformes (owls), incorporating machine learning methods in the soundscape monitoring technology package already developed by the laboratory, in favor of the conservation of species and ecosystems. In the context of the species detection problem, there is a particularly challenging issue: detection of night birds due to the specialist's limited sight and locomotion caused by the biome.
+
+On the other hand, 24 hours persistent acoustic monitoring equipments has relatively low cost and can be cover a wide region. Therefore an installation of automated detection software on these equipments, or using these softwares for analysis of large acoustic databases, enables an efficient and effective method/permanent monitoring in large areas at the same time that it provides quality information on ecological behavior.
+
+Although the proposal's emphasis is on the automated recognition of some given bird species, the methodology to be developed may also be applied to other species of birds, anurans and, even in underwater fauna, such as marine mammals and chorus fish, among others.
+
+This project was inspired by needs pointed out by managers from Federal and State Conservation Unities as well as by Environment Conservation NGOs. These are concrete demands to which we hope to contribute.
+
+## Notes
+
+> "There is the need for shared datasets with annotations of a wide variety of calls for a large number of species if methods that are suitable for conservation work are to be developed."
+> --- Automated birdsong recognition in complex acoustic environments: a review

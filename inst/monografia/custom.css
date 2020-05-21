@@ -1,0 +1,12 @@
+body {
+  font-family: Georgia, serif;
+}
+
+.section > p {
+  text-align: justify;
+  text-align-last: left;
+}
+
+.math {
+  text-align-last: center;
+}

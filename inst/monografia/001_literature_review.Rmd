@@ -1,0 +1,7 @@
+# Literature Review {-}
+
+This is where you can include a lit review if you don't wish for it to be an individual chapter or to be numbered. To make sure that a section heading is not numbered use the `{-}` notation beside the header text like this:
+
+asdasd
+asd
+sa
