@@ -24,4 +24,6 @@ data.frame(Species = list.files("../../data-raw/wav_16khz/") %>%
 
 No providence was made if the same audio happened to appear at both sources.
 
-The {warbleR} [@warbleR2017] and {wikiaves} [@R-wikiaves] packages were used to retrieve all the mp3 available automatically. A tutorial to reproduce the extraction can be found in this link  
+The {warbleR} [@warbleR2017] and {wikiaves} [@R-wikiaves] packages were used to retrieve all the mp3 available automatically. A tutorial to reproduce the extraction can be found in this link [https://athospd.github.io/mestrado/articles/data-gathering.html]().
+
+

@@ -4,5 +4,6 @@
 .Ruserdata
 ignorar/
 data/
+data_/
 data-raw/
 inst/doc

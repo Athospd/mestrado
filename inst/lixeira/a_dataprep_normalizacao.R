@@ -1,7 +1,7 @@
 # Normalização
 # Strix-hylophila-1881455.mp3 tem problema de amplitude muito alta.
 library(magrittr)
-library(doParallel)
+library(doMC)
 library(foreach)
 
 mp3 <- list.files("data-raw/mp3_originais/", pattern = "mp3$", full.names = TRUE)

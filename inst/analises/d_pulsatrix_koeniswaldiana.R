@@ -1,1 +1,0 @@
-# anotacoes do Pulsatrix-koeniswaldiana

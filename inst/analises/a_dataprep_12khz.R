@@ -4,14 +4,14 @@ library(magrittr)
 library(doMC)
 library(foreach)
 
+dir <- "data-raw/originals/"
+mp3 <- list.files(dir, pattern = "mp3$", full.names = TRUE)
+wavs_ok <- stringr::str_replace(list.files("data-raw/wav_12khz/", pattern = "wav$", full.names = TRUE), "wav$", "mp3") %>% stringr::str_replace("wav_12khz", "originals")
 
-mp3 <- list.files("data-raw/mp3_originais/", pattern = "mp3$", full.names = TRUE)
-wavs_ok <- stringr::str_replace(list.files("data-raw/wav_12khz/", pattern = "wav$", full.names = TRUE), "wav$", "mp3") %>% stringr::str_replace("wav_12khz", "mp3_originais")
 
-
-lista_negra <- c("data-raw/mp3_originais//Glaucidium-minutissimum-2693093.mp3",
-                 "data-raw/mp3_originais//Pulsatrix-koeniswaldiana-3343722.mp3",
-                 "data-raw/mp3_originais//Pulsatrix-koeniswaldiana-3108787.mp3")
+lista_negra <- c("data-raw/originals//Glaucidium-minutissimum-2693093.mp3",
+                 "data-raw/originals//Pulsatrix-koeniswaldiana-3343722.mp3",
+                 "data-raw/originals//Pulsatrix-koeniswaldiana-3108787.mp3")
 mp3 <- mp3[!mp3 %in% c(wavs_ok, lista_negra)]
 
 
