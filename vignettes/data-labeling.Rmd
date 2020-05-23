@@ -1,5 +1,5 @@
 ---
-title: "data-labeling"
+title: "04 Data Labelling"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{data-labeling}

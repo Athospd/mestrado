@@ -18,27 +18,14 @@ Orientador: Prof. Dr. Linilson Padovese
 
 Co-orientador: Dr. Paulo Hubert
 
-## Termos para pesquisar sobre
+## Termos relacionados
 
 - HMM: Hidden Markov Chains
 - MFCC: Mel Frequency Cepstral Coefficients
 - LPC: Linear Predictive Coding
 - LPCC: Linear Prediction Cepstral Coefficients
 - PLP: Perceptual Linear Predictive
-
-
-## Dados
-
-```{r, include=FALSE}
-library(tidyverse)
-data.frame(mp3 = list.files("data-raw/mp3_originais/")) %>%
-  dplyr::mutate(especie = stringr::str_extract(mp3, "^[^0-9]*-")) %>%
-  ggplot(aes(x = especie)) +
-  geom_bar() +
-  coord_flip()
-  
-```
-
+- Deep Learning
 
 ## Referências
 

@@ -1,5 +1,5 @@
 ---
-title: "Slicing Wave Files"
+title: "03 Slicing Wave Files"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{data-slicing}

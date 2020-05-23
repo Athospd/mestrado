@@ -1,7 +1,7 @@
 # References {-}
 
 ```{r, include=FALSE}
-knitr::write_bib(c('knitr', 'rmarkdown', 'xaringan', 'wikiaves', 'warbleR'), 'packages.bib')
+knitr::write_bib(c('knitr', 'rmarkdown', 'xaringan', 'wikiaves', 'warbleR', 'wavesurfer'), 'packages.bib')
 ```
 
 <!-- This '<div id="refs"></div>' needs to 

@@ -1,5 +1,5 @@
 ---
-title: "data-annotation"
+title: "04 Data Annotation"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{data-annotation}
@@ -17,3 +17,42 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(mestrado)
 ```
+
+Annotate audio is the most laborous (and maybe tedious) part of any machine learning project. You are lucky if the labels are already there for you. The main package in this section is {wavesurfer}.
+
+```{r, message=FALSE, warning=FALSE}
+# remotes::install_github("athospd/wavesurfer")
+library(wavesurfer)
+```
+Here it is a working example:
+
+```{r, eval = FALSE}
+where_I_want_to_store_the_annotations <- tempdir()
+annotator_app(
+  wavs_folder = system.file("wav_sample", package = "mestrado"), 
+  annotations_folder = where_I_want_to_store_the_annotations
+)
+```
+
+The inputs are two folders: one indicating where the wave files are and other indicating where you want to store the acutal annotations. The Shiny app migth look like this:
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+library(magick)
+magick::image_read("../inst/img/wavesurfer_example.png")
+```
+
+The final product of each annotation is a `tibble`. Example follows:
+
+```{r, echo=FALSE, message = FALSE, warning=FALSE}
+library(dplyr)
+readRDS("../data_/anotacoes/Megascops-atricapilla-99919.rds") %>%
+  mutate(
+    region_id = gsub("wavesurfer_", "", region_id),
+    start = round(start, 2),
+    end = round(end, 2)
+  ) %>%
+  knitr::kable() %>%
+  kableExtra::kable_styling(font_size = 16, full_width = TRUE)
+```
+
+And that's all! Once annotated, you are ready to go to the labelling task.
