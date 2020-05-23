@@ -15,9 +15,14 @@ Imports:
     tuneR,
     tools,
     furrr,
-    purrr
+    purrr,
+    fs,
+    usethis,
+    progress,
+    magrittr
 Suggests: 
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    future
 VignetteBuilder: knitr

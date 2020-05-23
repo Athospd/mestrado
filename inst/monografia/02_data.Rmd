@@ -9,21 +9,146 @@ Two main data sources with almost ready to use labels were gathered:
 
 Those websites are the biggest repository of Brazilian bird species sounds. The table \@ref(tab:mp3-counts) show the counts of MP3 downloaded by species.
 
+
 ```{r mp3-counts}
 library(magrittr)
-data.frame(Species = list.files("../../data-raw/wav_16khz/") %>%
+
+tibble::tibble(Species = list.files("../../data-raw/wav_16khz/") %>%
              stringr::str_remove_all("[.0-9]|(wav)") %>%
              stringr::str_remove_all("-$")
 ) %>%
   dplyr::count(Species, name = "#mp3", sort = TRUE) %>%
   janitor::adorn_totals() %>%
   knitr::kable(caption = "MP3 files downloaded.") %>%
-  kableExtra::kable_styling(font_size = 12) %>%
+  kableExtra::kable_styling(font_size = 16) %>%
   kableExtra::row_spec(6, bold = TRUE)
 ```
+
 
 No providence was made if the same audio happened to appear at both sources.
 
 The {warbleR} [@warbleR2017] and {wikiaves} [@R-wikiaves] packages were used to retrieve all the mp3 available automatically. A tutorial to reproduce the extraction can be found in this link [https://athospd.github.io/mestrado/articles/data-gathering.html]().
+
+## Audio preparation
+
+All the audios donwloaded from Xeno-Canto and Wikiaves comes as mp3 files. Also, they can be stereo or mono, in potentially any sample rate and unnormalized. The first step of the data preparation standardize these properties.
+
+Steps to apply to every mp3 file:
+
+1) convert MP3 to WAV;
+2) stereo to mono;
+3) downsample to 16kHz;
+4) normalize amplitude by rescaling to integers in [-32767, 32767] (i.e. 16-bit).
+
+## Wave file slicing
+
+The observations of the training set will be slices with a given length of the raw wave files. For instance, if an original wave file has duration of 55 seconds, then the slicing with interval of 1 second and no overlap will result in 55 disjoint 1 second long slices.
+
+Table \@ref(tab:slice-example) shows the layout of the sliced dataset: the original audio file name as `id`, the start point of the slice and the end point of the slice. The final slice dataset is built by stacking the slices of all the files. 
+
+```{r slice-example}
+library(dplyr)
+tibble::tibble(
+  file_name = list.files("../../data-raw/wav_16khz_1000ms/")
+) %>%
+  tidyr::separate(file_name, c("id", "start", "end"), sep = "@", extra = "drop") %>%
+  filter(as.numeric(start) < 9) %>%
+  head(3) %>%
+  knitr::kable(caption = "Example of a dataset of slices from `Glaucidium-minutissimum-1066225.wav` audio file.", align = "lcc") %>%
+  kableExtra::kable_styling(font_size = 16)
+```
+
+
+The experiment tested slicing with 1 second long and with 2 seconds long, with no overlap. Table \@ref(tab:slice-counts) shows the total counts of slices generated after the slicing process. There is a trade-off behind the window length choice. The smaller the interval, the more samples will be created. On the other hand, less information will fit in the frame causing issues for the learner. So there are a sweet spot to be discovered and this is the reason to study both 1 and 2 seconds frame datasets.
+
+```{r slice-counts}
+library(magrittr)
+library(dplyr)
+one_sec_slices_metadata <- tibble::tibble(
+  file_name = list.files("../../data-raw/wav_16khz_1000ms/")
+) %>%
+  tidyr::separate(file_name, c("id", "start", "end"), sep = "@", extra = "drop") %>%
+  mutate(
+    Species = id %>%
+             stringr::str_remove_all("[.0-9]|(wav)") %>%
+             stringr::str_remove_all("-$")
+  ) %>%
+  dplyr::group_by(Species) %>%
+  summarise(
+    `#mp3` = n_distinct(id),
+    `#1sec slices` = n()
+  ) %>%
+  arrange(desc(`#mp3`)) 
+
+two_sec_slices_metadata <- tibble::tibble(
+  file_name = list.files("../../data-raw/wav_16khz_2000ms/")
+) %>%
+  tidyr::separate(file_name, c("id", "start", "end"), sep = "@", extra = "drop") %>%
+  mutate(
+    Species = id %>%
+             stringr::str_remove_all("[.0-9]|(wav)") %>%
+             stringr::str_remove_all("-$")
+  ) %>%
+  dplyr::group_by(Species) %>%
+  summarise(
+    `#mp3` = n_distinct(id),
+    `#2sec slices` = n()
+  ) %>%
+  arrange(desc(`#mp3`)) 
+
+
+left_join(
+  one_sec_slices_metadata,
+  two_sec_slices_metadata
+)%>%
+  janitor::adorn_totals() %>%
+  knitr::kable(caption = "Slices.") %>%
+  kableExtra::kable_styling(font_size = 16) %>%
+  kableExtra::row_spec(6, bold = TRUE)
+```
+
+
+
+## Data Labeling
+
+Each slice can contain parts of bird songs in it or not. In this section, the annotation part is suposed to be already done. The annotation task is discussed in section [Data Annotation](#data-annotation).
+
+The table \@ref(tab:annotation-rds) show an example of the tables that were generated to store where the bird songs happened in each wave file and the respective bird species that made it. At the end of the labeling process the dataset had six distinct labels: five from bird species and one for "other events than bird songs". This later label was called as "unknown" and these other, unknown events could be silence, noise, any other animal, or even other birds different from the five ones previous picked.
+
+```{r annotation-rds}
+readRDS("../../data_/anotacoes/Glaucidium-minutissimum-1066225.rds") %>%
+  head(4) %>%
+  mutate(
+    audio_id = "Glauc...225.wav",
+    region_id = gsub("wavesurfer_", "", region_id),
+    start = round(start, 2),
+    end = round(end, 2),
+    label = "Glauc...mum"
+  ) %>%
+  knitr::kable(caption = "The first four rows of the table storing the moments where the bird songs happen inside the `Glaucidium-minutissimum-1066225.wav` audio file along with the respective bird species label.") %>%
+  kableExtra::kable_styling(font_size = 16, full_width = TRUE)
+```
+
+After build one of such tables for every wave file, a final dataset with all the slices labeled was made, one for one second long slices and other for two second long. Those tables have `r sum(one_sec_slices_metadata[[3]])` and `r sum(two_sec_slices_metadata[[3]])` rows respectively, as shown in Table \@ref(tab:slice-counts). This dataset was made by joining \@ref(tab:slice-example) and \@ref(tab:annotation-rds) by interval.
+
+```{r db-labeled}
+readRDS("../../data_/slices_1000ms_labels_by_humans.rds") %>%
+  head(4) %>%
+  knitr::kable(caption = "The first four rows of the table of all 1 second slices along with the bird species label.") %>%
+  kableExtra::kable_styling(font_size = 16, full_width = TRUE)
+```
+
+The slices id were convinientely named as 
+
+`{bird-species}@{start}@{end}@.wav` 
+
+so one can retrieve where this slices lays in the original wave file by separating the parts by `@`. For instance, Table \@ref(tab:db-labeled) show that a *Glaucidium minutissimum* sang between the seconds 0 and 1, and also between the seconds 0 and 2 of the `Glaucidium-minutissimum-1066225.wav` audio file. The seconds 10 to 12 there was no bird song events of interest, so it was labeled as "unknown".
+
+## Data Annotation {#data-annotation}
+
+```{r}
+
+```
+
 
 

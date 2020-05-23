@@ -1,0 +1,44 @@
+---
+title: "Slicing Wave Files"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{data-slicing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+The observations of the training set will be slices with a given length of the raw wave files. For instance, if an original wave file has duration of 55 seconds, then the slicing with interval of 1 second and no overlap will result in 55 disjoint 1 second long slices.
+
+```{r}
+library(mestrado)
+
+wav_dir <- system.file("wav_sample", package = "mestrado")
+temp_dir <- tempdir()
+
+slices_path <- slice_wavs(wav_dir, temp_dir)
+slices_path
+
+slices <- list.files(slices_path)
+slices[4:7]
+```
+
+The resulting file names was designed to make it "parser friendly". It goes well with `tidyr::separate(sep = "@")`. This data wis useful when matching with the annotations of the presense/absensce of a bird song or any type of event of interest.
+
+```{r, message = FALSE, warning=FALSE}
+library(tidyverse)
+slices_metadata <- tibble(
+  file_name = slices
+) %>%
+  tidyr::separate(file_name, c("species", "start", "end"), sep = "@")
+
+slices_metadata %>% head()
+```
+

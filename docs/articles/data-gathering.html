@@ -54,7 +54,19 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/data-annotation.html">data-annotation</a>
+    </li>
+    <li>
       <a href="../articles/data-gathering.html">Data and MP3 Gathering</a>
+    </li>
+    <li>
+      <a href="../articles/data-labeling.html">data-labeling</a>
+    </li>
+    <li>
+      <a href="../articles/data-prep.html">Preparing MP3 for Modelling</a>
+    </li>
+    <li>
+      <a href="../articles/data-slicing.html">Slicing Wave Files</a>
     </li>
   </ul>
 </li>
@@ -105,7 +117,7 @@
 
 <span class="co"># set donwload = TRUE for download the files to your hard disk.</span>
 <span class="no">metadata_xc</span> <span class="kw">&lt;-</span> <span class="kw pkg">tibble</span><span class="kw ns">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">species</span> <span class="kw">=</span> <span class="no">bird_species</span>)
-<span class="no">metadata_xc</span>$<span class="no">mp3_xc</span> <span class="kw">=</span> <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">bird_species</span>, ~<span class="fu"><a href="https://rdrr.io/pkg/warbleR/man/querxc.html">querxc</a></span>(<span class="no">.x</span>, <span class="kw">download</span> <span class="kw">=</span> <span class="no">download</span>, <span class="kw">path</span> <span class="kw">=</span> <span class="no">dir</span>))</pre></body></html></div>
+<span class="no">metadata_xc</span>$<span class="no">mp3_xc</span> <span class="kw">=</span> <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map.html">map</a></span>(<span class="no">bird_species</span>, ~<span class="fu"><a href="https://rdrr.io/pkg/warbleR/man/querxc.html">querxc</a></span>(<span class="no">.x</span>, <span class="kw">download</span> <span class="kw">=</span> <span class="no">download</span>, <span class="kw">path</span> <span class="kw">=</span> <span class="no">dir</span>))</pre></body></html></div>
 </div>
 <div id="wikiaves-data-and-mp3" class="section level2">
 <h2 class="hasAnchor">
@@ -117,7 +129,7 @@
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># set donwload = TRUE for download the files to your hard disk.</span>
 <span class="no">metadata_wa</span> <span class="kw">&lt;-</span> <span class="no">bird_species</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/pkg/wikiaves/man/wa_metadata.html">wa_metadata</a></span>(<span class="kw">download</span> <span class="kw">=</span> <span class="no">download</span>, <span class="kw">path</span> <span class="kw">=</span> <span class="no">dir</span>) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">nest</a></span>(<span class="kw">mp3_wa</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="no">term</span>))</pre></body></html></div>
+  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/tidyr/man/nest.html">nest</a></span>(<span class="kw">mp3_wa</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="no">term</span>))</pre></body></html></div>
 </div>
   </div>
 

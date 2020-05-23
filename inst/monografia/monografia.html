@@ -28,6 +28,7 @@
 <script src="monografia_files/paged-0.10.1/js/config.js"></script>
 <script src="monografia_files/paged-0.10.1/js/paged.js"></script>
 <script src="monografia_files/paged-0.10.1/js/hooks.js"></script>
+<script src="monografia_files/kePrint-0.0.1/kePrint.js"></script>
 
 
 
@@ -113,6 +114,10 @@ Container for the table of content, table of tables and table of figures etc.
 </ul></li>
 <li><a href="#the-data"><span class="toc-section-number">2</span> The Data</a><ul>
 <li><a href="#trainingtesting-data"><span class="toc-section-number">2.1</span> Training/Testing data</a></li>
+<li><a href="#audio-preparation"><span class="toc-section-number">2.2</span> Audio preparation</a></li>
+<li><a href="#wave-file-slicing"><span class="toc-section-number">2.3</span> Wave file slicing</a></li>
+<li><a href="#data-labeling"><span class="toc-section-number">2.4</span> Data Labeling</a></li>
+<li><a href="#data-annotation"><span class="toc-section-number">2.5</span> Data Annotation</a></li>
 </ul></li>
 <li><a href="#references">References</a></li>
 </ul>
@@ -202,7 +207,354 @@ sa</p>
 </tbody>
 </table>
 <p>No providence was made if the same audio happened to appear at both sources.</p>
-<p>The {warbleR} <span class="citation">(Araya-Salas and Smith-Vidaurre <a href="#ref-warbleR2017">2017</a>)</span> and {wikiaves} <span class="citation">(Damiani <a href="#ref-R-wikiaves">2020</a>)</span> packages were used to retrieve all the mp3 available automatically. A tutorial to reproduce the extraction can be found in this link <a href="">https://athospd.github.io/mestrado/articles/data-gathering.html</a></p>
+<p>The {warbleR} <span class="citation">(Araya-Salas and Smith-Vidaurre <a href="#ref-warbleR2017">2017</a>)</span> and {wikiaves} <span class="citation">(Damiani <a href="#ref-R-wikiaves">2020</a>)</span> packages were used to retrieve all the mp3 available automatically. A tutorial to reproduce the extraction can be found in this link <a href="">https://athospd.github.io/mestrado/articles/data-gathering.html</a>.</p>
+</div>
+<div id="audio-preparation" class="section level2">
+<h2><span class="header-section-number">2.2</span> Audio preparation</h2>
+<p>All the audios donwloaded from Xeno-Canto and Wikiaves comes as mp3 files. Also, they can be stereo or mono, in potentially any sample rate and unnormalized. The first step of the data preparation standardize these properties.</p>
+<p>Steps to apply to every mp3 file:</p>
+<ol style="list-style-type: decimal">
+<li>convert MP3 to WAV;</li>
+<li>stereo to mono;</li>
+<li>downsample to 16kHz;</li>
+<li>normalize amplitude by rescaling to integers in [-32767, 32767] (i.e. 16-bit).</li>
+</ol>
+</div>
+<div id="wave-file-slicing" class="section level2">
+<h2><span class="header-section-number">2.3</span> Wave file slicing</h2>
+<p>The observations of the training set will be slices with a given length of the raw wave files. For instance, if an original wave file has duration of 55 seconds, then the slicing with interval of 1 second and no overlap will result in 55 disjoint 1 second long slices.</p>
+<p>Table <a href="#tab:slice-example">2.2</a> shows the layout of the sliced dataset: the original audio file name as <code>id</code>, the start point of the slice and the end point of the slice. The final slice dataset is built by stacking the slices of all the files.</p>
+<table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:slice-example">Table 2.2: </span>Example of a dataset of slices from <code>Glaucidium-minutissimum-1066225.wav</code> audio file.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+id
+</th>
+<th style="text-align:center;">
+start
+</th>
+<th style="text-align:center;">
+end
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-1066225
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-1066225
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-1066225
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+3
+</td>
+</tr>
+</tbody>
+</table>
+<p>The experiment tested slicing with 1 second long and with 2 seconds long, with no overlap. Table <a href="#tab:slice-counts">2.3</a> shows the total counts of slices generated after the slicing process. There is a trade-off behind the window length choice. The smaller the interval, the more samples will be created. On the other hand, less information will fit in the frame causing issues for the learner. So there are a sweet spot to be discovered and this is the reason to study both 1 and 2 seconds frame datasets.</p>
+<table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:slice-counts">Table 2.3: </span>Slices.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Species
+</th>
+<th style="text-align:right;">
+#mp3
+</th>
+<th style="text-align:right;">
+#1sec slices
+</th>
+<th style="text-align:right;">
+#2sec slices
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Megascops-choliba
+</td>
+<td style="text-align:right;">
+803
+</td>
+<td style="text-align:right;">
+30115
+</td>
+<td style="text-align:right;">
+15259
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Pulsatrix-koeniswaldiana
+</td>
+<td style="text-align:right;">
+334
+</td>
+<td style="text-align:right;">
+14904
+</td>
+<td style="text-align:right;">
+7529
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Strix-hylophila
+</td>
+<td style="text-align:right;">
+318
+</td>
+<td style="text-align:right;">
+10812
+</td>
+<td style="text-align:right;">
+5485
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Megascops-atricapilla
+</td>
+<td style="text-align:right;">
+258
+</td>
+<td style="text-align:right;">
+10938
+</td>
+<td style="text-align:right;">
+5536
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum
+</td>
+<td style="text-align:right;">
+208
+</td>
+<td style="text-align:right;">
+7339
+</td>
+<td style="text-align:right;">
+3725
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Total
+</td>
+<td style="text-align:right;font-weight: bold;">
+1921
+</td>
+<td style="text-align:right;font-weight: bold;">
+74108
+</td>
+<td style="text-align:right;font-weight: bold;">
+37534
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="data-labeling" class="section level2">
+<h2><span class="header-section-number">2.4</span> Data Labeling</h2>
+<p>Each slice can contain parts of bird songs in it or not. In this section, the annotation part is suposed to be already done. The annotation task is discussed in section <a href="#data-annotation">Data Annotation</a>.</p>
+<p>The table <a href="#tab:annotation-rds">2.4</a> show an example of the tables that were generated to store where the bird songs happened in each wave file and the respective bird species that made it. At the end of the labeling process the dataset had six distinct labels: five from bird species and one for “other events than bird songs”. This later label was called as “unknown” and these other, unknown events could be silence, noise, any other animal, or even other birds different from the five ones previous picked.</p>
+<table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:annotation-rds">Table 2.4: </span>The first four rows of the table storing the moments where the bird songs happen inside the <code>Glaucidium-minutissimum-1066225.wav</code> audio file along with the respective bird species label.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+audio_id
+</th>
+<th style="text-align:left;">
+region_id
+</th>
+<th style="text-align:right;">
+start
+</th>
+<th style="text-align:right;">
+end
+</th>
+<th style="text-align:left;">
+label
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Glauc…225.wav
+</td>
+<td style="text-align:left;">
+k6109vbm8ro
+</td>
+<td style="text-align:right;">
+0.21
+</td>
+<td style="text-align:right;">
+1.19
+</td>
+<td style="text-align:left;">
+Glauc…mum
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glauc…225.wav
+</td>
+<td style="text-align:left;">
+upsuth6aang
+</td>
+<td style="text-align:right;">
+6.10
+</td>
+<td style="text-align:right;">
+7.40
+</td>
+<td style="text-align:left;">
+Glauc…mum
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glauc…225.wav
+</td>
+<td style="text-align:left;">
+cgqlbd1m4r
+</td>
+<td style="text-align:right;">
+17.22
+</td>
+<td style="text-align:right;">
+18.36
+</td>
+<td style="text-align:left;">
+Glauc…mum
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glauc…225.wav
+</td>
+<td style="text-align:left;">
+p97kav4lem8
+</td>
+<td style="text-align:right;">
+23.90
+</td>
+<td style="text-align:right;">
+24.88
+</td>
+<td style="text-align:left;">
+Glauc…mum
+</td>
+</tr>
+</tbody>
+</table>
+<p>After build one of such tables for every wave file, a final dataset with all the slices labeled was made, one for one second long slices and other for two second long. Those tables have 74108 and 37534 rows respectively, as shown in Table <a href="#tab:slice-counts">2.3</a>. This dataset was made by joining <a href="#tab:slice-example">2.2</a> and <a href="#tab:annotation-rds">2.4</a> by interval.</p>
+<table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:db-labeled">Table 2.5: </span>The first four rows of the table of all 1 second slices along with the bird species label.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+audio_id
+</th>
+<th style="text-align:left;">
+slice_id
+</th>
+<th style="text-align:left;">
+label
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-1066225.wav
+</td>
+<td style="text-align:left;">
+<a href="mailto:Glaucidium-minutissimum-1066225@0@1" class="email">Glaucidium-minutissimum-1066225@0@1</a>@.wav
+</td>
+<td style="text-align:left;">
+Glaucidium-minutissimum
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-1066225.wav
+</td>
+<td style="text-align:left;">
+<a href="mailto:Glaucidium-minutissimum-1066225@1@2" class="email">Glaucidium-minutissimum-1066225@1@2</a>@.wav
+</td>
+<td style="text-align:left;">
+Glaucidium-minutissimum
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-1066225.wav
+</td>
+<td style="text-align:left;">
+<a href="mailto:Glaucidium-minutissimum-1066225@10@11" class="email">Glaucidium-minutissimum-1066225@10@11</a>@.wav
+</td>
+<td style="text-align:left;">
+unknown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-1066225.wav
+</td>
+<td style="text-align:left;">
+<a href="mailto:Glaucidium-minutissimum-1066225@11@12" class="email">Glaucidium-minutissimum-1066225@11@12</a>@.wav
+</td>
+<td style="text-align:left;">
+unknown
+</td>
+</tr>
+</tbody>
+</table>
+<p>The slices id were convinientely named as</p>
+<p><code>{bird-species}@{start}@{end}@.wav</code></p>
+<p>so one can retrieve where this slices lays in the original wave file by separating the parts by <code>@</code>. For instance, Table <a href="#tab:db-labeled">2.5</a> show that a <em>Glaucidium minutissimum</em> sang between the seconds 0 and 1, and also between the seconds 0 and 2 of the <code>Glaucidium-minutissimum-1066225.wav</code> audio file. The seconds 10 to 12 there was no bird song events of interest, so was labeled as “unknown”.</p>
+</div>
+<div id="data-annotation" class="section level2">
+<h2><span class="header-section-number">2.5</span> Data Annotation</h2>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">

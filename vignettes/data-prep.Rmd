@@ -1,0 +1,81 @@
+---
+title: "Preparing MP3 for Modelling"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{data-prep}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mestrado)
+```
+
+## MP3 pre-processing
+
+All the audios donwloaded from Xeno-Canto and Wikiaves comes as mp3 files. Also, they can be stereo or mono, in potentially any sample rate and unnormalized. The first step of the data preparation standardize these properties.
+
+Steps to apply to every mp3 file:
+
+1) stereo to mono;
+2) downsample to 16kHz;
+3) normalize amplitude by rescaling to integers in [-32767, 32767] (i.e. 16-bit).
+
+```{r}
+mp3_dir <- system.file("mp3_sample", package = "mestrado")
+mp3_files <- list.files(mp3_dir, full.names = TRUE)
+
+temp_dir <- tempdir()
+
+wav_files <- tidy_audio(mp3_files, temp_dir)
+```
+
+By default the files are stored in disk in a temporary folder, but it can be set by the user. Be aware because the default behaviour is to overwrite files.
+
+```{r}
+mp3_files[1]
+tuneR::readMP3(mp3_files[1])
+```
+
+
+```{r}
+wav_files[1]
+tuneR::readWave(wav_files[1])
+```
+
+## Notes about `tuneR::readMP3()`
+
+Sometimes `tuneR::readMP3()` crashes. Pick defective mp3 files manually was needed.
+
+```{r, eval = FALSE}
+# Do not run
+library(mestrado)
+
+# list of defective mp3 that make `tuneR::readMP3()` crashes
+black_list <- c(
+  "data-raw/mp3_originals//Glaucidium-minutissimum-2693093.mp3",
+  "data-raw/mp3_originals//Pulsatrix-koeniswaldiana-3343722.mp3",
+  "data-raw/mp3_originals//Pulsatrix-koeniswaldiana-3108787.mp3",
+  "data-raw/mp3_originals//Megascops-choliba-3673347.mp3",
+  "data-raw/mp3_originals//Megascops-choliba-3769718.mp3"
+)
+
+
+mp3_files <- list.files("data-raw/mp3_originals/", pattern = "mp3$", full.names = TRUE)
+wavs_ok <- stringr::str_replace(list.files("data-raw/wavs", pattern = "wav$", full.names = TRUE), "wav$", "mp3") %>%
+  stringr::str_replace("wavs", "mp3_originals/")
+
+# filter out those that were processed already and the black listed ones.
+mp3_files <- mp3_files[!mp3_files %in% c(wavs_ok, black_list)]
+
+wav_files <- tidy_audio(mp3_files, dest_dir = "data-raw/wavs")
+```
+
+

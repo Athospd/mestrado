@@ -1,7 +1,7 @@
 library(tidyverse)
 
 # carrega segmentos dos cantos dos passarinhos
-segmentations <- list.files("data/anotacoes", full.names = TRUE) %>%
+segmentations <- list.files("data_/anotacoes", full.names = TRUE) %>%
   purrr::map_dfr(readRDS) %>%
   drop_na() %>%
   as_tibble() %>%

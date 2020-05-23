@@ -2,7 +2,7 @@ library(tidyverse)
 
 # carrega segmentos dos cantos dos passarinhos
 especie <- "Glaucidium-minutissimum"
-segmentacoes <- list.files(glue::glue("data/{especie}/"), full.names = TRUE) %>% purrr::map_dfr(~{
+segmentacoes <- list.files(glue::glue("data_/{especie}/"), full.names = TRUE) %>% purrr::map_dfr(~{
   arq <- readRDS(.x)
   arq$segmentacao
 })
