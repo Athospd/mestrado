@@ -37,8 +37,7 @@ annotator_app(
 The inputs are two folders: one indicating where the wave files are and other indicating where you want to store the acutal annotations. The Shiny app migth look like this:
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
-library(magick)
-magick::image_read("../inst/img/wavesurfer_example.png")
+knitr::include_graphics("../inst/img/annotator.gif")
 ```
 
 The final product of each annotation is a `tibble`. Example follows:
