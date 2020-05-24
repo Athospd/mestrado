@@ -116,7 +116,7 @@ Container for the table of content, table of tables and table of figures etc.
 <li><a href="#trainingtesting-data"><span class="toc-section-number">2.1</span> Training/Testing data</a></li>
 <li><a href="#audio-preparation"><span class="toc-section-number">2.2</span> Audio preparation</a></li>
 <li><a href="#wave-file-slicing"><span class="toc-section-number">2.3</span> Wave file slicing</a></li>
-<li><a href="#data-labeling"><span class="toc-section-number">2.4</span> Data Labeling</a></li>
+<li><a href="#data-labelling"><span class="toc-section-number">2.4</span> Data Labelling</a></li>
 <li><a href="#data-annotation"><span class="toc-section-number">2.5</span> Data Annotation</a></li>
 </ul></li>
 <li><a href="#references">References</a></li>
@@ -134,6 +134,7 @@ Container for the table of content, table of tables and table of figures etc.
 <div id="LOF" class="section level1 lof unnumbered front-matter">
 <h1>List of Figures</h1>
 <ul>
+<li><a href="#fig:wavesurfer-example">2.1</a> Screen shot of the wavesurfer::annotator_app() .</li>
 </ul>
 </div>
 <div id="literature-review" class="section level1 unnumbered">
@@ -147,7 +148,7 @@ sa</p>
 <h1><span class="header-section-number">1</span> Introduction</h1>
 <p>Biodiversity analysis campaigns, mainly related to insects, birds, mammals and anurans, have traditionally been carried out in a “manual” manner, through the use of specialists in loco, using hearing and vision. These campaigns are time consuming, expensive, largely dependent on the experience and knowledge of each specialist, and limited in time and space. The presence or absence of a species in a certain site depends on the coincidence of both the species and the specialist in the same time and space.</p>
 <p>In order to provide tools to increase the capacity for studying and analyzing biodiversity, both in terrestrial and underwater biomes, the concept of monitoring soundscapes has been used. For this, ambient acoustic recording equipment is used which, through microphones and hydrophones, capture environmental audio whether in the infrasound, audible or ultrasound bands. These devices can be autonomous in the sense that they have internal energy and storage capacity that allow them to work for a few days or several months. But they can also be permanent in the sense that they have no energy restrictions (either through the use of solar panels, or from another external energy source), with eventual transmission of information in real time. The generated database contains information that enables a great diversity of studies and analysis, such as: animal communication and behavior, landscape ecology and conservation biology, research in population dynamics (Campos-Cerqueira, 2016), communities monitoring (Dawson and Efford, 2009), detection of endemic, threatened or even unknown species (Vernier, 2012) and in studies regarding migration (Salamon et al, 2016).</p>
-<p>Among these, the development of bird sound classification systems has been widely debated and reviewed in the literature, and some references consulted are listed at the end of the proposal. Several problems remain open, with the main one, perhaps, being about find ways of dealing with the immense variability of vocalizations and ambient acoustic conditions. Annually, transdisciplinary teams composed of researchers from different international organizations are mobilized to propose solutions to this type of challenge in an event called BirdCLEF<span id="fn1" class="footnote" style="white-space: pre-line;" data-pagedown-footnote-number="1"><a href="https://www.imageclef.org/node/230" class="uri">https://www.imageclef.org/node/230</a></span> , which is an important source of information about this subject.</p>
+<p>Among these, the development of bird sound classification systems has been widely debated and reviewed in the literature, and some references consulted are listed at the end of the proposal. Several problems remain open, with the main one, perhaps, being about find ways of dealing with the immense variability of vocalizations and ambient acoustic conditions. Annually, transdisciplinary teams composed of researchers from different international organizations are mobilized to propose solutions to this type of challenge in an event called BirdCLEF<span id="fn1" class="footnote" data-pagedown-footnote-number="1" style="white-space: pre-line;"><a href="https://www.imageclef.org/node/230" class="uri">https://www.imageclef.org/node/230</a></span> , which is an important source of information about this subject.</p>
 <p>Lacmam (Laboratory of Acoustics and Environment of EP–USP) has several years of experience in this activity, either in the development of its own hardware and software technology, or in conducting long-term campaigns for monitoring and analyzing soundscapes, both terrestrial and underwater (Figure 1 and Figure 2), as detailed in Methodology Session.</p>
 <p>In this context, this project aims to take an additional step in innovation by developing technology for automatic detection of certain acoustic events. Of particular interest is the detection of some species of Strigiformes (owls), incorporating machine learning methods in the soundscape monitoring technology package already developed by the laboratory, in favor of the conservation of species and ecosystems. In the context of the species detection problem, there is a particularly challenging issue: detection of night birds due to the specialist’s limited sight and locomotion caused by the biome.</p>
 <p>On the other hand, 24 hours persistent acoustic monitoring equipments has relatively low cost and can be cover a wide region. Therefore an installation of automated detection software on these equipments, or using these softwares for analysis of large acoustic databases, enables an efficient and effective method/permanent monitoring in large areas at the same time that it provides quality information on ecological behavior.</p>
@@ -386,10 +387,10 @@ Total
 </tbody>
 </table>
 </div>
-<div id="data-labeling" class="section level2">
-<h2><span class="header-section-number">2.4</span> Data Labeling</h2>
+<div id="data-labelling" class="section level2">
+<h2><span class="header-section-number">2.4</span> Data Labelling</h2>
 <p>Each slice can contain parts of bird songs in it or not. In this section, the annotation part is suposed to be already done. The annotation task is discussed in section <a href="#data-annotation">Data Annotation</a>.</p>
-<p>The table <a href="#tab:annotation-rds">2.4</a> show an example of the tables that were generated to store where the bird songs happened in each wave file and the respective bird species that made it. At the end of the labeling process the dataset had six distinct labels: five from bird species and one for “other events than bird songs”. This later label was called as “unknown” and these other, unknown events could be silence, noise, any other animal, or even other birds different from the five ones previous picked.</p>
+<p>The table <a href="#tab:annotation-rds">2.4</a> show an example of the tables that were generated to store where the bird songs happened in each wave file and the respective bird species that made it. At the end of the labelling process the dataset had six distinct labels: five from bird species and one for “other events than bird songs”. This later label was called as “unknown” and these other, unknown events could be silence, noise, any other animal, or even other birds different from the five ones previous picked.</p>
 <table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
 <span id="tab:annotation-rds">Table 2.4: </span>The first four rows of the table storing the moments where the bird songs happen inside the <code>Glaucidium-minutissimum-1066225.wav</code> audio file along with the respective bird species label.
@@ -551,10 +552,17 @@ unknown
 </table>
 <p>The slices id were convinientely named as</p>
 <p><code>{bird-species}@{start}@{end}@.wav</code></p>
-<p>so one can retrieve where this slices lays in the original wave file by separating the parts by <code>@</code>. For instance, Table <a href="#tab:db-labeled">2.5</a> show that a <em>Glaucidium minutissimum</em> sang between the seconds 0 and 1, and also between the seconds 0 and 2 of the <code>Glaucidium-minutissimum-1066225.wav</code> audio file. The seconds 10 to 12 there was no bird song events of interest, so was labeled as “unknown”.</p>
+<p>so one can retrieve where this slices lays in the original wave file by separating the parts by <code>@</code>. For instance, Table <a href="#tab:db-labeled">2.5</a> show that a <em>Glaucidium minutissimum</em> sang between the seconds 0 and 1, and also between the seconds 0 and 2 of the <code>Glaucidium-minutissimum-1066225.wav</code> audio file. The seconds 10 to 12 there was no bird song events of interest, so it was labeled as “unknown”.</p>
 </div>
 <div id="data-annotation" class="section level2">
 <h2><span class="header-section-number">2.5</span> Data Annotation</h2>
+<p>The open-source software used to annotate the audios was the {wavesurfer} R package <span class="citation">(Damiani and Katspaugh <a href="#ref-R-wavesurfer">2020</a>)</span>. The parts containing bird songs were manually annotated by the humans.</p>
+<div class="figure" style="text-align: center"><span id="fig:wavesurfer-example"></span>
+<img src="monografia_files/figure-html/wavesurfer-example-1.png" alt="Screen shot of the wavesurfer::annotator_app()." width="232" />
+<p class="caption">
+Figure 2.1: Screen shot of the wavesurfer::annotator_app().
+</p>
+</div>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">
@@ -568,6 +576,9 @@ otherwise you can remove it.-->
 </div>
 <div id="ref-R-wikiaves">
 <p>Damiani, Athos. 2020. <em>Wikiaves: API to Retrieve Sounds from Wikiaves.com.br</em>.</p>
+</div>
+<div id="ref-R-wavesurfer">
+<p>Damiani, Athos, and Katspaugh. 2020. <em>Wavesurfer: Create Interactive Sound Player and Visualizer in R</em>. <a href="https://github.com/athospd/wavesurfer/issues">https://github.com/athospd/wavesurfer/issues</a>.</p>
 </div>
 </div>
 </div>

@@ -10,6 +10,7 @@ Two main data sources with almost ready to use labels were gathered:
 Those websites are the biggest repository of Brazilian bird species sounds. The table \@ref(tab:mp3-counts) show the counts of MP3 downloaded by species.
 
 
+
 ```{r mp3-counts}
 library(magrittr)
 
@@ -107,8 +108,6 @@ left_join(
   kableExtra::row_spec(6, bold = TRUE)
 ```
 
-
-
 ## Data Labelling
 
 Each slice can contain parts of bird songs in it or not. In this section, the annotation part is suposed to be already done. The annotation task is discussed in section [Data Annotation](#data-annotation).
@@ -146,11 +145,15 @@ so one can retrieve where this slices lays in the original wave file by separati
 
 ## Data Annotation {#data-annotation}
 
-The software used to annotate the audios was the {wavesurfer} R package [@R-wavesurfer]. The parts containing bird songs were manually annotated by the humans.
+The software used to annotate the audios was the {wavesurfer} R package [@R-wavesurfer]^[The {wavesurfer} annotator app is open-source and was developed by the authors of this monograph.]. The parts containing bird songs were manually annotated by the humans.
 
-```{r}
-
+```{r wavesurfer-example, fig.align="center", fig.width=20, fig.cap="Screen shot of the wavesurfer::annotator_app()."}
+library(magick)
+image_read("../img/wavesurfer_example.png") %>%
+  magick::image_modulate(saturation = 0)
 ```
+
+Each one of the wave files were annotated manually by visual and by hearing. The software stored a dataset with the annotation information as shown in Table \@ref(tab:annotation-rds). Wave files with pure silence or damaged were discarded from the analysis.
 
 
 

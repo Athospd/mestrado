@@ -95,7 +95,7 @@ slice_wavs <- function(audio_dir, audio_dir_dest = NULL, interval = 1, parallel 
   }
   
   if(is.null(audio_dir_dest)) {
-    audio_dir_dest = glue::glue("{audio_dir}_{interval*1000}ms")
+    audio_dir_dest = glue::glue("{audio_dir}_slices_{interval*1000}ms")
   }
   
   if(!fs::dir_exists(audio_dir_dest)) {

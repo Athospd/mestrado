@@ -21,10 +21,13 @@ Imports:
     progress,
     magrittr,
     tidyr,
-    tibble
+    tibble,
+    dplyr,
+    fuzzyjoin
 Suggests: 
     knitr,
     rmarkdown,
     testthat,
-    future
+    future,
+    IRanges
 VignetteBuilder: knitr
