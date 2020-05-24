@@ -1,5 +1,5 @@
 ---
-title: "04 Data Annotation"
+title: "Data Annotation"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{data-annotation}
@@ -55,3 +55,11 @@ readRDS("../data_/anotacoes/Megascops-atricapilla-99919.rds") %>%
 ```
 
 And that's all! Once annotated, you are ready to go to the labelling task.
+
+PS: you can find  samples of these tibbles inside the package:
+
+```{r}
+system.file("annotations", package = "mestrado") %>%
+  list.files(full.names = TRUE)
+```
+

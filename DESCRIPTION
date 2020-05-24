@@ -19,7 +19,9 @@ Imports:
     fs,
     usethis,
     progress,
-    magrittr
+    magrittr,
+    tidyr,
+    tibble
 Suggests: 
     knitr,
     rmarkdown,

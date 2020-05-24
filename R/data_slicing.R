@@ -4,9 +4,6 @@
 #' To do.
 #'
 #' @return
-#' @export
-#'
-#' @examples
 slice_one_wav_randomly <- function() {
   usethis::ui_oops("Not implemented yet.")
 }
@@ -23,9 +20,6 @@ slice_one_wav_randomly <- function() {
 #' @param invisible
 #'
 #' @return one character with the directory where the slices were stored. 
-#' @export
-#'
-#' @examples
 slice_one_wav_sequencially <- function(audio_file, audio_dir, audio_dir_dest, interval = 1, overlap = 0, invisible = FALSE) {
   audio_file_ext <- tools::file_ext(audio_file)
   if(!audio_file_ext %in% c("mp3", "wav")) {
@@ -80,6 +74,17 @@ slice_one_wav_sequencially <- function(audio_file, audio_dir, audio_dir_dest, in
 #' @export
 #'
 #' @examples
+#' 
+#' library(mestrado)
+#' 
+#' wav_dir <- system.file("wav_sample", package = "mestrado")
+#' temp_dir <- tempdir()
+#' 
+#' slices_path <- slice_wavs(wav_dir, temp_dir)
+#' slices_path
+#' 
+#' slices <- list.files(slices_path)
+#' slices[4:7]
 slice_wavs <- function(audio_dir, audio_dir_dest = NULL, interval = 1, parallel = 1) {
   
   audio_dir = stringr::str_replace(audio_dir, "/$", "")

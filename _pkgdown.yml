@@ -1,1 +1,54 @@
 destination: docs
+
+url: https://athospd.github.io/mestrado/
+
+home:
+  title: R packages for reproduce my masters degree project.
+  links:
+  - text: Ask a question about this work
+    href: https://github.com/Athospd/mestrado/issues
+
+
+authors:
+   Athos Damiani:
+     href: https://github.com/athospd
+
+
+
+template:
+  params:
+    ganalytics: UA-167498118-1
+
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    right: github
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    articles:
+      text: Articles
+      menu:
+      - text: Data and MP3 Gathering
+        href: articles/01-data-gathering.html
+      - text: Preparing MP3 for Modelling
+        href: articles/02-data-prep.html
+      - text: Slicing Wave Files
+        href: articles/03-data-slicing.html
+      - text: Data Annotation
+        href: articles/04-data-annotation.html
+      - text: Data Labelling
+        href: articles/05-data-labeling.html
+    github:
+      icon: fa-github
+      href: https://github.com/athospd/mestrado

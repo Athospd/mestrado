@@ -2,10 +2,13 @@ pandoc: 2.3.1
 pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
-  data-annotation: data-annotation.html
-  data-gathering: data-gathering.html
-  data-labeling: data-labeling.html
-  data-prep: data-prep.html
-  data-slicing: data-slicing.html
-last_built: 2020-05-23T23:53Z
+  01-data-gathering: 01-data-gathering.html
+  02-data-prep: 02-data-prep.html
+  03-data-slicing: 03-data-slicing.html
+  04-data-annotation: 04-data-annotation.html
+  05-data-labeling: 05-data-labeling.html
+last_built: 2020-05-24T02:01Z
+urls:
+  reference: https://athospd.github.io/mestrado//reference
+  article: https://athospd.github.io/mestrado//articles
 

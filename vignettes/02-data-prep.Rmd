@@ -1,5 +1,5 @@
 ---
-title: "02 Preparing MP3 for Modelling"
+title: "Preparing MP3 for Modelling"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{data-prep}

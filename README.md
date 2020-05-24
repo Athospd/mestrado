@@ -10,17 +10,18 @@ Ambiente).
 
 Orientador: Prof. Dr. Linilson Padovese
 
-Co-orientador: Dr. Paulo Hubert
+Co-orientador: Prof. Dr. Paulo
+Hubert
 
-## Termos para pesquisar sobre
+<img src="https://github.com/Athospd/mestrado/blob/master/inst/img/wavesurfer_example.png?raw=true" style="display: block; margin: auto;" />
 
-  - HMM: Hidden Markov Chains
-  - MFCC: Mel Frequency Cepstral Coefficients
-  - LPC: Linear Predictive Coding
-  - LPCC: Linear Prediction Cepstral Coefficients
-  - PLP: Perceptual Linear Predictive
+## Notas
 
-## Dados
+> “There is the need for shared datasets with annotations of a wide
+> variety of calls for a large number of species if methods that are
+> suitable for conservation work are to be developed.” — [Automated
+> birdsong recognition in complex acoustic environments: a
+> review](https://onlinelibrary.wiley.com/doi/full/10.1111/jav.01447)
 
 ## Referências
 
@@ -88,9 +89,11 @@ Co-orientador: Dr. Paulo Hubert
   - <https://blogs.rstudio.com/tensorflow/posts/2019-02-07-audio-background/>
     (Acesso em 2019-08-01)
 
-## Notas
+## Termos relacionados
 
-> “There is the need for shared datasets with annotations of a wide
-> variety of calls for a large number of species if methods that are
-> suitable for conservation work are to be developed.” — Automated
-> birdsong recognition in complex acoustic environments: a review
+  - HMM: Hidden Markov Chains
+  - MFCC: Mel Frequency Cepstral Coefficients
+  - LPC: Linear Predictive Coding
+  - LPCC: Linear Prediction Cepstral Coefficients
+  - PLP: Perceptual Linear Predictive
+  - Deep Learning

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Slice a Set of Wave Files — slice_wavs • mestrado</title>
+<title>Tidy Annotations data.frame — tidy_annotations • mestrado</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Slice a Set of Wave Files — slice_wavs" />
-<meta property="og:description" content="Vectorized version of slice_one_wav_*() family of functions. Store in disk 
-the slices of every file of a vector of mp3 file names." />
+<meta property="og:title" content="Tidy Annotations data.frame — tidy_annotations" />
+<meta property="og:description" content="Build the data.frame from a directory with the annotations made with annotator_app()." />
 
 
 
@@ -143,40 +142,23 @@ the slices of every file of a vector of mp3 file names." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Slice a Set of Wave Files</h1>
+    <h1>Tidy Annotations data.frame</h1>
     
-    <div class="hidden name"><code>slice_wavs.Rd</code></div>
+    <div class="hidden name"><code>tidy_annotations.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Vectorized version of slice_one_wav_*() family of functions. Store in disk 
-the slices of every file of a vector of mp3 file names.</p>
+    <p>Build the data.frame from a directory with the annotations made with <code>annotator_app()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>slice_wavs</span>(<span class='no'>audio_dir</span>, <span class='kw'>audio_dir_dest</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>tidy_annotations</span>(<span class='no'>annotations_dir</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>audio_dir</th>
-      <td></td>
-    </tr>
-    <tr>
-      <th>audio_dir_dest</th>
-      <td></td>
-    </tr>
-    <tr>
-      <th>interval</th>
-      <td></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td></td>
-    </tr>
-    <tr>
-      <th>audio_ext</th>
-      <td></td>
+      <th>annotations_dir</th>
+      <td><p>atomic character. Path to the annotations directory.</p></td>
     </tr>
     </table>
 
@@ -187,19 +169,9 @@ the slices of every file of a vector of mp3 file names.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>mestrado</span>)
-
-<span class='no'>wav_dir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"wav_sample"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"mestrado"</span>)
-<span class='no'>temp_dir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-
-<span class='no'>slices_path</span> <span class='kw'>&lt;-</span> <span class='fu'>slice_wavs</span>(<span class='no'>wav_dir</span>, <span class='no'>temp_dir</span>)
-<span class='no'>slices_path</span></div><div class='output co'>#&gt; [1] "/tmp/RtmpIyWCrG"</div><div class='input'>
-<span class='no'>slices</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='no'>slices_path</span>)
-<span class='no'>slices</span>[<span class='fl'>4</span>:<span class='fl'>7</span>]</div><div class='output co'>#&gt; [1] "Glaucidium-minutissimum-24426@1@2@.wav"  
-#&gt; [2] "Glaucidium-minutissimum-24426@10@11@.wav"
-#&gt; [3] "Glaucidium-minutissimum-24426@11@12@.wav"
-#&gt; [4] "Glaucidium-minutissimum-24426@12@13@.wav"</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>mestrado</span>)
+<span class='no'>annotation_dir</span> <span class='kw'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"annotations"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"mestrado"</span>)
+<span class='no'>annotation_tibble</span> <span class='kw'>&lt;-</span> <span class='fu'>tidy_annotations</span>(<span class='no'>annotation_dir</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
