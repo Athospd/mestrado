@@ -7,7 +7,7 @@ Two main data sources with almost ready to use labels were gathered:
 - [Xeno-Canto.org](Xeno-Canto.org)
 - [Wikiaves.com.br](https://www.wikiaves.com.br/)
 
-Those websites are the biggest repository of Brazilian bird species sounds. The table \@ref(tab:mp3-counts) show the counts of MP3 downloaded by species.
+Those websites are the biggest repository of Brazilian bird species sounds. The table \@ref(tab:mp3-counts) show the counts of MP3 downloaded by species selected for the study.
 
 
 
@@ -28,22 +28,23 @@ tibble::tibble(Species = list.files("../../data-raw/wav_16khz/") %>%
 
 No providence was made if the same audio happened to appear at both sources.
 
-The {warbleR} [@warbleR2017] and {wikiaves} [@R-wikiaves] packages were used to retrieve all the mp3 available automatically. A tutorial to reproduce the extraction can be found in this link [https://athospd.github.io/mestrado/articles/data-gathering.html]().
+The {warbleR} [@warbleR2017] and {wikiaves} [@R-wikiaves] packages were used to retrieve all the mp3 available automatically^[A tutorial to reproduce the extraction can be found in this link [https://athospd.github.io/mestrado/articles/data-gathering.html]()].
 
 ## Audio preparation
 
 All the audios donwloaded from Xeno-Canto and Wikiaves comes as mp3 files. Also, they can be stereo or mono, in potentially any sample rate and unnormalized. The first step of the data preparation standardize these properties.
 
-Steps to apply to every mp3 file:
+To match the target-landscape's setup, the following steps were applied on every mp3 file:
 
 1) convert MP3 to WAV;
 2) stereo to mono;
 3) downsample to 16kHz;
-4) normalize amplitude by rescaling to integers in [-32767, 32767] (i.e. 16-bit).
+4) normalize amplitude by rescaling to 16-bits (i.e. integers in [-32767, 32767]).
+
 
 ## Wave file slicing
 
-The observations of the training set will be slices with a given length of the raw wave files. For instance, if an original wave file has duration of 55 seconds, then the slicing with interval of 1 second and no overlap will result in 55 disjoint 1 second long slices.
+The observations of the training set will be slices of each wave file with a given length of time. For instance, if an original wave file has duration of 55 seconds, then the slicing with interval of 1 second and no overlap will result in 55 disjoint 1 second long slices.
 
 Table \@ref(tab:slice-example) shows the layout of the sliced dataset: the original audio file name as `id`, the start point of the slice and the end point of the slice. The final slice dataset is built by stacking the slices of all the files. 
 
@@ -59,8 +60,7 @@ tibble::tibble(
   kableExtra::kable_styling(font_size = 16)
 ```
 
-
-The experiment tested slicing with 1 second long and with 2 seconds long, with no overlap. Table \@ref(tab:slice-counts) shows the total counts of slices generated after the slicing process. There is a trade-off behind the window length choice. The smaller the interval, the more samples will be created. On the other hand, less information will fit in the frame causing issues for the learner. So there are a sweet spot to be discovered and this is the reason to study both 1 and 2 seconds frame datasets.
+The experiment tested two length of the slices: 1 second long and 2 seconds long, with no overlap. Table \@ref(tab:slice-counts) shows the total counts of slices generated after the slicing process. There is a trade-off behind the window length choice: the smaller the interval, the more samples will be created;on the other hand, less information will fit in the frame causing issues for the learner. So there are a optimal interval length to be discovered and this issue will be addressed by testing both 1 and 2 seconds frame datasets.
 
 ```{r slice-counts}
 library(magrittr)
@@ -103,7 +103,7 @@ left_join(
   two_sec_slices_metadata
 )%>%
   janitor::adorn_totals() %>%
-  knitr::kable(caption = "Slices.") %>%
+  knitr::kable(caption = "Slices.", format = "html") %>%
   kableExtra::kable_styling(font_size = 16) %>%
   kableExtra::row_spec(6, bold = TRUE)
 ```
@@ -116,7 +116,7 @@ The table \@ref(tab:annotation-rds) show an example of the tables that were gene
 
 ```{r annotation-rds}
 readRDS("../../data_/anotacoes/Glaucidium-minutissimum-1066225.rds") %>%
-  head(4) %>%
+  head(5) %>%
   mutate(
     audio_id = "Glauc...225.wav",
     region_id = gsub("wavesurfer_", "", region_id),
@@ -128,20 +128,19 @@ readRDS("../../data_/anotacoes/Glaucidium-minutissimum-1066225.rds") %>%
   kableExtra::kable_styling(font_size = 16, full_width = TRUE)
 ```
 
-After build one of such tables for every wave file, a final dataset with all the slices labeled was made, one for one second long slices and other for two second long. Those tables have `r sum(one_sec_slices_metadata[[3]])` and `r sum(two_sec_slices_metadata[[3]])` rows respectively, as shown in Table \@ref(tab:slice-counts). This dataset was made by joining \@ref(tab:slice-example) and \@ref(tab:annotation-rds) by interval.
-
-```{r db-labeled}
-readRDS("../../data_/slices_1000ms_labels_by_humans.rds") %>%
-  head(4) %>%
-  knitr::kable(caption = "The first four rows of the table of all 1 second slices along with the bird species label.") %>%
-  kableExtra::kable_styling(font_size = 16, full_width = TRUE)
-```
-
-The slices id were convinientely named as 
+After build one of such tables for every wave file, a final dataset with all the slices labeled was made, one for one second long slices and other for two second long. Those tables have `r sum(one_sec_slices_metadata[[3]])` and `r sum(two_sec_slices_metadata[[3]])` rows respectively, as shown in Table \@ref(tab:slice-counts). This dataset was made joining \@ref(tab:slice-example) with \@ref(tab:annotation-rds) by interval. The slices id were convinientely named as 
 
 `{bird-species}@{start}@{end}@.wav` 
 
 so one can retrieve where this slices lays in the original wave file by separating the parts by `@`. For instance, Table \@ref(tab:db-labeled) show that a *Glaucidium minutissimum* sang between the seconds 0 and 1, and also between the seconds 0 and 2 of the `Glaucidium-minutissimum-1066225.wav` audio file. The seconds 10 to 12 there was no bird song events of interest, so it was labeled as "unknown".
+
+```{r db-labeled}
+readRDS("../../data_/slices_1000ms_labels_by_humans.rds") %>%
+  head(5) %>%
+  knitr::kable(caption = "The first four rows of the table of all 1 second slices along with the bird species label.") %>%
+  kableExtra::kable_styling(font_size = 16, full_width = TRUE)
+```
+
 
 ## Data Annotation {#data-annotation}
 
@@ -156,4 +155,11 @@ image_read("../img/wavesurfer_example.png") %>%
 Each one of the wave files were annotated manually by visual and by hearing. The software stored a dataset with the annotation information as shown in Table \@ref(tab:annotation-rds). Wave files with pure silence or damaged were discarded from the analysis.
 
 
+## Target Landscape
+
+There are two untouched landscapes recorded to be scanned: "INB-Resende" and "Reserva Morro Grande". They will be used for testing the detection algorithms developed in this work.
+
+### INB-Resende Landscape
+
+### Reserva Morro Grande Landscape
 

@@ -10,7 +10,7 @@ tidy_annotations(annotations_dir)
 \item{annotations_dir}{atomic character. Path to the annotations directory.}
 }
 \value{
-
+tibble which each row is an annotation.
 }
 \description{
 Build the data.frame from a directory with the annotations made with \code{\link[wavesurfer]{annotator_app()}}.

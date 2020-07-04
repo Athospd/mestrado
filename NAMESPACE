@@ -2,7 +2,7 @@
 
 export("%>%")
 export(install_iranges)
-export(retrieve_labels_for_one_dir)
+export(label_slices)
 export(slice_wavs)
 export(tidy_annotations)
 export(tidy_audio)

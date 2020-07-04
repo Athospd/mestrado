@@ -3,8 +3,8 @@ title: Automatic Acoustic Identifier for Brazilian Bird Species
 subtitle: Monograph
 author: 
   - name: Athos P. Damiani
-  - name: Prof. Dr. Paulo do C. Hubert Jr
-  - name: Prof. Dr. Linilson Padovese
+  - name: Prof. PhD. Paulo do C. Hubert Jr
+  - name: Prof. PhD. Linilson Padovese
 institute: Politechnic School of Engineering
 department: Mechanic Engineering
 university: University of São Paulo
@@ -13,7 +13,17 @@ date:
   - year: 2020
     month: May
 sign_page: false
-abstract: This is the abstract.
+abstract: |
+  <p style = "text-align: justify;">Recently, studies on bioacoustics have been used in several areas of
+  Biology, from the Systematic, through Ethology, to the Conservation of Biodiversity.
+  However, the potential of applying these tools in the study of
+  endangered species and night fauna remains severely unexplored. This project aims to develop tools and a methodology
+  for detection and analysis for night bird presence/absence data, in particular
+  Strigidae family, through the development of acoustic detectors using machines
+  learning, to apply for both large databases of acoustic landscapes scanning and 
+  embark in monitoring equipment installed in the field, developed by the
+  Acoustics and Environment of Poli-USP. Several supervised learning approaches, such as convolutional neural networks and gradient boosting machines. </p><br><br>
+  **keywords:** bioacoustics, ecology acoustics, landscape monitoring, signal processing, biodiversity conservation, machine learning, automatic species regocnition, neural networks, gradient boosting machine, strigidae, owls
 committee:
   - name: Paulo Hubert
     prefix: Prof. Dr.
@@ -35,7 +45,7 @@ output:
 bibliography: [packages.bib, references.bib]
 link-citations: yes
 # uncomment this line to produce HTML and PDF in RStudio:
-# knit: pagedown::  chrome_print
+knit: pagedown::chrome_print
 ---
 
 ```{r setup, include=FALSE}
@@ -54,6 +64,11 @@ knitr::opts_chunk$set(echo = FALSE,
 ```{r child = '02_data.Rmd'}
 ```
 
+```{r child = '03_modelling.Rmd'}
+```
+
+```{r child = '04_results_and_conclusion.Rmd'}
+```
 
 
 ```{r child = '99_references.Rmd'}

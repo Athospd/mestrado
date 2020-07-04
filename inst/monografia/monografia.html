@@ -18,7 +18,7 @@
 <meta name="description" content="Automatic Acoustic Identifier for Brazilian Bird Species">
 
 <script id="pandoc-meta" type="application/json">
-{"department":"Mechanic Engineering","newpage_html_class":"page-break-after","location":"São Paulo, Brazil","link-citations":"yes","committee":[{"prefix":"Prof. Dr.","name":"Paulo Hubert","position":"Faculty Advisor"},{"prefix":"Prof. Dr.","name":"Linilson Padovese","position":"Chair of Department"}],"toc-title":"Contents","lof":true,"paged-footnotes":true,"bibliography":["packages.bib","references.bib"],"date":[{"year":"2020","month":"May"}],"subtitle":"Monograph","university":"University of São Paulo","lot":true,"output":{"pagedown::thesis_paged":{"self_contained":"no","toc":true,"css":["custom.css","thesis"],"pandoc_args":"–mathjax","number_sections":"yes"}},"sign_page":false,"author":[{"name":"Athos P. Damiani"},{"name":"Prof. Dr. Paulo do C. Hubert Jr"},{"name":"Prof. Dr. Linilson Padovese"}],"abstract":"This is the abstract.","title":"Automatic Acoustic Identifier for Brazilian Bird Species","institute":"Politechnic School of Engineering"}
+{"department":"Mechanic Engineering","newpage_html_class":"page-break-after","location":"São Paulo, Brazil","link-citations":"yes","committee":[{"prefix":"Prof. Dr.","name":"Paulo Hubert","position":"Faculty Advisor"},{"prefix":"Prof. Dr.","name":"Linilson Padovese","position":"Chair of Department"}],"toc-title":"Contents","lof":true,"paged-footnotes":true,"bibliography":["packages.bib","references.bib"],"date":[{"year":"2020","month":"May"}],"subtitle":"Monograph","university":"University of São Paulo","lot":true,"output":{"pagedown::thesis_paged":{"self_contained":"no","toc":true,"css":["custom.css","thesis"],"pandoc_args":"–mathjax","number_sections":"yes"}},"sign_page":false,"author":[{"name":"Athos P. Damiani"},{"name":"Prof. PhD. Paulo do C. Hubert Jr"},{"name":"Prof. PhD. Linilson Padovese"}],"abstract":"<p style=\"text-align: justify;\">\nRecently, studies on bioacoustics have been used in several areas of\nBiology, from the Systematic, through Ethology, to the Conservation of Biodiversity.\nHowever, the potential of applying these tools in the study of\nendangered species and night fauna remains severely unexplored. This project aims to develop tools and a methodology\nfor detection and analysis for night bird presence/absence data, in particular\nStrigidae family, through the development of acoustic detectors using machines\nlearning, to apply for both large databases of acoustic landscapes scanning and\nembark in monitoring equipment installed in the field, developed by the\nAcoustics and Environment of Poli-USP. Several supervised learning approaches, such as convolutional neural networks and gradient boosting machines.\n</p>\n<br><br>\n<strong>keywords:</strong> bioacoustics, ecology acoustics, landscape monitoring, signal processing, biodiversity conservation, machine learning, automatic species regocnition, neural networks, gradient boosting machine, strigidae, owls","knit":"pagedown::chrome_print","title":"Automatic Acoustic Identifier for Brazilian Bird Species","institute":"Politechnic School of Engineering"}
 </script>
 
 <title>Automatic Acoustic Identifier for Brazilian Bird Species</title>
@@ -62,8 +62,8 @@ Title Page
 <br>
 <br>
 <h2 class="author">Athos P. Damiani</h2>
-<h2 class="author">Prof. Dr. Paulo do C. Hubert Jr</h2>
-<h2 class="author">Prof. Dr. Linilson Padovese</h2>
+<h2 class="author">Prof. PhD. Paulo do C. Hubert Jr</h2>
+<h2 class="author">Prof. PhD. Linilson Padovese</h2>
 </div>
 <br>
 <br>
@@ -89,7 +89,19 @@ using the ""
 
 <div class="abstract">
 <h1 class="abstract">Abstract</h1>
-This is the abstract.
+<p style="text-align: justify;">
+Recently, studies on bioacoustics have been used in several areas of
+Biology, from the Systematic, through Ethology, to the Conservation of Biodiversity.
+However, the potential of applying these tools in the study of
+endangered species and night fauna remains severely unexplored. This project aims to develop tools and a methodology
+for detection and analysis for night bird presence/absence data, in particular
+Strigidae family, through the development of acoustic detectors using machines
+learning, to apply for both large databases of acoustic landscapes scanning and
+embark in monitoring equipment installed in the field, developed by the
+Acoustics and Environment of Poli-USP. Several supervised learning approaches, such as convolutional neural networks and gradient boosting machines.
+</p>
+<br><br>
+<strong>keywords:</strong> bioacoustics, ecology acoustics, landscape monitoring, signal processing, biodiversity conservation, machine learning, automatic species regocnition, neural networks, gradient boosting machine, strigidae, owls
 </div>
 
 
@@ -112,13 +124,17 @@ Container for the table of content, table of tables and table of figures etc.
 <li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
 <li><a href="#notes"><span class="toc-section-number">1.1</span> Notes</a></li>
 </ul></li>
-<li><a href="#the-data"><span class="toc-section-number">2</span> The Data</a><ul>
-<li><a href="#trainingtesting-data"><span class="toc-section-number">2.1</span> Training/Testing data</a></li>
-<li><a href="#audio-preparation"><span class="toc-section-number">2.2</span> Audio preparation</a></li>
-<li><a href="#wave-file-slicing"><span class="toc-section-number">2.3</span> Wave file slicing</a></li>
-<li><a href="#data-labelling"><span class="toc-section-number">2.4</span> Data Labelling</a></li>
-<li><a href="#data-annotation"><span class="toc-section-number">2.5</span> Data Annotation</a></li>
+<li><a href="#objective"><span class="toc-section-number">2</span> Objective</a></li>
+<li><a href="#the-data"><span class="toc-section-number">3</span> The Data</a><ul>
+<li><a href="#trainingtesting-data"><span class="toc-section-number">3.1</span> Training/Testing data</a></li>
+<li><a href="#audio-preparation"><span class="toc-section-number">3.2</span> Audio preparation</a></li>
+<li><a href="#wave-file-slicing"><span class="toc-section-number">3.3</span> Wave file slicing</a></li>
+<li><a href="#data-labelling"><span class="toc-section-number">3.4</span> Data Labelling</a></li>
+<li><a href="#data-annotation"><span class="toc-section-number">3.5</span> Data Annotation</a></li>
 </ul></li>
+<li><a href="#modelling"><span class="toc-section-number">4</span> Modelling</a></li>
+<li><a href="#results"><span class="toc-section-number">5</span> Results</a></li>
+<li><a href="#conclusion"><span class="toc-section-number">6</span> Conclusion</a></li>
 <li><a href="#references">References</a></li>
 </ul>
 </div>
@@ -128,21 +144,18 @@ Container for the table of content, table of tables and table of figures etc.
 <div id="LOT" class="section level1 lot unnumbered front-matter">
 <h1>List of Tables</h1>
 <ul>
-<li><a href="#tab:mp3-counts">2.1</a> MP3 files downloaded.</li>
+<li><a href="#tab:mp3-counts">3.1</a> MP3 files downloaded.</li>
 </ul>
 </div>
 <div id="LOF" class="section level1 lof unnumbered front-matter">
 <h1>List of Figures</h1>
 <ul>
-<li><a href="#fig:wavesurfer-example">2.1</a> Screen shot of the wavesurfer::annotator_app() .</li>
+<li><a href="#fig:wavesurfer-example">3.1</a> Screen shot of the wavesurfer::annotator_app() .</li>
 </ul>
 </div>
 <div id="literature-review" class="section level1 unnumbered">
 <h1>Literature Review</h1>
-<p>This is where you can include a lit review if you don’t wish for it to be an individual chapter or to be numbered. To make sure that a section heading is not numbered use the <code>{-}</code> notation beside the header text like this:</p>
-<p>asdasd
-asd
-sa</p>
+<p>To do.</p>
 </div>
 <div id="introduction" class="section level1 chapter">
 <h1><span class="header-section-number">1</span> Introduction</h1>
@@ -162,18 +175,22 @@ sa</p>
 </blockquote>
 </div>
 </div>
+<div id="objective" class="section level1">
+<h1><span class="header-section-number">2</span> Objective</h1>
+<p>To do.</p>
+</div>
 <div id="the-data" class="section level1 chapter">
-<h1><span class="header-section-number">2</span> The Data</h1>
+<h1><span class="header-section-number">3</span> The Data</h1>
 <div id="trainingtesting-data" class="section level2">
-<h2><span class="header-section-number">2.1</span> Training/Testing data</h2>
+<h2><span class="header-section-number">3.1</span> Training/Testing data</h2>
 <p>Two main data sources with almost ready to use labels were gathered:</p>
 <ul>
 <li><a href="Xeno-Canto.org">Xeno-Canto.org</a></li>
 <li><a href="https://www.wikiaves.com.br/">Wikiaves.com.br</a></li>
 </ul>
-<p>Those websites are the biggest repository of Brazilian bird species sounds. The table <a href="#tab:mp3-counts">2.1</a> show the counts of MP3 downloaded by species.</p>
+<p>Those websites are the biggest repository of Brazilian bird species sounds. The table <a href="#tab:mp3-counts">3.1</a> show the counts of MP3 downloaded by species.</p>
 <table>
-<caption><span id="tab:mp3-counts">Table 2.1: </span>MP3 files downloaded.</caption>
+<caption><span id="tab:mp3-counts">Table 3.1: </span>MP3 files downloaded.</caption>
 <thead>
 <tr class="header">
 <th align="left">Species</th>
@@ -211,7 +228,7 @@ sa</p>
 <p>The {warbleR} <span class="citation">(Araya-Salas and Smith-Vidaurre <a href="#ref-warbleR2017">2017</a>)</span> and {wikiaves} <span class="citation">(Damiani <a href="#ref-R-wikiaves">2020</a>)</span> packages were used to retrieve all the mp3 available automatically. A tutorial to reproduce the extraction can be found in this link <a href="">https://athospd.github.io/mestrado/articles/data-gathering.html</a>.</p>
 </div>
 <div id="audio-preparation" class="section level2">
-<h2><span class="header-section-number">2.2</span> Audio preparation</h2>
+<h2><span class="header-section-number">3.2</span> Audio preparation</h2>
 <p>All the audios donwloaded from Xeno-Canto and Wikiaves comes as mp3 files. Also, they can be stereo or mono, in potentially any sample rate and unnormalized. The first step of the data preparation standardize these properties.</p>
 <p>Steps to apply to every mp3 file:</p>
 <ol style="list-style-type: decimal">
@@ -222,12 +239,12 @@ sa</p>
 </ol>
 </div>
 <div id="wave-file-slicing" class="section level2">
-<h2><span class="header-section-number">2.3</span> Wave file slicing</h2>
+<h2><span class="header-section-number">3.3</span> Wave file slicing</h2>
 <p>The observations of the training set will be slices with a given length of the raw wave files. For instance, if an original wave file has duration of 55 seconds, then the slicing with interval of 1 second and no overlap will result in 55 disjoint 1 second long slices.</p>
-<p>Table <a href="#tab:slice-example">2.2</a> shows the layout of the sliced dataset: the original audio file name as <code>id</code>, the start point of the slice and the end point of the slice. The final slice dataset is built by stacking the slices of all the files.</p>
+<p>Table <a href="#tab:slice-example">3.2</a> shows the layout of the sliced dataset: the original audio file name as <code>id</code>, the start point of the slice and the end point of the slice. The final slice dataset is built by stacking the slices of all the files.</p>
 <table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:slice-example">Table 2.2: </span>Example of a dataset of slices from <code>Glaucidium-minutissimum-1066225.wav</code> audio file.
+<span id="tab:slice-example">Table 3.2: </span>Example of a dataset of slices from <code>Glaucidium-minutissimum-1066225.wav</code> audio file.
 </caption>
 <thead>
 <tr>
@@ -278,10 +295,10 @@ Glaucidium-minutissimum-1066225
 </tr>
 </tbody>
 </table>
-<p>The experiment tested slicing with 1 second long and with 2 seconds long, with no overlap. Table <a href="#tab:slice-counts">2.3</a> shows the total counts of slices generated after the slicing process. There is a trade-off behind the window length choice. The smaller the interval, the more samples will be created. On the other hand, less information will fit in the frame causing issues for the learner. So there are a sweet spot to be discovered and this is the reason to study both 1 and 2 seconds frame datasets.</p>
+<p>The experiment tested slicing with 1 second long and with 2 seconds long, with no overlap. Table <a href="#tab:slice-counts">3.3</a> shows the total counts of slices generated after the slicing process. There is a trade-off behind the window length choice. The smaller the interval, the more samples will be created. On the other hand, less information will fit in the frame causing issues for the learner. So there are a sweet spot to be discovered and this is the reason to study both 1 and 2 seconds frame datasets.</p>
 <table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:slice-counts">Table 2.3: </span>Slices.
+<span id="tab:slice-counts">Table 3.3: </span>Slices.
 </caption>
 <thead>
 <tr>
@@ -388,12 +405,12 @@ Total
 </table>
 </div>
 <div id="data-labelling" class="section level2">
-<h2><span class="header-section-number">2.4</span> Data Labelling</h2>
+<h2><span class="header-section-number">3.4</span> Data Labelling</h2>
 <p>Each slice can contain parts of bird songs in it or not. In this section, the annotation part is suposed to be already done. The annotation task is discussed in section <a href="#data-annotation">Data Annotation</a>.</p>
-<p>The table <a href="#tab:annotation-rds">2.4</a> show an example of the tables that were generated to store where the bird songs happened in each wave file and the respective bird species that made it. At the end of the labelling process the dataset had six distinct labels: five from bird species and one for “other events than bird songs”. This later label was called as “unknown” and these other, unknown events could be silence, noise, any other animal, or even other birds different from the five ones previous picked.</p>
+<p>The table <a href="#tab:annotation-rds">3.4</a> show an example of the tables that were generated to store where the bird songs happened in each wave file and the respective bird species that made it. At the end of the labelling process the dataset had six distinct labels: five from bird species and one for “other events than bird songs”. This later label was called as “unknown” and these other, unknown events could be silence, noise, any other animal, or even other birds different from the five ones previous picked.</p>
 <table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:annotation-rds">Table 2.4: </span>The first four rows of the table storing the moments where the bird songs happen inside the <code>Glaucidium-minutissimum-1066225.wav</code> audio file along with the respective bird species label.
+<span id="tab:annotation-rds">Table 3.4: </span>The first four rows of the table storing the moments where the bird songs happen inside the <code>Glaucidium-minutissimum-1066225.wav</code> audio file along with the respective bird species label.
 </caption>
 <thead>
 <tr>
@@ -483,12 +500,32 @@ p97kav4lem8
 Glauc…mum
 </td>
 </tr>
+<tr>
+<td style="text-align:left;">
+Glauc…225.wav
+</td>
+<td style="text-align:left;">
+ft0i9775ejg
+</td>
+<td style="text-align:right;">
+30.36
+</td>
+<td style="text-align:right;">
+31.29
+</td>
+<td style="text-align:left;">
+Glauc…mum
+</td>
+</tr>
 </tbody>
 </table>
-<p>After build one of such tables for every wave file, a final dataset with all the slices labeled was made, one for one second long slices and other for two second long. Those tables have 74108 and 37534 rows respectively, as shown in Table <a href="#tab:slice-counts">2.3</a>. This dataset was made by joining <a href="#tab:slice-example">2.2</a> and <a href="#tab:annotation-rds">2.4</a> by interval.</p>
+<p>After build one of such tables for every wave file, a final dataset with all the slices labeled was made, one for one second long slices and other for two second long. Those tables have 74108 and 37534 rows respectively, as shown in Table <a href="#tab:slice-counts">3.3</a>. This dataset was made by joining <a href="#tab:slice-example">3.2</a> and <a href="#tab:annotation-rds">3.4</a> by interval.
+The slices id were convinientely named as</p>
+<p><code>{bird-species}@{start}@{end}@.wav</code></p>
+<p>so one can retrieve where this slices lays in the original wave file by separating the parts by <code>@</code>. For instance, Table <a href="#tab:db-labeled">3.5</a> show that a <em>Glaucidium minutissimum</em> sang between the seconds 0 and 1, and also between the seconds 0 and 2 of the <code>Glaucidium-minutissimum-1066225.wav</code> audio file. The seconds 10 to 12 there was no bird song events of interest, so it was labeled as “unknown”.</p>
 <table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
-<span id="tab:db-labeled">Table 2.5: </span>The first four rows of the table of all 1 second slices along with the bird species label.
+<span id="tab:db-labeled">Table 3.5: </span>The first four rows of the table of all 1 second slices along with the bird species label.
 </caption>
 <thead>
 <tr>
@@ -548,22 +585,42 @@ Glaucidium-minutissimum-1066225.wav
 unknown
 </td>
 </tr>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-1066225.wav
+</td>
+<td style="text-align:left;">
+<a href="mailto:Glaucidium-minutissimum-1066225@12@13" class="email">Glaucidium-minutissimum-1066225@12@13</a>@.wav
+</td>
+<td style="text-align:left;">
+unknown
+</td>
+</tr>
 </tbody>
 </table>
-<p>The slices id were convinientely named as</p>
-<p><code>{bird-species}@{start}@{end}@.wav</code></p>
-<p>so one can retrieve where this slices lays in the original wave file by separating the parts by <code>@</code>. For instance, Table <a href="#tab:db-labeled">2.5</a> show that a <em>Glaucidium minutissimum</em> sang between the seconds 0 and 1, and also between the seconds 0 and 2 of the <code>Glaucidium-minutissimum-1066225.wav</code> audio file. The seconds 10 to 12 there was no bird song events of interest, so it was labeled as “unknown”.</p>
 </div>
 <div id="data-annotation" class="section level2">
-<h2><span class="header-section-number">2.5</span> Data Annotation</h2>
-<p>The open-source software used to annotate the audios was the {wavesurfer} R package <span class="citation">(Damiani and Katspaugh <a href="#ref-R-wavesurfer">2020</a>)</span>. The parts containing bird songs were manually annotated by the humans.</p>
+<h2><span class="header-section-number">3.5</span> Data Annotation</h2>
+<p>The software used to annotate the audios was the {wavesurfer} R package <span class="citation">(Damiani and Katspaugh <a href="#ref-R-wavesurfer">2020</a>)</span><span id="fn2" class="footnote" data-pagedown-footnote-number="2" style="white-space: pre-line;">The {wavesurfer} annotator app is open-source and was developed by the authors of this monograph.</span>. The parts containing bird songs were manually annotated by the humans.</p>
 <div class="figure" style="text-align: center"><span id="fig:wavesurfer-example"></span>
 <img src="monografia_files/figure-html/wavesurfer-example-1.png" alt="Screen shot of the wavesurfer::annotator_app()." width="232" />
 <p class="caption">
-Figure 2.1: Screen shot of the wavesurfer::annotator_app().
+Figure 3.1: Screen shot of the wavesurfer::annotator_app().
 </p>
 </div>
+<p>Each one of the wave files were annotated manually by visual and by hearing. The software stored a dataset with the annotation information as shown in Table <a href="#tab:annotation-rds">3.4</a>. Wave files with pure silence or damaged were discarded from the analysis.</p>
 </div>
+</div>
+<div id="modelling" class="section level1 chapter">
+<h1><span class="header-section-number">4</span> Modelling</h1>
+</div>
+<div id="results" class="section level1">
+<h1><span class="header-section-number">5</span> Results</h1>
+<p>To do.</p>
+</div>
+<div id="conclusion" class="section level1">
+<h1><span class="header-section-number">6</span> Conclusion</h1>
+<p>To do.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1>References</h1>

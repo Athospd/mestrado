@@ -5,7 +5,7 @@
 #'
 #' @param annotations_dir atomic character. Path to the annotations directory.
 #'
-#' @return
+#' @return tibble which each row is an annotation.
 #' @export
 #'
 #' @examples
@@ -22,22 +22,36 @@ tidy_annotations <- function(annotations_dir) {
 
 
 
-#' Retrieve Labels
+#' Label Slices of Wave Files
 #' 
 #' Plug the labels from a set of annotations (made by \code{\link[wavesurfer]{annotator_app}}) in 
 #' a dataset of slices (made by \code{\link{slice_wavs}}).
 #'
 #' @param slices_dir atomic character. Path to dir where the slices are (see \code{\link{slice_wavs}}).
-#' @param tidy_annotations a tibble with the annotations (see \code{\link{tidy_annotations}}).
+#' @param annotations_dir atomic character or a tibble. If character, path to dir where the annotations 
+#' are. If tibble, a tibble created by \code{\link{tidy_annotations}}.
 #' @param pattern atomic character. A regex pattern to select files from 'slices_dir'. Useful to filter 
 #' out just specifc types of labels (see examples).
 #'
-#' @return
+#' @return tibble of slices with label column.
 #' @export
 #'
 #' @examples
 #' 
-retrieve_labels_for_one_dir <- function(slices_dir, tidy_annotations, pattern = NULL) {
+#' slices_dir <-  system.file("wav_sample_slices_1000ms", package = "mestrado")
+#' annotations_dir <-  system.file("annotations", package = "mestrado")
+#' slices_1000ms_labels <- label_slices(
+#'   slices_dir, 
+#'   annotations_dir, 
+#'   pattern = "Glaucidium|Megascops-atricapilla"
+#' )
+label_slices <- function(slices_dir, annotations, pattern = NULL) {
+  
+  if(class(annotations)[1] == "character") {
+    tidy_annotations <- tidy_annotations(annotations)
+  } else if(class(annotations)[1] %in% c("tbl", "data.frame", "tbl_df")) {
+    tidy_annotations <- annotations
+  }
   
   if(!requireNamespace("IRanges", quietly = TRUE)) {
     usethis::ui_stop("Package IRanges not installed. Run `mestrado::install_iranges()` before continue.")
@@ -84,15 +98,18 @@ retrieve_labels_for_one_dir <- function(slices_dir, tidy_annotations, pattern = 
 #' 
 #' Helper to install IRange from Biocondutor.
 #'
-#' @return
+#' @return return nothing.
 #' @export
 #'
 #' @examples
+#' library(mestrado)
+#' install_iranges()
 install_iranges <- function() {
   if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
   
   BiocManager::install("IRanges")
+  return(invisible(NULL))
 }
 
 

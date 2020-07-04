@@ -121,7 +121,7 @@
 
 <span class="co"># insert here which folder do you want to store the mp3 files.</span>
 <span class="no">dir</span> <span class="kw">&lt;-</span> <span class="st">"data-raw/mp3_originals"</span>
-<span class="kw">if</span>(!<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span>(<span class="no">dir</span>)) <span class="kw pkg">fs</span><span class="kw ns">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/create.html">dir_create</a></span>(<span class="no">dir</span>)</pre></body></html></div>
+<span class="kw">if</span>(!<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span>(<span class="no">dir</span>)) <span class="kw pkg">fs</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/fs/man/create.html">dir_create</a></span>(<span class="no">dir</span>)</pre></body></html></div>
 <div id="xeno-canto-data-and-mp3" class="section level2">
 <h2 class="hasAnchor">
 <a href="#xeno-canto-data-and-mp3" class="anchor"></a>Xeno-canto data and MP3</h2>
@@ -130,7 +130,7 @@
 
 <span class="co"># set donwload = TRUE for download the files to your hard disk.</span>
 <span class="no">metadata_xc</span> <span class="kw">&lt;-</span> <span class="kw pkg">tibble</span><span class="kw ns">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">species</span> <span class="kw">=</span> <span class="no">bird_species</span>)
-<span class="no">metadata_xc</span>$<span class="no">mp3_xc</span> <span class="kw">=</span> <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">bird_species</span>, ~<span class="fu"><a href="https://rdrr.io/pkg/warbleR/man/querxc.html">querxc</a></span>(<span class="no">.x</span>, <span class="kw">download</span> <span class="kw">=</span> <span class="no">download</span>, <span class="kw">path</span> <span class="kw">=</span> <span class="no">dir</span>))</pre></body></html></div>
+<span class="no">metadata_xc</span>$<span class="no">mp3_xc</span> <span class="kw">=</span> <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map.html">map</a></span>(<span class="no">bird_species</span>, ~<span class="fu"><a href="https://rdrr.io/pkg/warbleR/man/querxc.html">querxc</a></span>(<span class="no">.x</span>, <span class="kw">download</span> <span class="kw">=</span> <span class="no">download</span>, <span class="kw">path</span> <span class="kw">=</span> <span class="no">dir</span>))</pre></body></html></div>
 </div>
 <div id="wikiaves-data-and-mp3" class="section level2">
 <h2 class="hasAnchor">

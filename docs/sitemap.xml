@@ -4,7 +4,13 @@
     <loc>https://athospd.github.io/mestrado//index.html</loc>
   </url>
   <url>
+    <loc>https://athospd.github.io/mestrado//reference/install_iranges.html</loc>
+  </url>
+  <url>
     <loc>https://athospd.github.io/mestrado//reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://athospd.github.io/mestrado//reference/retrieve_labels_for_one_dir.html</loc>
   </url>
   <url>
     <loc>https://athospd.github.io/mestrado//reference/slice_one_wav_randomly.html</loc>

@@ -565,7 +565,7 @@ left_join(
   two_sec_slices_metadata
 )%&gt;%
   janitor::adorn_totals() %&gt;%
-  knitr::kable(caption = &quot;Slices.&quot;) %&gt;%
+  knitr::kable(caption = &quot;Slices.&quot;, format = &quot;html&quot;) %&gt;%
   kableExtra::kable_styling(font_size = 16) %&gt;%
   kableExtra::row_spec(6, bold = TRUE)</code></pre>
 <pre><code>## Joining, by = c(&quot;Species&quot;, &quot;#mp3&quot;)</code></pre>
@@ -682,7 +682,7 @@ Total
 <p>Each slice can contain parts of bird songs in it or not. In this section, the annotation part is suposed to be already done. The annotation task is discussed in section <a href="#data-annotation">Data Annotation</a>.</p>
 <p>The table @ref(tab:annotation-rds) show an example of the tables that were generated to store where the bird songs happened in each wave file and the respective bird species that made it. At the end of the labelling process the dataset had six distinct labels: five from bird species and one for “other events than bird songs”. This later label was called as “unknown” and these other, unknown events could be silence, noise, any other animal, or even other birds different from the five ones previous picked.</p>
 <pre class="r"><code>readRDS(&quot;../../data_/anotacoes/Glaucidium-minutissimum-1066225.rds&quot;) %&gt;%
-  head(4) %&gt;%
+  head(5) %&gt;%
   mutate(
     audio_id = &quot;Glauc...225.wav&quot;,
     region_id = gsub(&quot;wavesurfer_&quot;, &quot;&quot;, region_id),
@@ -784,11 +784,29 @@ p97kav4lem8
 Glauc…mum
 </td>
 </tr>
+<tr>
+<td style="text-align:left;">
+Glauc…225.wav
+</td>
+<td style="text-align:left;">
+ft0i9775ejg
+</td>
+<td style="text-align:right;">
+30.36
+</td>
+<td style="text-align:right;">
+31.29
+</td>
+<td style="text-align:left;">
+Glauc…mum
+</td>
+</tr>
 </tbody>
 </table>
 <p>After build one of such tables for every wave file, a final dataset with all the slices labeled was made, one for one second long slices and other for two second long. Those tables have 74108 and 37534 rows respectively, as shown in Table @ref(tab:slice-counts). This dataset was made by joining @ref(tab:slice-example) and @ref(tab:annotation-rds) by interval.</p>
+<p><br></p>
 <pre class="r"><code>readRDS(&quot;../../data_/slices_1000ms_labels_by_humans.rds&quot;) %&gt;%
-  head(4) %&gt;%
+  head(5) %&gt;%
   knitr::kable(caption = &quot;The first four rows of the table of all 1 second slices along with the bird species label.&quot;) %&gt;%
   kableExtra::kable_styling(font_size = 16, full_width = TRUE)</code></pre>
 <table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;">
@@ -848,6 +866,17 @@ Glaucidium-minutissimum-1066225.wav
 </td>
 <td style="text-align:left;">
 <a href="mailto:Glaucidium-minutissimum-1066225@11@12" class="email">Glaucidium-minutissimum-1066225@11@12</a>@.wav
+</td>
+<td style="text-align:left;">
+unknown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-1066225.wav
+</td>
+<td style="text-align:left;">
+<a href="mailto:Glaucidium-minutissimum-1066225@12@13" class="email">Glaucidium-minutissimum-1066225@12@13</a>@.wav
 </td>
 <td style="text-align:left;">
 unknown

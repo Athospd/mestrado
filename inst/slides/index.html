@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Detectores acústicos automáticos de espécies de aves noturnas em seu bioma natural</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Athos Petri Damiani" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css\custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Detectores acústicos automáticos de espécies de aves noturnas em seu bioma natural
+## Projeto de Mestrado
+### Athos Petri Damiani
+### Maio 2020 - Engenharia Mecânica/USP
+
+---
+
+
+
+
+## Sobre mim e meu trabalho
+
+.pull-left[
+
+Athos Damiani, 31, Estatístico pela USP.
+&lt;hr/&gt;
+Tema do mestrado:
+
+&lt;div align="center"&gt;
+&lt;strong style = "color: red"&gt;Reconhecimento automático de espécies de aves baseados em seus cantos&lt;/strong&gt;
+&lt;/div&gt;
+
+.small[
+- Abordagem: Aprendizagem de máquina supervisionada
+
+- **Orientator:** Prof. Dr. Linilson Padovese
+
+- **Co-orientator:** Prof. Dr. Paulo Hubert Jr
+]
+]
+
+.pull-right[
+
+![aplicacao_corujas](img/aplicacao_corujas3.png)
+
+]
+
+---
+
+# Referências
+
+- Padovese B., Padovese L. (2019) **Machine Learning for Identifying an Endangered Brazilian Psittacidae Species**
+
+- Priyadarshani N. et al. (2017) **Automated birdsong recognition in complex acoustic environments: a review**
+
+- Serra, O. et al. (2019) **Active contour-based detection of estuarine dolphin whistles in spectrogram images**
+
+- Jawaherlalnehru, J. et al. (2019) **Music Instrument Recognition from Spectrogram Images Using Convolution Neural Network**
+---
+
+# Objetivos
+
+1) Desenvolver e comparar metodologias de modelagem preditiva e de pré-processamento.
+
+2) Disponibilizar bases de dados de sons de pássaros anotadas, prontas para aplicação de aprendizagem de máquina.
+
+3) Disponibilizar ferramentas livres e de código aberto para facilitar tanto a reprodutibilidade das metodologias propostas em (1) quanto para facilitar o embarque dos algoritmos em aparelhos acústicos.
+
+&gt; “There is the need for shared datasets with annotations of a wide variety of calls for a large number of species if methods that are suitable for conservation work are to be developed.” — Automated birdsong recognition in complex acoustic environments: a review
+
+---
+
+## library(wavesurfer)
+
+Ferramenta de anotação de áudio
+
+
+```r
+# shiny UI
+
+wavesurfer(
+  "wavs_folder/wav_file.wav", # or .mp3
+* visualization = 'spectrogram'
+) %&gt;%
+  ws_annotator(labels = c("birdsong", "silence", "insect")) %&gt;% 
+  ws_minimap() %&gt;%
+  ws_cursor()
+```
+
+![](img/saida_wavesurfer2.png)
+
+---
+
+## annotator_app()
+
+![](img/annotator_app1.png)
+
+
+---
+
+## annotator_app()
+
+![](img/annotator_app7.png)
+
+Feito por enquanto com `warbleR::auto_detec()`
+
+---
+
+## annotator_app()
+
+Uma vantagem a ser explorada: pode ser colocado em um aplicativo web em que todos podem contribuir com anotações.
+
+
+[<i class="fab fa-github"></i> `Athospd/wavesurfer`](http://github.com/Athospd/wavesurfer)
+
+---
+
+# Dados - Treino/Teste
+
+## Xeno-canto 
+
+Uso do pacote {warbleR} do Marcelo Araya-Salas (2010)
+
+
+```r
+metadata_xc = map(bird_species, ~querxc(.x))
+```
+
+## Wikiaves
+
+Uso do pacote {wikiaves} do LACMAM (2019)
+
+
+```r
+metadata_wa = map(bird_species, ~querwa(.x))
+```
+
+
+---
+
+# Dados - Treino/Teste
+
+Arquivos .mp3 baixados.
+
+
+|Species                  | #mp3|
+|:------------------------|----:|
+|Megascops-choliba        |  803|
+|Pulsatrix-koeniswaldiana |  334|
+|Strix-hylophila          |  318|
+|Megascops-atricapilla    |  258|
+|Glaucidium-minutissimum  |  208|
+|Total                    | 1921|
+
+
+---
+
+# Reprodutibilidade
+
+- {wavesurfer}, {wikiaves} e {mestrado}
+
+
+&lt;img src="img/site.png" width="630" /&gt;
+
+
+---
+
+# Dados para aplicação
+
+Duas paisagens acústicas levantadas pelo LACMAM (Laboratório de Acústica e Meio Ambiente):
+
+- INB-Rezende: 8 meses de duração em 4 pontos. Banda = 12kHz. Tamanho = 8TB.
+
+- Morro Grande: 12 meses de duração em 3 pontos. Banda = 12kHz. Tamanho = 7TB.
+
+![aplicacao](img/aplicacao.png)
+
+---
+
+# Pré-processamento dos dados
+
+Cada MP3 baixado do Wikiaves e do Xeno-Canto sofreu as seguintes transformações:
+
+1) Conversão de MP3 para WAV;
+
+2) Stereo para Mono;
+
+3) Downsample para 12kHz;
+
+4) Normalização da amplitude para 16-bits (inteiros em [-32767, 32767]);
+
+5) Fatiados em pedaços disjuntos de X em X segundos.
+
+OBS: tentar depender de o mínimo possível de pré-processamento.
+
+---
+
+# Metodologias de Modelagem Preditiva
+
+## Tratamentos acústicos
+
+- Espectrograma
+
+- MFCC
+
+## Algoritmos
+
+- Redes Neurais "Padrão" (Multi Layer Perseptrons)
+
+- Redes Neurais Convolucionais
+
+- Gradient Boosting Machines
+
+- Hidden Markov Models
+
+
+---
+
+# Metodologias de Modelagem Preditiva
+
+.pull-left[
+
+### Espectrograma
+
+&lt;img src="img/espectrograma.jpg" width="430" /&gt;
+
+
+### MFCC
+
+&lt;img src="img/mfcc.jpg" width="430" /&gt;
+
+]
+
+.pull-right[
+
+&lt;br&gt; 
+**passo 1)** transforma...
+
+&lt;br&gt; 
+$$
+mel = 2595 \log_{10}(1 + \frac{f}{700})
+$$
+
+&lt;br&gt; 
+**passo 2)** tira uma média ponderada por faixa...
+
+&lt;br&gt; 
+&lt;img src="img/mel_filters.jpg" width="430" /&gt;
+
+]
+
+Fonte: [haythamfayek.com](https://haythamfayek.com/2016/04/21/speech-processing-for-machine-learning.html)
+
+
+---
+
+# Metodologias de Modelagem Preditiva
+
+## Redes Neurais Convolucionais (CNN's)
+
+- É uma arquitetura de redes neurais que é útil principalmente para classificação de imagens. 
+
+![](img/cnn.png)
+
+
+.footnote[
+fonte: http://tommymullaney.com/projects/rhythm-games-neural-networks
+]
+
+---
+
+# Metodologias de Modelagem Preditiva
+
+## Redes Neurais Convolucionais (CNN's)
+
+
+.pull-left[
+
+### filtros fixos
+
+![](img/filtros_prof.png)
+
+]
+
+.pull-right[
+
+### filtros "aprendidos"
+
+&lt;img src="img/cnn_wider.png" width="300" /&gt;
+
+
+cada pixel do filtro é como se fosse um beta da regressão.
+
+]
+
+---
+
+# Metodologias de Modelagem Preditiva
+
+## Redes Neurais Convolucionais (CNN's)
+
+.pull-left[
+- Definimos uma matriz de pesos (a "sombra" na representação ao lado)
+
+- Andamos com essa matriz de pesos para cada parte da imagem (em azul ao lado). 
+
+- Esses pesos são multiplicados e depois somados para gerar uma nova 'imagem' (em verde).
+
+]
+
+.pull-right[
+![](img/padding_strides.gif)
+
+]
+
+Fonte: [Conv arithmetic](https://github.com/vdumoulin/conv_arithmetic)
+---
+
+# Metodologias de Modelagem Preditiva
+
+## Gradient Boosting Machines
+
+&lt;img src="img/gbm.png" width="430" /&gt;
+
+Em que x representa todos os pixels dentro de uma fatia de áudio: 
+- fatia de 1 segundo 
+- janela FFT de 512 amostras e amostragem de 16kHz sem overlap
+- 13 MFCC's
+
+Total de pixels: `\(13 \times 1 \times (16000 / 512) \approx 406\)`
+
+---
+
+# Alguns resultados...
+
+.pull-left[
+
+### MFCC + XGBoost
+
+
+```
+##           Truth
+## Prediction    1    2    3
+##          1 4057    4  172
+##          2  187  358    1
+##          3  361    1  322
+```
+
+Acurácia: 87%
+
+]
+
+.pull-right[
+
+### Espectrograma + CNN
+
+
+```
+##           Truth
+## Prediction    1    2    3
+##          1 4010   24  199
+##          2  102  443    1
+##          3  248    3  433
+```
+
+Acurácia: 89%
+
+]
+
+---
+
+# Metodologias de Modelagem Preditiva
+
+Demais parâmetros para testar:
+
+1) Tamanho da fatia do áudio.
+
+2) Parametrizações do FFT.
+
+2) Uso de dois algoritmos ou mais ao mesmo tempo (stacking).
+
+3) Arquiteturas de Redes Neurais.
+
+---
+
+class: inverse, center, middle
+
+# Obrigado!
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

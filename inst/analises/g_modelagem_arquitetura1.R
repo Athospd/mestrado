@@ -1,6 +1,3 @@
-# This code should run with TensorFlow >= 1.13.
-# It was designed to run in graph as well as eager modes.
-# If running in eager mode only, some pieces of code can be substantially simplified.
 library(keras)
 library(magrittr)
 library(tidyverse)
@@ -30,11 +27,25 @@ ajusta_modelo <- function(
   sampling_rate = 16000L, #OK
   seed = 1
 ) {
+  audio_ids_train = readr::read_rds("data_/audio_ids_train.rds")
+  modelo_dir = "data_/modelos_teste/"
+  tamanho_dos_audios = 1
+  samples_per_window = 512L
+  stride_samples = 0.5
+  batch_size = 32L
+  type = c("log_magnitude", "log_mel", "mfcc")[1]
+  num_mel_bins = 64L
+  num_mfccs = 13L
+  epochs = 10
+  sampling_rate = 16000L
+  seed = 1
+  
+  
   set.seed(seed)
   tamanho_dos_audios_em_ms <- tamanho_dos_audios * 1000L
   stride_samples <- as.integer((1-stride_samples) * samples_per_window)
   
-  df <- readr::read_rds(glue::glue("data/slices_{tamanho_dos_audios_em_ms}ms_labels_by_humans.rds")) %>%
+  df <- readr::read_rds(glue::glue("data_/slices_{tamanho_dos_audios_em_ms}ms_labels_by_humans.rds")) %>%
     dplyr::mutate(
       fname = fs::as_fs_path(paste0(glue::glue("data-raw/wav_16khz_{tamanho_dos_audios_em_ms}ms/"), slice_id)),
       flag = case_when(
@@ -144,7 +155,7 @@ ajusta_modelo <- function(
   ds_train <- data_generator(df_train,
                              samples_per_window = samples_per_window,
                              stride_samples = stride_samples)
-  ds_val <- data_generator(df_val,
+  ds_val <- data_generator(df_val[],
                            samples_per_window = samples_per_window,
                            stride_samples = stride_samples)
   
@@ -155,28 +166,34 @@ ajusta_modelo <- function(
       input_shape = c(n_periods, n_coefs, 1),
       filters = 32,
       kernel_size = c(3, 3),
-      activation = 'relu',
       padding = "same"
     ) %>%
+    layer_batch_normalization() %>%
+    layer_activation_leaky_relu() %>%
     layer_max_pooling_2d(pool_size = c(2, 2)) %>%
     layer_conv_2d(filters = 32,
                   kernel_size = c(3, 3),
-                  activation = 'relu',
                   padding = "same") %>%
+    layer_batch_normalization() %>%
+    layer_activation_leaky_relu() %>%
     layer_max_pooling_2d(pool_size = c(2, 2)) %>%
     layer_conv_2d(filters = 64,
                   kernel_size = c(3, 3),
-                  activation = 'relu',
                   padding = "same") %>%
+    layer_batch_normalization() %>%
+    layer_activation_leaky_relu() %>%
     layer_max_pooling_2d(pool_size = c(2, 2)) %>%
     layer_conv_2d(filters = 128,
                   kernel_size = c(3, 3),
-                  activation = 'relu',
                   padding = "same") %>%
+    layer_batch_normalization() %>%
+    layer_activation_leaky_relu() %>%
     layer_max_pooling_2d(pool_size = c(2, 2)) %>%
     layer_dropout(rate = 0.2) %>%
     layer_flatten() %>%
-    layer_dense(units = 32, activation = 'relu') %>%
+    layer_dense(units = 32) %>%
+    layer_batch_normalization() %>%
+    layer_activation_leaky_relu() %>%
     layer_dropout(rate = 0.2) %>%
     layer_dense(units = num_categs, activation = 'softmax')
   
@@ -217,7 +234,7 @@ parametros <- expand_grid(
   samples_per_window = c(128L, 256L, 512L), 
   stride_samples = c(0, 0.5), 
   type = c("log_magnitude", "log_mel", "mfcc"),
-  modelo_dir = "data/modelos_arquitetura1"
+  modelo_dir = "data_/modelos_arquitetura1"
 ) %>%
   rownames_to_column("modelo_id") %>%
   mutate(
@@ -226,7 +243,7 @@ parametros <- expand_grid(
   )
 
 set.seed(1)
-audio_ids_train <- readr::read_rds(glue::glue("data/slices_1000ms_labels_by_humans.rds")) %>% 
+audio_ids_train <- readr::read_rds(glue::glue("data_/slices_1000ms_labels_by_humans.rds")) %>% 
   distinct(audio_id) %>% 
   sample_frac(0.85)
 
@@ -262,4 +279,4 @@ modelos <- parametros %>%
     )
   )
 
-readr::write_rds(modelos, path = glue::glue("data/modelos_arquitetura1/arq1_500ms.rds"))
+readr::write_rds(modelos, path = glue::glue("data_/modelos_arquitetura1/arq1_500ms.rds"))

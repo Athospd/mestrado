@@ -7,8 +7,12 @@
 install_iranges()
 }
 \value{
-
+return nothing.
 }
 \description{
 Helper to install IRange from Biocondutor.
+}
+\examples{
+library(mestrado)
+install_iranges()
 }

@@ -20,3 +20,13 @@ This project was inspired by needs pointed out by managers from Federal and Stat
 
 > "There is the need for shared datasets with annotations of a wide variety of calls for a large number of species if methods that are suitable for conservation work are to be developed."
 > --- Automated birdsong recognition in complex acoustic environments: a review
+
+# Objectives
+
+There are three main objectives:
+
+1) Develop and compare methodologies of both data pre-processing and machine learning algorithms for predictive modelling of certain bird species.
+
+2) Provide labelled, open, machine-learning ready datasets of bird sounds.
+
+3) Provide open-source tools for make it easy to both reproduce the methodologies proposed and embark in acoustic hardwares.
