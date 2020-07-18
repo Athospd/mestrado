@@ -3,6 +3,8 @@
 export("%>%")
 export(install_iranges)
 export(label_slices)
+export(slice_one_wav_randomly)
+export(slice_one_wav_sequencially)
 export(slice_wavs)
 export(tidy_annotations)
 export(tidy_audio)
