@@ -32,6 +32,8 @@ tidy_audio <- function(audio_files, dest_dir = tempdir(), sample_rate = 16000, b
       dir.create(dest_dir)
     }
   } 
+  # fix windows '\\' issue
+  dest_dir <- gsub("\\\\", "/", dest_dir)
   
   new_audio_files <- character(length(audio_files))
   pb <- progress::progress_bar$new(total = length(audio_files))

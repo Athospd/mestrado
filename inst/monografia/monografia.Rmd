@@ -70,6 +70,5 @@ knitr::opts_chunk$set(echo = FALSE,
 ```{r child = '04_results_and_conclusion.Rmd'}
 ```
 
-
 ```{r child = '99_references.Rmd'}
 ```

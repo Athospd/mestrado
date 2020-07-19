@@ -83,6 +83,12 @@ knitr::include_graphics("https://github.com/Athospd/mestrado/blob/master/inst/im
 
 - [https://blogs.rstudio.com/tensorflow/posts/2019-02-07-audio-background/](https://blogs.rstudio.com/tensorflow/posts/2019-02-07-audio-background/) (Acesso em 2019-08-01)
 
+### Pacotes de R
+
+- [https://rethomics.github.io/zeitgebr.html](https://rethomics.github.io/zeitgebr.html)
+
+- [https://marce10.github.io/warbleR/](https://marce10.github.io/warbleR/)
+
 ## Termos relacionados
 
 - HMM: Hidden Markov Chains

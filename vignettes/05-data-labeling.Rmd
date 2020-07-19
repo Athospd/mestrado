@@ -38,12 +38,12 @@ annotations %>% head() %>% knitr::kable()
 
 ## Retriving the labels for the slices
 
-By merging the slices of the wave files with the labels annotated in the previous step, we construct the final dataset with the response/targets ready for modelling. The function `retrieve_labels_for_one_dir()` take the directory of slices and the annotations dataset as inputs. The output is a map between slice and label.
+By merging the slices of the wave files with the labels annotated in the previous step, we construct the final dataset with the response/targets ready for modelling. The function `label_slices()` take the directory of slices and the annotations dataset as inputs. The output is a map between slice and label.
 
 ```{r}
 slices_dir <-  system.file("wav_sample_slices_1000ms", package = "mestrado")
 
-slices_1000ms_labels <- retrieve_labels_for_one_dir(
+slices_1000ms_labels <- label_slices(
   slices_dir, 
   annotations, 
   pattern = "Glaucidium|Megascops-atricapilla"

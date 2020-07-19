@@ -14,17 +14,17 @@ slice_one_wav_sequencially(
 )
 }
 \arguments{
-\item{audio_file}{}
+\item{audio_file}{character}
 
-\item{audio_dir}{}
+\item{audio_dir}{character}
 
-\item{audio_dir_dest}{}
+\item{audio_dir_dest}{character}
 
-\item{interval}{}
+\item{interval}{numeric}
 
-\item{overlap}{}
+\item{overlap}{numeric}
 
-\item{invisible}{}
+\item{invisible}{logical}
 }
 \value{
 one character with the directory where the slices were stored.

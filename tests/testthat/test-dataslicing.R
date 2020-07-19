@@ -17,6 +17,6 @@ test_that("slice_wavs works", {
   expect_equal(length(slices_path), 1)
   
   slices <- list.files(slices_path)
-  expect_equal(length(slices), 245)
+  expect_equal(length(slices), 246)
 })
 

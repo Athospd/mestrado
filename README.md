@@ -10,8 +10,7 @@ Ambiente).
 
 Orientador: Prof. Dr. Linilson Padovese
 
-Co-orientador: Prof. Dr. Paulo
-Hubert
+Co-orientador: Prof. Dr. Paulo Hubert
 
 <img src="https://github.com/Athospd/mestrado/blob/master/inst/img/wavesurfer_example.png?raw=true" style="display: block; margin: auto;" />
 
@@ -31,8 +30,7 @@ Hubert
 
   - <https://www.wikiaves.com.br> **X**
 
-  - <https://www2.ib.unicamp.br/fnjv/>
-    **X**
+  - <https://www2.ib.unicamp.br/fnjv/> **X**
 
   - <https://www.imageclef.org/lifeclef/2016/bird>
 
@@ -45,12 +43,10 @@ Hubert
   - <https://pdfs.semanticscholar.org/74e1/fd40d99b811e7a6b2fa897c9d72b471aaf13.pdf>
 
   - <https://lis-unicamp.github.io/wp-content/uploads/2017/07/LeandroTacioli-Mestrado.pdf>
-    (Acesso em
-    2019-04-14)
+    (Acesso em 2019-04-14)
 
   - <file:///C:/Users/ap_da/OneDrive/Documents/mestrado/ignorar/automated%20birdsong%20review.pdf>
-    (Acesso em
-    2019-05-27)
+    (Acesso em 2019-05-27)
 
 ### Algoritmos de identificação de músicas
 
@@ -73,8 +69,7 @@ Hubert
   - <https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0179403>
     (Acesso em 2019-04-14)
 
-  - <http://www.naturalhistory.com.br/wasis.html> (Acesso em
-    2019-04-14)
+  - <http://www.naturalhistory.com.br/wasis.html> (Acesso em 2019-04-14)
 
   - <http://c4dm.eecs.qmul.ac.uk/papers/2017/OSA_article_HPamula_etal_04082017.pdf>
     (Acesso em 2019-07-02)
@@ -88,6 +83,12 @@ Hubert
 
   - <https://blogs.rstudio.com/tensorflow/posts/2019-02-07-audio-background/>
     (Acesso em 2019-08-01)
+
+### Pacotes de R
+
+  - <https://rethomics.github.io/zeitgebr.html>
+
+  - <https://marce10.github.io/warbleR/>
 
 ## Termos relacionados
 

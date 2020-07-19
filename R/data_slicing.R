@@ -1,9 +1,9 @@
-
 #' slice_one_wav_randomly
 #' 
 #' To do.
 #'
 #' @return
+#' @export
 slice_one_wav_randomly <- function() {
   usethis::ui_oops("Not implemented yet.")
 }
@@ -12,14 +12,15 @@ slice_one_wav_randomly <- function() {
 #' 
 #' Slice one wave file sequentially by regular interval of time with ou without overlap.
 #'
-#' @param audio_file 
-#' @param audio_dir 
-#' @param audio_dir_dest 
-#' @param interval 
-#' @param overlap 
-#' @param invisible
+#' @param audio_file character
+#' @param audio_dir character 
+#' @param audio_dir_dest character
+#' @param interval numeric
+#' @param overlap numeric
+#' @param invisible logical
 #'
-#' @return one character with the directory where the slices were stored. 
+#' @return one character with the directory where the slices were stored.
+#' @export 
 slice_one_wav_sequencially <- function(audio_file, audio_dir, audio_dir_dest, interval = 1, overlap = 0, invisible = FALSE) {
   audio_file_ext <- tools::file_ext(audio_file)
   if(!audio_file_ext %in% c("mp3", "wav")) {
