@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data and MP3 Gathering • mestrado</title>
+<title>Data Spliting • mestrado</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Data and MP3 Gathering">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Data Spliting">
 <meta property="og:description" content="mestrado">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -74,9 +74,6 @@
     <li>
       <a href="../articles/05-data-labeling.html">Data Labelling</a>
     </li>
-    <li>
-      <a href="../articles/06-data-train-test-spliting.html">Data Train/Test Spliting</a>
-    </li>
   </ul>
 </li>
       </ul>
@@ -100,60 +97,40 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Data and MP3 Gathering</h1>
+      <h1 data-toc-skip>Data Spliting</h1>
             
       
       
-      <div class="hidden name"><code>01-data-gathering.Rmd</code></div>
+      <div class="hidden name"><code>06-data-spliting.Rmd</code></div>
 
     </div>
 
     
     
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">fs</span>)</pre></body></html></div>
-<p>Steps: - 1) create a vector of all species of interest. - 2) decide if want to download mp3 or not. - 3) set directory for mp3 storage.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># list here all the species.</span>
-<span class="no">bird_species</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"megascops choliba"</span>,
-                  <span class="st">"strix hylophila"</span>,
-                  <span class="st">"pulsatrix koeniswaldiana"</span>,
-                  <span class="st">"megascops atricapilla"</span>,
-                  <span class="st">"glaucidium minutissimum"</span>)
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">mestrado</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'dplyr'</span>
+<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     filter, lag</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     intersect, setdiff, setequal, union</span></pre></body></html></div>
+<p>Data spliting must be done at audio file level (by <code>audio_id</code>), not slice. There will be no slices from the same audio file both in testing and training dataset at the same time. This way will avoid any data leakage possibility.</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1</span>)
+<span class="no">audio_ids</span> <span class="kw">&lt;-</span> <span class="kw pkg">readr</span><span class="kw ns">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">read_rds</a></span>(<span class="kw pkg">glue</span><span class="kw ns">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span>(<span class="st">"data_/slices_1000ms_labels_by_humans.rds"</span>)) <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/distinct.html">distinct</a></span>(<span class="no">audio_id</span>)
 
-<span class="co"># Should the MP3 be downloaded to the hard disk?</span>
-<span class="no">download</span> <span class="kw">&lt;-</span> <span class="fl">TRUE</span>
+<span class="no">audio_ids_train</span> <span class="kw">&lt;-</span> <span class="no">audio_ids</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/sample_n.html">sample_frac</a></span>(<span class="fl">0.85</span>)
+<span class="no">audio_ids_test</span> <span class="kw">&lt;-</span> <span class="no">audio_ids</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter-joins.html">anti_join</a></span>(<span class="no">audio_ids_train</span>)
 
-<span class="co"># insert here which folder do you want to store the mp3 files.</span>
-<span class="no">dir</span> <span class="kw">&lt;-</span> <span class="st">"data-raw/mp3_originals"</span>
-<span class="kw">if</span>(!<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span>(<span class="no">dir</span>)) <span class="kw pkg">fs</span><span class="kw ns">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/create.html">dir_create</a></span>(<span class="no">dir</span>)</pre></body></html></div>
-<div id="xeno-canto-data-and-mp3" class="section level2">
-<h2 class="hasAnchor">
-<a href="#xeno-canto-data-and-mp3" class="anchor"></a>Xeno-canto data and MP3</h2>
-<p>The <a href="https://cran.r-project.org/web/packages/warbleR/vignettes/warbleR_workflow_01.html#obtain_metadata_and_recordings_from_xeno-canto"><code><a href="https://rdrr.io/pkg/warbleR/man/querxc.html">warbleR::querxc()</a></code></a> function retrieve mp3 files from xeno-canto.org repository.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">warbleR</span>)
-
-<span class="co"># set donwload = TRUE for download the files to your hard disk.</span>
-<span class="no">metadata_xc</span> <span class="kw">&lt;-</span> <span class="kw pkg">tibble</span><span class="kw ns">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">species</span> <span class="kw">=</span> <span class="no">bird_species</span>)
-<span class="no">metadata_xc</span>$<span class="no">mp3_xc</span> <span class="kw">=</span> <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">bird_species</span>, ~<span class="fu"><a href="https://rdrr.io/pkg/warbleR/man/querxc.html">querxc</a></span>(<span class="no">.x</span>, <span class="kw">download</span> <span class="kw">=</span> <span class="no">download</span>, <span class="kw">path</span> <span class="kw">=</span> <span class="no">dir</span>))</pre></body></html></div>
-</div>
-<div id="wikiaves-data-and-mp3" class="section level2">
-<h2 class="hasAnchor">
-<a href="#wikiaves-data-and-mp3" class="anchor"></a>Wikiaves data and MP3</h2>
-<p>The package <a href="https://athospd.github.io/wikiaves/">{wikiaves}</a> is not on CRAN yet. Github install only.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co"># install.packages("remotes")</span>
-<span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"Athospd/wikiaves"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">wikiaves</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># set donwload = TRUE for download the files to your hard disk.</span>
-<span class="no">metadata_wa</span> <span class="kw">&lt;-</span> <span class="no">bird_species</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/wikiaves/man/wa_metadata.html">wa_metadata</a></span>(<span class="kw">download</span> <span class="kw">=</span> <span class="no">download</span>, <span class="kw">path</span> <span class="kw">=</span> <span class="no">dir</span>) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">nest</a></span>(<span class="kw">mp3_wa</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="no">term</span>))</pre></body></html></div>
-</div>
+<span class="kw pkg">readr</span><span class="kw ns">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">write_rds</a></span>(<span class="no">audio_ids_train</span>, <span class="st">"data_/audio_ids_train.rds"</span>)
+<span class="kw pkg">readr</span><span class="kw ns">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html">write_rds</a></span>(<span class="no">audio_ids_test</span>, <span class="st">"data_/audio_ids_test.rds"</span>)</pre></body></html></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
+      </div>
 
 </div>
 

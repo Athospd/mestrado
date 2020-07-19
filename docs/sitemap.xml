@@ -7,10 +7,10 @@
     <loc>https://athospd.github.io/mestrado//reference/install_iranges.html</loc>
   </url>
   <url>
-    <loc>https://athospd.github.io/mestrado//reference/pipe.html</loc>
+    <loc>https://athospd.github.io/mestrado//reference/label_slices.html</loc>
   </url>
   <url>
-    <loc>https://athospd.github.io/mestrado//reference/retrieve_labels_for_one_dir.html</loc>
+    <loc>https://athospd.github.io/mestrado//reference/pipe.html</loc>
   </url>
   <url>
     <loc>https://athospd.github.io/mestrado//reference/slice_one_wav_randomly.html</loc>
@@ -41,5 +41,8 @@
   </url>
   <url>
     <loc>https://athospd.github.io/mestrado//articles/05-data-labeling.html</loc>
+  </url>
+  <url>
+    <loc>https://athospd.github.io/mestrado//articles/06-data-train-test-spliting.html</loc>
   </url>
 </urlset>

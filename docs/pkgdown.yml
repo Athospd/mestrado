@@ -1,4 +1,4 @@
-pandoc: 2.3.1
+pandoc: '2.5'
 pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
@@ -7,7 +7,8 @@ articles:
   03-data-slicing: 03-data-slicing.html
   04-data-annotation: 04-data-annotation.html
   05-data-labeling: 05-data-labeling.html
-last_built: 2020-05-24T06:11Z
+  06-data-train-test-spliting: 06-data-train-test-spliting.html
+last_built: 2020-07-19T14:16Z
 urls:
   reference: https://athospd.github.io/mestrado//reference
   article: https://athospd.github.io/mestrado//articles

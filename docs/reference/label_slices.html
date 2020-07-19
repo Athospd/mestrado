@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Slice a Set of Wave Files — slice_wavs • mestrado</title>
+<title>Label Slices of Wave Files — label_slices • mestrado</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Slice a Set of Wave Files — slice_wavs" />
-<meta property="og:description" content="Vectorized version of slice_one_wav_*() family of functions. Store in disk 
-the slices of every file of a vector of mp3 file names." />
+<meta property="og:title" content="Label Slices of Wave Files — label_slices" />
+<meta property="og:description" content="Plug the labels from a set of annotations (made by annotator_app) in 
+a dataset of slices (made by slice_wavs)." />
 
 
 
@@ -146,63 +146,50 @@ the slices of every file of a vector of mp3 file names." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Slice a Set of Wave Files</h1>
+    <h1>Label Slices of Wave Files</h1>
     
-    <div class="hidden name"><code>slice_wavs.Rd</code></div>
+    <div class="hidden name"><code>label_slices.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Vectorized version of slice_one_wav_*() family of functions. Store in disk 
-the slices of every file of a vector of mp3 file names.</p>
+    <p>Plug the labels from a set of annotations (made by <code><a href='https://rdrr.io/pkg/wavesurfer/man/annotator_app.html'>annotator_app</a></code>) in 
+a dataset of slices (made by <code><a href='slice_wavs.html'>slice_wavs</a></code>).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>slice_wavs</span>(<span class='no'>audio_dir</span>, <span class='kw'>audio_dir_dest</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>label_slices</span>(<span class='no'>slices_dir</span>, <span class='no'>annotations</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>audio_dir</th>
-      <td></td>
+      <th>slices_dir</th>
+      <td><p>atomic character. Path to dir where the slices are (see <code><a href='slice_wavs.html'>slice_wavs</a></code>).</p></td>
     </tr>
     <tr>
-      <th>audio_dir_dest</th>
-      <td></td>
+      <th>pattern</th>
+      <td><p>atomic character. A regex pattern to select files from 'slices_dir'. Useful to filter 
+out just specifc types of labels (see examples).</p></td>
     </tr>
     <tr>
-      <th>interval</th>
-      <td></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td></td>
-    </tr>
-    <tr>
-      <th>audio_ext</th>
-      <td></td>
+      <th>annotations_dir</th>
+      <td><p>atomic character or a tibble. If character, path to dir where the annotations 
+are. If tibble, a tibble created by <code><a href='tidy_annotations.html'>tidy_annotations</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p>tibble of slices with label column.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>mestrado</span>)
-
-<span class='no'>wav_dir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"wav_sample"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"mestrado"</span>)
-<span class='no'>temp_dir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-
-<span class='no'>slices_path</span> <span class='kw'>&lt;-</span> <span class='fu'>slice_wavs</span>(<span class='no'>wav_dir</span>, <span class='no'>temp_dir</span>)
-<span class='no'>slices_path</span></div><div class='output co'>#&gt; [1] "/tmp/RtmphxGWOD"</div><div class='input'>
-<span class='no'>slices</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='no'>slices_path</span>)
-<span class='no'>slices</span>[<span class='fl'>4</span>:<span class='fl'>7</span>]</div><div class='output co'>#&gt; [1] "Glaucidium-minutissimum-24426@0@1@.wav"  
-#&gt; [2] "Glaucidium-minutissimum-24426@1@2@.wav"  
-#&gt; [3] "Glaucidium-minutissimum-24426@10@11@.wav"
-#&gt; [4] "Glaucidium-minutissimum-24426@11@12@.wav"</div></pre>
+<span class='no'>slices_dir</span> <span class='kw'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"wav_sample_slices_1000ms"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"mestrado"</span>)
+<span class='no'>annotations_dir</span> <span class='kw'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"annotations"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"mestrado"</span>)
+<span class='no'>slices_1000ms_labels</span> <span class='kw'>&lt;-</span> <span class='fu'>label_slices</span>(
+  <span class='no'>slices_dir</span>,
+  <span class='no'>annotations_dir</span>,
+  <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"Glaucidium|Megascops-atricapilla"</span>
+)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

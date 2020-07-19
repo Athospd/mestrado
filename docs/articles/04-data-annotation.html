@@ -74,6 +74,9 @@
     <li>
       <a href="../articles/05-data-labeling.html">Data Labelling</a>
     </li>
+    <li>
+      <a href="../articles/06-data-train-test-spliting.html">Data Train/Test Spliting</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -121,6 +124,13 @@
 <p><img src="../inst/img/annotator.gif"><!-- --></p>
 <p>The final product of each annotation is a <code>tibble</code>. Example follows:</p>
 <table class="table">
+<colgroup>
+<col width="41%">
+<col width="15%">
+<col width="7%">
+<col width="7%">
+<col width="28%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">audio_id</th>
 <th align="left">region_id</th>
@@ -149,13 +159,13 @@
 <p>PS: you can find samples of these tibbles inside the package:</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"annotations"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"mestrado"</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="kw">full.names</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="co">#&gt; [1] "/tmp/RtmpRHF9pU/temp_libpath1d963bc5a50/mestrado/annotations/Glaucidium-minutissimum-24426.rds"  </span>
-<span class="co">#&gt; [2] "/tmp/RtmpRHF9pU/temp_libpath1d963bc5a50/mestrado/annotations/Megascops-atricapilla-1261496.rds"  </span>
-<span class="co">#&gt; [3] "/tmp/RtmpRHF9pU/temp_libpath1d963bc5a50/mestrado/annotations/Megascops-atricapilla-1393458.rds"  </span>
-<span class="co">#&gt; [4] "/tmp/RtmpRHF9pU/temp_libpath1d963bc5a50/mestrado/annotations/Megascops-choliba-118111.rds"       </span>
-<span class="co">#&gt; [5] "/tmp/RtmpRHF9pU/temp_libpath1d963bc5a50/mestrado/annotations/Megascops-choliba-1891062.rds"      </span>
-<span class="co">#&gt; [6] "/tmp/RtmpRHF9pU/temp_libpath1d963bc5a50/mestrado/annotations/Pulsatrix-koeniswaldiana-365658.rds"</span>
-<span class="co">#&gt; [7] "/tmp/RtmpRHF9pU/temp_libpath1d963bc5a50/mestrado/annotations/Pulsatrix-koeniswaldiana-393745.rds"</span></pre></body></html></div>
+<span class="co">#&gt; [1] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Glaucidium-minutissimum-24426.rds"  </span>
+<span class="co">#&gt; [2] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Megascops-atricapilla-1261496.rds"  </span>
+<span class="co">#&gt; [3] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Megascops-atricapilla-1393458.rds"  </span>
+<span class="co">#&gt; [4] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Megascops-choliba-118111.rds"       </span>
+<span class="co">#&gt; [5] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Megascops-choliba-1891062.rds"      </span>
+<span class="co">#&gt; [6] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Pulsatrix-koeniswaldiana-365658.rds"</span>
+<span class="co">#&gt; [7] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Pulsatrix-koeniswaldiana-393745.rds"</span></pre></body></html></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

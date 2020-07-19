@@ -1,0 +1,40 @@
+---
+title: "Data Spliting"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{data-spliting}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r setup, eval=FALSE}
+library(mestrado)
+library(dplyr)
+```
+
+Data Train/Test spliting must be done at audio file level (by `audio_id`), not slice. There will be no slices from the same audio file in both testing and training dataset at the same time. This way will vanish any risk of data leakage. The only source of data leakage risk resides on repeated audio files that could happen to exist due to Xeno-canto and Wikiaves (and any other data source) duplicity.
+
+```{r, eval=FALSE}
+set.seed(1)
+# load .rds file built at data-labeling step
+audio_ids <- readr::read_rds(glue::glue("data_/slices_1000ms_labels_by_humans.rds")) %>% 
+  distinct(audio_id)
+
+# 85% for training/ 15% for testing (could be any %)
+audio_ids_train <- audio_ids %>% sample_frac(0.85)
+audio_ids_test <- audio_ids %>% anti_join(audio_ids_train)
+
+# save for later
+readr::write_rds(audio_ids_train, "data_/audio_ids_train.rds")
+readr::write_rds(audio_ids_test, "data_/audio_ids_test.rds")
+```
+

@@ -49,6 +49,8 @@ navbar:
         href: articles/04-data-annotation.html
       - text: Data Labelling
         href: articles/05-data-labeling.html
+      - text: Data Train/Test Spliting
+        href: articles/06-data-train-test-spliting.html
     github:
       icon: fa-github
       href: https://github.com/athospd/mestrado

@@ -74,6 +74,9 @@
     <li>
       <a href="../articles/05-data-labeling.html">Data Labelling</a>
     </li>
+    <li>
+      <a href="../articles/06-data-train-test-spliting.html">Data Train/Test Spliting</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -126,7 +129,7 @@
 <span class="no">wav_files</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/tidy_audio.html">tidy_audio</a></span>(<span class="no">mp3_files</span>, <span class="no">temp_dir</span>)</pre></body></html></div>
 <p>By default the files are stored in disk in a temporary folder, but it can be set by the user. Be aware because the default behaviour is to overwrite files.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">mp3_files</span>[<span class="fl">1</span>]
-<span class="co">#&gt; [1] "/tmp/RtmpRHF9pU/temp_libpath1d963bc5a50/mestrado/mp3_sample/Glaucidium-minutissimum-24426.mp3"</span>
+<span class="co">#&gt; [1] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/mp3_sample/Glaucidium-minutissimum-24426.mp3"</span>
 <span class="kw pkg">tuneR</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/readMP3.html">readMP3</a></span>(<span class="no">mp3_files</span>[<span class="fl">1</span>])
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Wave Object</span>
@@ -137,7 +140,7 @@
 <span class="co">#&gt;  PCM (integer format):   TRUE</span>
 <span class="co">#&gt;  Bit (8/16/24/32/64):    16</span></pre></body></html></div>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">wav_files</span>[<span class="fl">1</span>]
-<span class="co">#&gt; [1] "/tmp/RtmpAcFWHi/Glaucidium-minutissimum-24426.wav"</span>
+<span class="co">#&gt; [1] "/tmp/RtmpGNBqzo/Glaucidium-minutissimum-24426.wav"</span>
 <span class="kw pkg">tuneR</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/readWave.html">readWave</a></span>(<span class="no">wav_files</span>[<span class="fl">1</span>])
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Wave Object</span>
