@@ -1,3 +1,8 @@
+library(numbers)
+library(tidyverse)
+library(tensorflow)
+library(tfdatasets)
+
 create_mfcc_dataset <- function(
   tamanho_dos_audios,
   samples_per_window = 512L,
@@ -10,7 +15,7 @@ create_mfcc_dataset <- function(
   set.seed(seed)
   tamanho_dos_audios_em_ms <- tamanho_dos_audios * 1000L
   stride_samples <- as.integer((1-stride_samples) * samples_per_window)
-  df <- readr::read_rds(glue::glue("data/slices_{tamanho_dos_audios_em_ms}ms_labels_by_humans.rds")) %>%
+  df <- readr::read_rds(glue::glue("data_/slices_{tamanho_dos_audios_em_ms}ms_labels_by_humans.rds")) %>%
     dplyr::mutate(
       fname = fs::as_fs_path(paste0(glue::glue("data-raw/wav_16khz_{tamanho_dos_audios_em_ms}ms/"), slice_id)),
       flag = case_when(
@@ -20,7 +25,7 @@ create_mfcc_dataset <- function(
       )
     ) 
   nrow_df <- nrow(df)
-  divisors_of_nrow <- divisors(nrow_df)
+  divisors_of_nrow <- numbers::divisors(nrow_df)
   batch_size <- 1#as.integer(max(divisors_of_nrow[divisors_of_nrow <= 128]))
   num_categs <- as.integer(n_distinct(df$flag))
   lower_edge_hertz = 0
@@ -32,15 +37,15 @@ create_mfcc_dataset <- function(
     stride_samples
   )
   
-  n_fft_coefs <- (2 ^ tf$math$ceil(tf$math$log(tf$cast(samples_per_window, tf$float32)) / tf$math$log(2))/2+ 1L) %>% tf$cast(tf$int32)
+  n_fft_coefs <- (2 ^ tf$math$ceil(tf$math$log(tf$cast(samples_per_window, tf$float32)) / tf$math$log(2))/2 + 1L) %>% tf$cast(tf$int32)
   
   n_periods <- tf$shape(range)[1] + 2L
   
   # full mfcc dataset
   n_coefs <- tf$constant(num_mfccs)
   
-  ds <- tensor_slices_dataset(df) %>%
-    dataset_map(function(obs) {
+  ds <- tfdatasets::tensor_slices_dataset(df) %>%
+    tfdatasets::dataset_map(function(obs) {
       wav <- tf$audio$decode_wav(tf$io$read_file(tf$reshape(obs$fname, list())), desired_channels = 1L)
       samples <- wav$audio
       samples <- samples %>% tf$transpose(perm = c(1L, 0L))
@@ -51,6 +56,15 @@ create_mfcc_dataset <- function(
       
       magnitude_spectrograms <- tf$abs(stft_out)
       log_magnitude_spectrograms <- tf$math$log(magnitude_spectrograms + 1e-6)
+      
+      stft_out_numpy <- stft_out$numpy()
+      magnitude_spectrograms_numpy <- magnitude_spectrograms$numpy()
+      log_magnitude_spectrograms_numpy <- log_magnitude_spectrograms$numpy()
+      
+      name_slice <- round(runif(1) * 1000000, 0)
+      readr::write_rds(magnitude_spectrograms_numpy, glue::glue("data_/stft_out/{name_slice}.rds"))
+      readr::write_rds(magnitude_spectrograms_numpy, glue::glue("data_/magnitude_spectrograms/{name_slice}.rds"))
+      readr::write_rds(magnitude_spectrograms_numpy, glue::glue("data_/log_magnitude_spectrograms/{name_slice}.rds"))
       
       response <- tf$one_hot(obs$flag, num_categs)
       
@@ -76,6 +90,7 @@ create_mfcc_dataset <- function(
       list(input, response, slice_id)
     }) %>%
     dataset_batch(batch_size, TRUE)
+  
   
   ds <- make_iterator_one_shot(ds)
   .x = iterator_get_next(ds)
