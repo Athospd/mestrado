@@ -4,26 +4,16 @@
 \alias{tidy_audio}
 \title{Tidy MP3 or Wave}
 \usage{
-tidy_audio(
-  audio_files,
-  dest_dir = tempdir(),
-  sample_rate = 16000,
-  bits = 16,
-  parallel = 1
-)
+tidy_audio(wav, sample_rate = 16000, bits = 16)
 }
 \arguments{
-\item{audio_files}{character vector with the full path for the mp3 files.}
-
-\item{dest_dir}{optional atomic character indicating the path where to store 
-the files. Default is a tempdir(). Set NULL if you want the dest dir be the
-same as origin (warning: it will overwrite the original wave files!)}
+\item{wav}{Wave object. Usualy returned by \code{\link[tuneR]{readMP3}}/\code{\link[tuneR]{readWave}}.}
 }
 \value{
-a character vector of the same size of audio_files with the file names of the transformed wavs.
+a transformed Wave object.
 }
 \description{
-Apply transformations for modelling ready audio files.
+Apply transformations on an wav object for modelling purposes.
 }
 \details{
 The transformations are:
@@ -34,8 +24,10 @@ The transformations are:
 }
 \examples{
 
+library(tuneR)
 mp3_dir <- system.file("mp3_sample", package = "mestrado")
 mp3_files <- list.files(mp3_dir, full.names = TRUE)
+wav <- readMP3(mp3_files[1])
 
-wav_files <- tidy_audio(mp3_files)
+transformed_wav <- tidy_audio(wav)
 }
