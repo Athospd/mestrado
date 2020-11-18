@@ -4,6 +4,9 @@
     <loc>https://athospd.github.io/mestrado//index.html</loc>
   </url>
   <url>
+    <loc>https://athospd.github.io/mestrado//reference/identity_resampling.html</loc>
+  </url>
+  <url>
     <loc>https://athospd.github.io/mestrado//reference/install_iranges.html</loc>
   </url>
   <url>
@@ -11,6 +14,9 @@
   </url>
   <url>
     <loc>https://athospd.github.io/mestrado//reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://athospd.github.io/mestrado//reference/plot_spectrogram_matrix.html</loc>
   </url>
   <url>
     <loc>https://athospd.github.io/mestrado//reference/slice_one_wav_randomly.html</loc>
@@ -26,6 +32,9 @@
   </url>
   <url>
     <loc>https://athospd.github.io/mestrado//reference/tidy_audio.html</loc>
+  </url>
+  <url>
+    <loc>https://athospd.github.io/mestrado//reference/tidy_audio_dir.html</loc>
   </url>
   <url>
     <loc>https://athospd.github.io/mestrado//articles/01-data-gathering.html</loc>

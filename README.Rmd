@@ -83,6 +83,8 @@ knitr::include_graphics("https://github.com/Athospd/mestrado/blob/master/inst/im
 
 - [https://blogs.rstudio.com/tensorflow/posts/2019-02-07-audio-background/](https://blogs.rstudio.com/tensorflow/posts/2019-02-07-audio-background/) (Acesso em 2019-08-01)
 
+- [https://scholarworks.rit.edu/cgi/viewcontent.cgi?article=10584&context=theses](https://scholarworks.rit.edu/cgi/viewcontent.cgi?article=10584&context=theses) (Acesso em 2020-11-06)
+
 ### Pacotes de R
 
 - [https://rethomics.github.io/zeitgebr.html](https://rethomics.github.io/zeitgebr.html)

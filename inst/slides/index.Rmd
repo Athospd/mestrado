@@ -193,7 +193,7 @@ Cada MP3 baixado do Wikiaves e do Xeno-Canto sofreu as seguintes transformaçõe
 
 3) Downsample para 12kHz;
 
-4) Normalização da amplitude para 16-bits (inteiros em [-32767, 32767]);
+4) Normalização da amplitude para 16-bits e escalado por  1/32767;
 
 5) Fatiados em pedaços disjuntos de X em X segundos.
 

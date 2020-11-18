@@ -1,0 +1,8 @@
+library(reticulate)
+reticulate::use_virtualenv("~/athos", required = TRUE)
+reticulate::py_install("torch")
+reticulate::py_install("torchaudio")
+reticulate::py_install("matplotlib")
+# reticulate::py_config()
+sample_mp3 <- tuneR::readMP3(system.file("sample_audio_1.mp3", package = "torchaudio"))@left
+reticulate::repl_python()

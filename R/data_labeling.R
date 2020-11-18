@@ -58,6 +58,9 @@ label_slices <- function(slices_dir, annotations, pattern = NULL) {
   if(!requireNamespace("IRanges", quietly = TRUE)) {
     usethis::ui_stop("Package IRanges not installed. Run `mestrado::install_iranges()` before continue.")
   }
+  if(!dir.exists(slices_dir)) {
+    usethis::ui_stop(glue::glue("dir {slices_dir} not found."))
+  }
   slices <- tibble::tibble(slice_id = list.files(slices_dir, pattern = pattern)) %>%
     tidyr::separate(slice_id, c("audio_id", "instant_start", "instant_end"), "@", remove = FALSE, extra = "drop", convert = TRUE) %>%
     dplyr::mutate(audio_id = paste0(audio_id, ".wav"))

@@ -57,15 +57,6 @@ create_mfcc_dataset <- function(
       magnitude_spectrograms <- tf$abs(stft_out)
       log_magnitude_spectrograms <- tf$math$log(magnitude_spectrograms + 1e-6)
       
-      stft_out_numpy <- stft_out$numpy()
-      magnitude_spectrograms_numpy <- magnitude_spectrograms$numpy()
-      log_magnitude_spectrograms_numpy <- log_magnitude_spectrograms$numpy()
-      
-      name_slice <- round(runif(1) * 1000000, 0)
-      readr::write_rds(magnitude_spectrograms_numpy, glue::glue("data_/stft_out/{name_slice}.rds"))
-      readr::write_rds(magnitude_spectrograms_numpy, glue::glue("data_/magnitude_spectrograms/{name_slice}.rds"))
-      readr::write_rds(magnitude_spectrograms_numpy, glue::glue("data_/log_magnitude_spectrograms/{name_slice}.rds"))
-      
       response <- tf$one_hot(obs$flag, num_categs)
       
       input <- tf$transpose(log_magnitude_spectrograms, perm = c(1L, 2L, 0L))
@@ -103,7 +94,7 @@ create_mfcc_dataset <- function(
                              c(0L, n_periods$numpy() - 2L - size),
                              c(0L, 0L),
                              c(0L, 0L)), shape = c(4L, 2L))
-    next_[[1]] <- tf$pad(next_[[1]], paddings, "CONSTANT")
+    if(dim(next_[[1]])[2] < 124) next_[[1]] <- tf$pad(next_[[1]], paddings, "CONSTANT")
     .x = list(
       tf$concat(list(.x[[1]], next_[[1]]), 0L),
       tf$concat(list(.x[[2]], next_[[2]]), 0L),
