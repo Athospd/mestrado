@@ -2,11 +2,10 @@
 library(mestrado)
 library(torch)
 library(torchaudio)
-library(torchvision)
 library(purrr)
 
-bcbr2_train <- birdcallbr_dataset("data-raw", 1, download = TRUE, train = TRUE)
-bcbr2_test <- birdcallbr_dataset("data-raw", 1, download = TRUE, train = FALSE)
+bcbr2_train <- birdcallbr_dataset("data-raw", 2, download = TRUE, train = TRUE)
+bcbr2_test <- birdcallbr_dataset("data-raw", 2, download = TRUE, train = FALSE)
 
 pad_sequence <- function(batch) {
   # Make all tensor in a batch the same length by padding with zeros
@@ -24,10 +23,7 @@ collate_fn <- function(batch) {
   targets <- batch$label_index
   
   # Group the list of tensors into a batched tensor
-  melspec <- transform_mel_spectrogram(n_fft = 1024, win_length = 1024, hop_length = 256, f_max = 8000, n_mels = 128, power = 1, device = device)
   tensors <- pad_sequence(tensors)$to(device = device)
-  tensors <- melspec(tensors)
-  tensors <- torch::torch_hstack(c(tensors, tensors, tensors))
   targets <- torch::torch_tensor(unlist(targets))$to(device = device)
   
   return(list(tensors = tensors, targets = targets))
@@ -59,12 +55,63 @@ bcbr2_test_dl <- dataloader(
 it <- bcbr2_train_dl$.iter()
 it$.next()
 
-model <- model_resnet18(pretrained = TRUE)
-model$parameters %>% purrr::walk(function(param) param$requires_grad_(FALSE))
-num_features <- model$fc$in_features
-model$fc <- nn_linear(in_features = num_features, out_features = length(bcbr2_train$labels))
-model <- model$to(device = device)
+Raw1DNet <- nn_module(
+  "Raw1DNet",
+  initialize = function() {
+    self$conv1 <- nn_conv1d( 1,  16, kernel_size = 64, stride = 2) # (1, 32000) --> (16, 15969)
+    self$bn1   <- nn_batch_norm1d(16) 
+    self$pool1 <- nn_avg_pool1d(8) # (16, 1996)
+    self$conv2 <- nn_conv1d(16,  32, kernel_size = 32, stride = 2) # (16, 1996) --> (32, 983)
+    self$bn2   <- nn_batch_norm1d(32)
+    self$pool2 <- nn_avg_pool1d(8) # (32, 122)
+    self$conv3 <- nn_conv1d(32,  64, kernel_size = 16, stride = 2) # (32, 123) --> (64, 54)
+    self$bn3   <- nn_batch_norm1d(64)
+    self$pool3 <- nn_avg_pool1d(8) # (64, 6)
+    self$conv4 <- nn_conv1d(64, 128, kernel_size =  2, stride = 1) # (64, 6) --> (128, 5)
+    self$bn4   <- nn_batch_norm1d(128)
+    self$pool4 <- nn_avg_pool1d(5)
+    self$lin1 <- nn_linear(128, 64)
+    self$bn5   <- nn_batch_norm1d(64)
+    self$lin2 <- nn_linear(64, 10)
+    self$bn6   <- nn_batch_norm1d(10)
+    self$lin3 <- nn_linear(10, 3)
+    self$softmax <- nn_log_softmax(2)
+  },
+  
+  forward = function(x) {
+    out <- x %>%
+      self$conv1() %>%
+      nnf_relu() %>%
+      self$bn1() %>%
+      self$pool1() %>%
+      self$conv2() %>%
+      nnf_relu() %>%
+      self$bn2() %>% 
+      self$pool2() %>%
+      self$conv3() %>%
+      nnf_relu() %>%
+      self$bn3() %>%
+      self$pool3() %>%
+      self$conv4() %>%
+      nnf_relu() %>%
+      self$bn4() 
+    
+    out <- self$pool4(out)$squeeze(3) %>% 
+      self$lin1() %>%
+      self$bn5() %>%
+      nnf_relu() %>%
+      self$lin2() %>%
+      self$bn6() %>%
+      nnf_relu() %>%
+      self$lin3() %>%
+      self$softmax()
+    
+    return(out)
+  }
+)
 
+model <- Raw1DNet()
+model$to(device = device)
 # model(bcbr2_train_dl$.iter()$.next()$tensors)
 
 str(model$parameters)
@@ -76,9 +123,8 @@ count_parameters <- function(model) {
 }
 count_parameters(model)
 
-optimizer <- torch::optim_adam(model$parameters, lr = 0.005, weight_decay = 0.001)
-scheduler <- torch::lr_step(optimizer, step_size = 10, gamma = 0.1)  # reduce the learning after 20 epochs by a factor of 10
-criterion <- nn_cross_entropy_loss()
+optimizer <- torch::optim_adam(model$parameters, lr = 0.01, weight_decay = 0.0001)
+scheduler <- torch::lr_step(optimizer, step_size = 20, gamma = 0.1)  # reduce the learning after 20 epochs by a factor of 10
 
 train <- function(model, epoch, log_interval) {
   model$train()
@@ -92,7 +138,7 @@ train <- function(model, epoch, log_interval) {
     # apply transform and model on whole batch directly on device
     output <- model(data)
     # negative log-likelihood for a tensor of size (batch x 1 x n_output)
-    loss <- criterion(output, target)$to(device = device)
+    loss <- nnf_nll_loss(output, target)$to(device = device)
     
     optimizer$zero_grad()
     loss$backward()
@@ -103,10 +149,6 @@ train <- function(model, epoch, log_interval) {
     
     # record loss
     losses <<- c(losses, loss$item()) 
-    if(batch_idx %% log_interval == 0) {
-      if(batch_idx != log_interval) dev.off()
-      plot(log10(losses), type = "l", col = "royalblue")
-    }
   }
 }
 
@@ -119,6 +161,7 @@ get_likely_index <- function(tensor) {
   # find most likely label index for each element in the batch
   return(tensor$argmax(dim=-1L) + 1L)
 }
+
 
 test <- function(model, epoch) {
   model$eval()
@@ -146,8 +189,8 @@ Test Epoch: {epoch}	Accuracy: {correct}/{length(bcbr2_test_dl$dataset)} ({scales
 
 
 
-log_interval <- 10
-n_epoch <- 20
+log_interval <- 20
+n_epoch <- 5
 
 losses <- c()
 
@@ -158,5 +201,6 @@ for(epoch in seq.int(n_epoch)) {
   
   train(model, epoch, log_interval)
   test(model, epoch)
+  plot(losses, type = "l", col = "royalblue")
   scheduler$step()
 }

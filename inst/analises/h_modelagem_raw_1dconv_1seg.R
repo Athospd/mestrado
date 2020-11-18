@@ -4,8 +4,8 @@ library(torch)
 library(torchaudio)
 library(purrr)
 
-bcbr2_train <- birdcallbr_dataset("data-raw", 2, download = TRUE, train = TRUE)
-bcbr2_test <- birdcallbr_dataset("data-raw", 2, download = TRUE, train = FALSE)
+bcbr2_train <- birdcallbr_dataset("data-raw", 1, download = TRUE, train = TRUE)
+bcbr2_test <- birdcallbr_dataset("data-raw", 1, download = TRUE, train = FALSE)
 
 pad_sequence <- function(batch) {
   # Make all tensor in a batch the same length by padding with zeros
@@ -23,8 +23,8 @@ collate_fn <- function(batch) {
   targets <- batch$label_index
   
   # Group the list of tensors into a batched tensor
-  tensors <- pad_sequence(tensors)
-  targets <- torch::torch_tensor(unlist(targets))
+  tensors <- pad_sequence(tensors)$to(device = device)
+  targets <- torch::torch_tensor(unlist(targets))$to(device = device)
   
   return(list(tensors = tensors, targets = targets))
 }
@@ -58,17 +58,18 @@ it$.next()
 Raw1DNet <- nn_module(
   "Raw1DNet",
   initialize = function() {
-    self$conv1 <- nn_conv1d( 1,  16, kernel_size = 64, stride = 2) # (1, 32000) --> (16, 15969)
+    self$conv1 <- nn_conv1d( 1,  16, kernel_size = 64, stride = 2) # (1, 16000) --> (16, 7969)
     self$bn1   <- nn_batch_norm1d(16) 
-    self$pool1 <- nn_avg_pool1d(8) # (16, 1996)
-    self$conv2 <- nn_conv1d(16,  32, kernel_size = 32, stride = 2) # (16, 1996) --> (32, 983)
+    self$pool1 <- nn_avg_pool1d(8) # (16, 996)
+    self$conv2 <- nn_conv1d(16,  32, kernel_size = 32, stride = 2) # (16, 1996) --> (32, 483)
     self$bn2   <- nn_batch_norm1d(32)
-    self$pool2 <- nn_avg_pool1d(8) # (32, 122)
-    self$conv3 <- nn_conv1d(32,  64, kernel_size = 16, stride = 2) # (32, 123) --> (64, 54)
+    self$pool2 <- nn_avg_pool1d(8) # (32, 60)
+    self$conv3 <- nn_conv1d(32,  64, kernel_size = 16, stride = 2) # (32, 123) --> (64, 23)
     self$bn3   <- nn_batch_norm1d(64)
-    self$pool3 <- nn_avg_pool1d(8) # (64, 6)
-    self$conv4 <- nn_conv1d(64, 128, kernel_size =  2, stride = 1) # (64, 6) --> (128, 5)
+    self$pool3 <- nn_avg_pool1d(2) # (64, 11)
+    self$conv4 <- nn_conv1d(64, 128, kernel_size =  2, stride = 1) # (64, 11) --> (128, 10)
     self$bn4   <- nn_batch_norm1d(128)
+    self$pool4 <- nn_avg_pool1d(10)
     self$lin1 <- nn_linear(128, 64)
     self$bn5   <- nn_batch_norm1d(64)
     self$lin2 <- nn_linear(64, 10)
@@ -95,7 +96,7 @@ Raw1DNet <- nn_module(
       nnf_relu() %>%
       self$bn4() 
     
-    out <- nnf_avg_pool1d(out, 5)$squeeze(3) %>% 
+    out <- self$pool4(out)$squeeze(3) %>% 
       self$lin1() %>%
       self$bn5() %>%
       nnf_relu() %>%
@@ -122,8 +123,9 @@ count_parameters <- function(model) {
 }
 count_parameters(model)
 
-optimizer <- torch::optim_adam(model$parameters, lr = 0.01, weight_decay = 0.0001)
-scheduler <- torch::lr_step(optimizer, step_size = 20, gamma = 0.1)  # reduce the learning after 20 epochs by a factor of 10
+optimizer <- torch::optim_sgd(model$parameters, lr = 0.005, weight_decay = 0.00001)
+scheduler <- torch::lr_step(optimizer, step_size = 10, gamma = 0.1)  # reduce the learning after 20 epochs by a factor of 10
+criterion <- nn_nll_loss()
 
 train <- function(model, epoch, log_interval) {
   model$train()
@@ -137,7 +139,7 @@ train <- function(model, epoch, log_interval) {
     # apply transform and model on whole batch directly on device
     output <- model(data)
     # negative log-likelihood for a tensor of size (batch x 1 x n_output)
-    loss <- nnf_nll_loss(output, target)
+    loss <- criterion(output, target)$to(device = device)
     
     optimizer$zero_grad()
     loss$backward()
@@ -148,8 +150,14 @@ train <- function(model, epoch, log_interval) {
     
     # record loss
     losses <<- c(losses, loss$item()) 
+    if(batch_idx %% log_interval == 0) {
+      if(batch_idx != log_interval) dev.off()
+      plot(log10(losses), type = "l", col = "royalblue")
+    }
   }
 }
+
+
 
 number_of_correct <- function(pred, target) {
   # count number of correct predictions
@@ -161,11 +169,11 @@ get_likely_index <- function(tensor) {
   return(tensor$argmax(dim=-1L) + 1L)
 }
 
-
 test <- function(model, epoch) {
   model$eval()
   correct <- 0
   batches <- enumerate(bcbr2_test_dl)
+  obs_vs_pred <- data.frame(obs = integer(0), pred = numeric(0))
   for(batch_idx in seq_along(batches)) {
     batch <- batches[batch_idx][[1]]
     data <- batch[[1]]$to(device = device)
@@ -176,20 +184,20 @@ test <- function(model, epoch) {
     
     pred <- get_likely_index(output)
     correct <- correct + number_of_correct(pred, target)
+    obs_vs_pred <- rbind(obs_vs_pred, data.frame(obs = as.integer(target$to(device = torch_device("cpu"))), pred = as.numeric(pred$to(device = torch_device("cpu")))))
     
     # update progress bar
     pbar$tick()
   }
-  
-  print(glue::glue("
-Test Epoch: {epoch}	Accuracy: {correct}/{length(bcbr2_test_dl$dataset)} ({scales::percent(correct / length(bcbr2_test_dl$dataset))})"))
+  print(glue::glue("Test Epoch: {epoch}	Accuracy: {correct}/{length(bcbr2_test_dl$dataset)} ({scales::percent(correct / length(bcbr2_test_dl$dataset))})"))
+  print(obs_vs_pred %>% dplyr::mutate_all(as.factor) %>% yardstick::conf_mat(obs, pred))
 }
 
 
 
 
 log_interval <- 20
-n_epoch <- 5
+n_epoch <- 50
 
 losses <- c()
 
@@ -203,3 +211,4 @@ for(epoch in seq.int(n_epoch)) {
   plot(losses, type = "l", col = "royalblue")
   scheduler$step()
 }
+
