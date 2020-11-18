@@ -32,5 +32,6 @@ Suggests:
     IRanges,
     keras,
     tensorflow,
-    tfdatasets
+    tfdatasets,
+    torch
 VignetteBuilder: knitr
