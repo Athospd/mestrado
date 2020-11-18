@@ -81,6 +81,7 @@ birdcallbr_dataset <- torch::dataset(
     filepath = file.path(path, paste0("wavs_", audio_duration, "ms"), wave_slice$slice_id)
     label = wave_slice$label
     label_one_hot = self$one_hot_encode(label)
+    label_index = self$label_to_index(label)
     
     # Load audio
     waveform_and_sample_rate = torchaudio::torchaudio_load(filepath, normalization = FALSE)
@@ -92,7 +93,12 @@ birdcallbr_dataset <- torch::dataset(
                 filepath = filepath,
                 sample_rate = sample_rate,
                 label = label,
-                label_one_hot = label_one_hot))
+                label_one_hot = label_one_hot,
+                label_index = label_index))
+  },
+  
+  label_to_index = function(label) {
+    which(self$labels == label)
   },
   
   one_hot_encode = function(label) {
