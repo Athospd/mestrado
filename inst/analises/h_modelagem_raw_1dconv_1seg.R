@@ -156,13 +156,13 @@ train <- function(model, epoch, log_interval) {
 
 
 
+# count number of correct predictions
 number_of_correct <- function(pred, target) {
-  # count number of correct predictions
   return(pred$squeeze()$eq(target)$sum()$item())
 }
 
+# find most likely label index for each element in the batch
 get_likely_index <- function(tensor) {
-  # find most likely label index for each element in the batch
   return(tensor$argmax(dim=-1L) + 1L)
 }
 
@@ -181,7 +181,13 @@ test <- function(model, epoch) {
     
     pred <- get_likely_index(output)
     correct <- correct + number_of_correct(pred, target)
-    obs_vs_pred <- rbind(obs_vs_pred, data.frame(obs = as.integer(target$to(device = torch_device("cpu"))), pred = as.numeric(pred$to(device = torch_device("cpu")))))
+    obs_vs_pred <- rbind(
+      obs_vs_pred, 
+      data.frame(
+        obs = as.integer(target$to(device = torch_device("cpu"))), 
+        pred = as.numeric(pred$to(device = torch_device("cpu")))
+      )
+    )
     
     # update progress bar
     pbar$tick()

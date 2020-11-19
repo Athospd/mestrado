@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -123,6 +123,9 @@ the slices of every file of a vector of mp3 file names." />
     <li>
       <a href="../articles/06-data-train-test-spliting.html">Data Train/Test Spliting</a>
     </li>
+    <li>
+      <a href="../articles/09-modeling-raw-audio-1dconv.html">Modeling - Raw Audio + 1DConv</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -198,13 +201,13 @@ the slices of every file of a vector of mp3 file names.</p>
 
 <span class='va'>slices_path</span> <span class='op'>&lt;-</span> <span class='fu'>slice_wavs</span><span class='op'>(</span><span class='va'>wav_dir</span>, <span class='va'>temp_dir</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='input'><span class='va'>slices_path</span>
-</div><div class='output co'>#&gt; [1] "/tmp/RtmpRkl5Za"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "/tmp/Rtmplo0aRK"</div><div class='input'>
 <span class='va'>slices</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>slices_path</span><span class='op'>)</span>
 <span class='va'>slices</span><span class='op'>[</span><span class='fl'>4</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; [1] "file5d217271e539.txt"                  
+</div><div class='output co'>#&gt; [1] "file337770814099.so"                   
 #&gt; [2] "Glaucidium-minutissimum-24426@0@0@.wav"
 #&gt; [3] "libloc_169_8f48fc7d1db1bb3e.rds"       
-#&gt; [4] "libloc_191_2a3ca631eb71c4b7.rds"       </div></pre>
+#&gt; [4] "libloc_190_d0f9766fb89cc631.rds"       </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

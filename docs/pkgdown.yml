@@ -8,7 +8,8 @@ articles:
   04-data-annotation: 04-data-annotation.html
   05-data-labeling: 05-data-labeling.html
   06-data-train-test-spliting: 06-data-train-test-spliting.html
-last_built: 2020-11-19T04:03Z
+  09-modeling-raw-audio-1dconv: 09-modeling-raw-audio-1dconv.html
+last_built: 2020-11-19T06:05Z
 urls:
   reference: https://athospd.github.io/mestrado//reference
   article: https://athospd.github.io/mestrado//articles
