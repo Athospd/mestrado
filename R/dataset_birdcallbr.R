@@ -112,6 +112,7 @@ birdcallbr_dataset <- torch::dataset(
   },
   
   show_melspec = function(n) {
+    
     mestrado::plot_pixel_matrix(torchaudio::transform_mel_spectrogram()(self[n]$waveform)$squeeze(1))
   },
   

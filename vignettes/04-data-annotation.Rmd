@@ -10,7 +10,9 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
 )
 ```
 
@@ -37,14 +39,14 @@ annotator_app(
 The inputs are two folders: one indicating where the wave files are and other indicating where you want to store the acutal annotations. The Shiny app migth look like this:
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
-knitr::include_graphics("../inst/img/annotator.gif")
+knitr::include_graphics("inst/img/annotator.gif")
 ```
 
 The final product of each annotation is a `tibble`. Example follows:
 
 ```{r, echo=FALSE, message = FALSE, warning=FALSE}
 library(dplyr)
-readRDS("../data_/anotacoes/Megascops-atricapilla-99919.rds") %>%
+readRDS(system.file("annotations/Glaucidium-minutissimum-24426.rds", package = "mestrado")) %>%
   mutate(
     region_id = gsub("wavesurfer_", "", region_id),
     start = round(start, 2),

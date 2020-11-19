@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Data Annotation • mestrado</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -77,6 +77,9 @@
     <li>
       <a href="../articles/06-data-train-test-spliting.html">Data Train/Test Spliting</a>
     </li>
+    <li>
+      <a href="../articles/09-modeling-raw-audio-1dconv.html">Modeling - Raw Audio + 1DConv</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -97,7 +100,8 @@
 
       
 
-      </header><div class="row">
+      </header><script src="04-data-annotation_files/kePrint-0.0.1/kePrint.js"></script><link href="04-data-annotation_files/lightable-0.0.1/lightable.css" rel="stylesheet">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Data Annotation</h1>
@@ -110,62 +114,157 @@
 
     
     
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">mestrado</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">mestrado</span><span class="op">)</span></code></pre></div>
 <p>Annotate audio is the most laborous (and maybe tedious) part of any machine learning project. You are lucky if the labels are already there for you. The main package in this section is {wavesurfer}.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># remotes::install_github("athospd/wavesurfer")</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">wavesurfer</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># remotes::install_github("athospd/wavesurfer")</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/athospd/wavesurfer/issues">wavesurfer</a></span><span class="op">)</span></code></pre></div>
 <p>Here it is a working example:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">where_I_want_to_store_the_annotations</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>()
-<span class="fu"><a href="https://rdrr.io/pkg/wavesurfer/man/annotator_app.html">annotator_app</a></span>(
-  <span class="kw">wavs_folder</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"wav_sample"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"mestrado"</span>),
-  <span class="kw">annotations_folder</span> <span class="kw">=</span> <span class="no">where_I_want_to_store_the_annotations</span>
-)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">where_I_want_to_store_the_annotations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/wavesurfer/man/annotator_app.html">annotator_app</a></span><span class="op">(</span>
+  wavs_folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"wav_sample"</span>, package <span class="op">=</span> <span class="st">"mestrado"</span><span class="op">)</span>, 
+  annotations_folder <span class="op">=</span> <span class="va">where_I_want_to_store_the_annotations</span>
+<span class="op">)</span></code></pre></div>
 <p>The inputs are two folders: one indicating where the wave files are and other indicating where you want to store the acutal annotations. The Shiny app migth look like this:</p>
-<p><img src="../inst/img/annotator.gif"><!-- --></p>
+<p><img src="inst/img/annotator.gif"><!-- --></p>
 <p>The final product of each annotation is a <code>tibble</code>. Example follows:</p>
-<table class="table">
-<colgroup>
-<col width="41%">
-<col width="15%">
-<col width="7%">
-<col width="7%">
-<col width="28%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">audio_id</th>
-<th align="left">region_id</th>
-<th align="right">start</th>
-<th align="right">end</th>
-<th align="left">label</th>
+<table class="table table">
+<thead><tr>
+<th style="text-align:left;">
+audio_id
+</th>
+<th style="text-align:left;">
+region_id
+</th>
+<th style="text-align:right;">
+start
+</th>
+<th style="text-align:right;">
+end
+</th>
+<th style="text-align:left;">
+label
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="left">Megascops-atricapilla-99919.wav</td>
-<td align="left">ho1og8fj7p</td>
-<td align="right">3.99</td>
-<td align="right">13.31</td>
-<td align="left">Megascops-atricapilla</td>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-24426.wav
+</td>
+<td style="text-align:left;">
+75b415rrqd8
+</td>
+<td style="text-align:right;">
+0.19
+</td>
+<td style="text-align:right;">
+1.41
+</td>
+<td style="text-align:left;">
+Glaucidium-minutissimum
+</td>
 </tr>
-<tr class="even">
-<td align="left">Megascops-atricapilla-99919.wav</td>
-<td align="left">2d1ct319olo</td>
-<td align="right">47.93</td>
-<td align="right">55.67</td>
-<td align="left">Megascops-atricapilla</td>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-24426.wav
+</td>
+<td style="text-align:left;">
+4nt181nsvl
+</td>
+<td style="text-align:right;">
+4.26
+</td>
+<td style="text-align:right;">
+5.56
+</td>
+<td style="text-align:left;">
+Glaucidium-minutissimum
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-24426.wav
+</td>
+<td style="text-align:left;">
+ootdh1hriqg
+</td>
+<td style="text-align:right;">
+8.55
+</td>
+<td style="text-align:right;">
+10.18
+</td>
+<td style="text-align:left;">
+Glaucidium-minutissimum
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-24426.wav
+</td>
+<td style="text-align:left;">
+ar4jis448p
+</td>
+<td style="text-align:right;">
+13.92
+</td>
+<td style="text-align:right;">
+15.37
+</td>
+<td style="text-align:left;">
+Glaucidium-minutissimum
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-24426.wav
+</td>
+<td style="text-align:left;">
+7i7a77cqqsg
+</td>
+<td style="text-align:right;">
+19.59
+</td>
+<td style="text-align:right;">
+21.26
+</td>
+<td style="text-align:left;">
+Glaucidium-minutissimum
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glaucidium-minutissimum-24426.wav
+</td>
+<td style="text-align:left;">
+oubnm1mie9
+</td>
+<td style="text-align:right;">
+24.55
+</td>
+<td style="text-align:right;">
+26.29
+</td>
+<td style="text-align:left;">
+Glaucidium-minutissimum
+</td>
 </tr>
 </tbody>
 </table>
 <p>And that’s all! Once annotated, you are ready to go to the labelling task.</p>
 <p>PS: you can find samples of these tibbles inside the package:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"annotations"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"mestrado"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="kw">full.names</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="co">#&gt; [1] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Glaucidium-minutissimum-24426.rds"  </span>
-<span class="co">#&gt; [2] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Megascops-atricapilla-1261496.rds"  </span>
-<span class="co">#&gt; [3] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Megascops-atricapilla-1393458.rds"  </span>
-<span class="co">#&gt; [4] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Megascops-choliba-118111.rds"       </span>
-<span class="co">#&gt; [5] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Megascops-choliba-1891062.rds"      </span>
-<span class="co">#&gt; [6] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Pulsatrix-koeniswaldiana-365658.rds"</span>
-<span class="co">#&gt; [7] "/tmp/RtmpAK9qh2/temp_libpath39705b9156cd/mestrado/annotations/Pulsatrix-koeniswaldiana-393745.rds"</span></pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"annotations"</span>, package <span class="op">=</span> <span class="st">"mestrado"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; [1] "/tmp/Rtmp5PtfF0/temp_libpath2fc46d094fd/mestrado/annotations/Glaucidium-minutissimum-24426.rds"  </span>
+<span class="co">#&gt; [2] "/tmp/Rtmp5PtfF0/temp_libpath2fc46d094fd/mestrado/annotations/Megascops-atricapilla-1261496.rds"  </span>
+<span class="co">#&gt; [3] "/tmp/Rtmp5PtfF0/temp_libpath2fc46d094fd/mestrado/annotations/Megascops-atricapilla-1393458.rds"  </span>
+<span class="co">#&gt; [4] "/tmp/Rtmp5PtfF0/temp_libpath2fc46d094fd/mestrado/annotations/Megascops-choliba-118111.rds"       </span>
+<span class="co">#&gt; [5] "/tmp/Rtmp5PtfF0/temp_libpath2fc46d094fd/mestrado/annotations/Megascops-choliba-1891062.rds"      </span>
+<span class="co">#&gt; [6] "/tmp/Rtmp5PtfF0/temp_libpath2fc46d094fd/mestrado/annotations/Pulsatrix-koeniswaldiana-365658.rds"</span>
+<span class="co">#&gt; [7] "/tmp/Rtmp5PtfF0/temp_libpath2fc46d094fd/mestrado/annotations/Pulsatrix-koeniswaldiana-393745.rds"</span></code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -181,7 +280,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

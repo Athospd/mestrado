@@ -52,9 +52,6 @@ bcbr2_test_dl <- dataloader(
   num_workers = num_workers, pin_memory = pin_memory
 )
 
-it <- bcbr2_train_dl$.iter()
-it$.next()
-
 Raw1DNet <- nn_module(
   "Raw1DNet",
   initialize = function() {
@@ -159,13 +156,13 @@ train <- function(model, epoch, log_interval) {
 
 
 
+# count number of correct predictions
 number_of_correct <- function(pred, target) {
-  # count number of correct predictions
   return(pred$squeeze()$eq(target)$sum()$item())
 }
 
+# find most likely label index for each element in the batch
 get_likely_index <- function(tensor) {
-  # find most likely label index for each element in the batch
   return(tensor$argmax(dim=-1L) + 1L)
 }
 
@@ -184,7 +181,13 @@ test <- function(model, epoch) {
     
     pred <- get_likely_index(output)
     correct <- correct + number_of_correct(pred, target)
-    obs_vs_pred <- rbind(obs_vs_pred, data.frame(obs = as.integer(target$to(device = torch_device("cpu"))), pred = as.numeric(pred$to(device = torch_device("cpu")))))
+    obs_vs_pred <- rbind(
+      obs_vs_pred, 
+      data.frame(
+        obs = as.integer(target$to(device = torch_device("cpu"))), 
+        pred = as.numeric(pred$to(device = torch_device("cpu")))
+      )
+    )
     
     # update progress bar
     pbar$tick()
@@ -194,9 +197,7 @@ test <- function(model, epoch) {
 }
 
 
-
-
-log_interval <- 20
+log_interval <- 40
 n_epoch <- 50
 
 losses <- c()
@@ -212,3 +213,24 @@ for(epoch in seq.int(n_epoch)) {
   scheduler$step()
 }
 
+
+# desempenho --------------------------------------------------------------
+# Accuracy: 2934/3316 (88%)
+#           Truth
+# Prediction    1    2    3
+#          1  246   39    3
+#          2   60 2286  207
+#          3    0   73  402
+
+
+# guarda ------------------------------------------------------------------
+# torch::torch_save(model, "inst/modelos/raw_1dconv_1seg.pt")
+
+
+# recarrega ---------------------------------------------------------------
+model <- torch::torch_load("inst/modelos/raw_1dconv_1seg.pt")
+model$parameters %>% purrr::walk(function(param) param$requires_grad_(TRUE))
+
+
+# predicao de uma imagem --------------------------------------------------
+# TO DO

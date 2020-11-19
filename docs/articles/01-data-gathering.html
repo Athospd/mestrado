@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Data and MP3 Gathering • mestrado</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -77,6 +77,9 @@
     <li>
       <a href="../articles/06-data-train-test-spliting.html">Data Train/Test Spliting</a>
     </li>
+    <li>
+      <a href="../articles/09-modeling-raw-audio-1dconv.html">Modeling - Raw Audio + 1DConv</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -110,42 +113,47 @@
 
     
     
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">fs</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://fs.r-lib.org">fs</a></span><span class="op">)</span></code></pre></div>
 <p>Steps: - 1) create a vector of all species of interest. - 2) decide if want to download mp3 or not. - 3) set directory for mp3 storage.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># list here all the species.</span>
-<span class="no">bird_species</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"megascops choliba"</span>,
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># list here all the species.</span>
+<span class="va">bird_species</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"megascops choliba"</span>,
                   <span class="st">"strix hylophila"</span>,
                   <span class="st">"pulsatrix koeniswaldiana"</span>,
                   <span class="st">"megascops atricapilla"</span>,
-                  <span class="st">"glaucidium minutissimum"</span>)
+                  <span class="st">"glaucidium minutissimum"</span><span class="op">)</span>
 
 <span class="co"># Should the MP3 be downloaded to the hard disk?</span>
-<span class="no">download</span> <span class="kw">&lt;-</span> <span class="fl">TRUE</span>
+<span class="va">download</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span>
 
 <span class="co"># insert here which folder do you want to store the mp3 files.</span>
-<span class="no">dir</span> <span class="kw">&lt;-</span> <span class="st">"data-raw/mp3_originals"</span>
-<span class="kw">if</span>(!<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span>(<span class="no">dir</span>)) <span class="kw pkg">fs</span><span class="kw ns">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/create.html">dir_create</a></span>(<span class="no">dir</span>)</pre></body></html></div>
+<span class="va">dir</span> <span class="op">&lt;-</span> <span class="st">"dados/mp3_originals"</span>
+<span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/file_access.html">dir_exists</a></span><span class="op">(</span><span class="va">dir</span><span class="op">)</span><span class="op">)</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/create.html">dir_create</a></span><span class="op">(</span><span class="va">dir</span><span class="op">)</span></code></pre></div>
 <div id="xeno-canto-data-and-mp3" class="section level2">
 <h2 class="hasAnchor">
 <a href="#xeno-canto-data-and-mp3" class="anchor"></a>Xeno-canto data and MP3</h2>
-<p>The <a href="https://cran.r-project.org/web/packages/warbleR/vignettes/warbleR_workflow_01.html#obtain_metadata_and_recordings_from_xeno-canto"><code><a href="https://rdrr.io/pkg/warbleR/man/querxc.html">warbleR::querxc()</a></code></a> function retrieve mp3 files from xeno-canto.org repository.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">warbleR</span>)
+<p>The <a href="https://cran.r-project.org/web/packages/warbleR/vignettes/warbleR_workflow_01.html#obtain_metadata_and_recordings_from_xeno-canto"><code>warbleR::querxc()</code></a> function retrieve mp3 files from xeno-canto.org repository.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marce10.github.io/warbleR">warbleR</a></span><span class="op">)</span>
 
 <span class="co"># set donwload = TRUE for download the files to your hard disk.</span>
-<span class="no">metadata_xc</span> <span class="kw">&lt;-</span> <span class="kw pkg">tibble</span><span class="kw ns">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(<span class="kw">species</span> <span class="kw">=</span> <span class="no">bird_species</span>)
-<span class="no">metadata_xc</span>$<span class="no">mp3_xc</span> <span class="kw">=</span> <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">bird_species</span>, ~<span class="fu"><a href="https://rdrr.io/pkg/warbleR/man/querxc.html">querxc</a></span>(<span class="no">.x</span>, <span class="kw">download</span> <span class="kw">=</span> <span class="no">download</span>, <span class="kw">path</span> <span class="kw">=</span> <span class="no">dir</span>))</pre></body></html></div>
+<span class="va">metadata_xc</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>species <span class="op">=</span> <span class="va">bird_species</span><span class="op">)</span>
+<span class="va">metadata_xc</span><span class="op">$</span><span class="va">mp3_xc</span> <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">bird_species</span>, <span class="op">~</span><span class="fu"><a href="https://marce10.github.io/warbleR/reference/querxc.html">querxc</a></span><span class="op">(</span><span class="va">.x</span>, download <span class="op">=</span> <span class="va">download</span>, path <span class="op">=</span> <span class="va">dir</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="wikiaves-data-and-mp3" class="section level2">
 <h2 class="hasAnchor">
 <a href="#wikiaves-data-and-mp3" class="anchor"></a>Wikiaves data and MP3</h2>
 <p>The package <a href="https://athospd.github.io/wikiaves/">{wikiaves}</a> is not on CRAN yet. Github install only.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co"># install.packages("remotes")</span>
-<span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"Athospd/wikiaves"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">wikiaves</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># set donwload = TRUE for download the files to your hard disk.</span>
-<span class="no">metadata_wa</span> <span class="kw">&lt;-</span> <span class="no">bird_species</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/wikiaves/man/wa_metadata.html">wa_metadata</a></span>(<span class="kw">download</span> <span class="kw">=</span> <span class="no">download</span>, <span class="kw">path</span> <span class="kw">=</span> <span class="no">dir</span>) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">nest</a></span>(<span class="kw">mp3_wa</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="no">term</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="co"># remotes::install_github("Athospd/wikiaves")</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">wikiaves</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># set donwload = TRUE for download the files to your hard disk.</span>
+<span class="va">metadata_wa</span> <span class="op">&lt;-</span> <span class="va">bird_species</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/wikiaves/man/wa_metadata.html">wa_metadata</a></span><span class="op">(</span>download <span class="op">=</span> <span class="va">download</span>, path <span class="op">=</span> <span class="va">dir</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">nest</a></span><span class="op">(</span>mp3_wa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="va">term</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
   </div>
 
@@ -164,7 +172,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

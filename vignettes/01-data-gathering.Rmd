@@ -32,8 +32,8 @@ bird_species <- c("megascops choliba",
 download <- TRUE
 
 # insert here which folder do you want to store the mp3 files.
-dir <- "data-raw/mp3_originals"
-if(!dir.exists(dir)) fs::dir_create(dir)
+dir <- "dados/mp3_originals"
+if(!fs::dir_exists(dir)) fs::dir_create(dir)
 ```
 
 ## Xeno-canto data and MP3
@@ -54,7 +54,7 @@ The package [{wikiaves}](https://athospd.github.io/wikiaves/) is not on CRAN yet
 
 ```{r, eval = FALSE}
 # install.packages("remotes")
-remotes::install_github("Athospd/wikiaves")
+# remotes::install_github("Athospd/wikiaves")
 library(wikiaves)
 ```
 

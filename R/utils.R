@@ -7,7 +7,7 @@
 plot_pixel_matrix <- function(pixel_matrix, title = "") {
   pixel_matrix_as_array <- as.array(pixel_matrix)
   image(
-    t(pixel_matrix_as_array),
+    t(pixel_matrix_as_array), xlab = title,
     col = viridis::viridis(n = 257,  option = "magma")  
   ) 
 }

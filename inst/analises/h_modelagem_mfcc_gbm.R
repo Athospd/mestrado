@@ -176,11 +176,10 @@ predictions %>% conf_mat(target, .pred_class)
 
 
 # guarda ------------------------------------------------------------------
-saveRDS(last_fit_lgb, "inst/modelos/mfcc_gbm_1seg.rds")
-lgb.
+# saveRDS(last_fit_lgb, "inst/modelos/mfcc_gbm_1seg.rds")
+# lightgbm::saveRDS.lgb.Booster(last_fit_lgb$.workflow[[1]]$fit$fit$fit, "inst/modelos/mfcc_gbm_1seg_lgb_Booster.rds")
 
 # recarrega ---------------------------------------------------------------
-# model <- torch::torch_load("inst/modelos/melspectrogram_resnet18_1seg.pt")
-
+# last_fit_lgb <- readRDS("inst/modelos/mfcc_gbm_1seg.rds")
 # predicao de uma imagem --------------------------------------------------
 # TO DO

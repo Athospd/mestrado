@@ -34,7 +34,7 @@ mp3_files <- list.files(mp3_dir, full.names = TRUE)
 
 temp_dir <- tempdir()
 
-wav_files <- tidy_audio(mp3_files, temp_dir)
+wav_files <- tidy_audio_dir(mp3_files, temp_dir)
 ```
 
 By default the files are stored in disk in a temporary folder, but it can be set by the user. Be aware because the default behaviour is to overwrite files.
@@ -75,7 +75,7 @@ wavs_ok <- stringr::str_replace(list.files("data-raw/wavs", pattern = "wav$", fu
 # filter out those that were processed already and the black listed ones.
 mp3_files <- mp3_files[!mp3_files %in% c(wavs_ok, black_list)]
 
-wav_files <- tidy_audio(mp3_files, dest_dir = "data-raw/wavs")
+wav_files <- tidy_audio_dir(mp3_files, dest_dir = "data-raw/wavs")
 ```
 
 

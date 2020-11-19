@@ -162,17 +162,15 @@ for(epoch in seq.int(n_epoch)) {
   plot(losses, type = "l", col = "royalblue")
   scheduler$step()
 }
-
+  
 
 
 # guarda ------------------------------------------------------------------
-# torch::torch_save(model, "inst/modelos/raw_1dconv_1seg.pt")
+# torch::torch_save(model, "inst/modelos/melspectrogram_resnet18_1seg.pt")
 
 
 # recarrega ---------------------------------------------------------------
-# model <- torch::torch_load("inst/modelos/raw_1dconv_1seg.pt")
-# model$parameters %>% purrr::walk(function(param) param$requires_grad_(TRUE))
-
+# model <- torch::torch_load("inst/modelos/melspectrogram_resnet18_1seg.pt")
 
 # predicao de uma imagem --------------------------------------------------
 # TO DO

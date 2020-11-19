@@ -55,4 +55,8 @@ glimpse(slices_1000ms_labels)
 slices_1000ms_labels %>% head() %>% knitr::kable()
 ```
 
+```{r}
+# stores for later use
+saveRDS(slices_1000ms_labels, "../data_/slices_1000ms_labels_by_humans.rds")
+```
 
