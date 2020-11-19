@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Slice a Set of Wave Files — slice_wavs • mestrado</title>
+<title>Tidy MP3 or Wave — tidy_audio_dir • mestrado</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Slice a Set of Wave Files — slice_wavs" />
-<meta property="og:description" content="Vectorized version of slice_one_wav_*() family of functions. Store in disk 
-the slices of every file of a vector of mp3 file names." />
+<meta property="og:title" content="Tidy MP3 or Wave — tidy_audio_dir" />
+<meta property="og:description" content="Apply transformations for modelling ready audio files." />
 
 
 
@@ -146,65 +145,63 @@ the slices of every file of a vector of mp3 file names." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Slice a Set of Wave Files</h1>
+    <h1>Tidy MP3 or Wave</h1>
     
-    <div class="hidden name"><code>slice_wavs.Rd</code></div>
+    <div class="hidden name"><code>tidy_audio_dir.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Vectorized version of slice_one_wav_*() family of functions. Store in disk 
-the slices of every file of a vector of mp3 file names.</p>
+    <p>Apply transformations for modelling ready audio files.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>slice_wavs</span><span class='op'>(</span><span class='va'>audio_dir</span>, audio_dir_dest <span class='op'>=</span> <span class='cn'>NULL</span>, interval <span class='op'>=</span> <span class='fl'>1</span>, parallel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>tidy_audio_dir</span><span class='op'>(</span>
+  <span class='va'>audio_files</span>,
+  dest_dir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,
+  sample_rate <span class='op'>=</span> <span class='fl'>16000</span>,
+  bits <span class='op'>=</span> <span class='fl'>16</span>,
+  parallel <span class='op'>=</span> <span class='fl'>1</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>audio_dir</th>
-      <td></td>
+      <th>audio_files</th>
+      <td><p>character vector with the full path for the mp3 files.</p></td>
     </tr>
     <tr>
-      <th>audio_dir_dest</th>
-      <td></td>
+      <th>dest_dir</th>
+      <td><p>optional atomic character indicating the path where to store 
+the files. Default is a tempdir(). Set NULL if you want the dest dir be the
+same as origin (warning: it will overwrite the original wave files!)</p></td>
     </tr>
     <tr>
-      <th>interval</th>
-      <td></td>
+      <th>sample_rate</th>
+      <td><p>integer. Sample rate.</p></td>
     </tr>
     <tr>
-      <th>parallel</th>
-      <td></td>
-    </tr>
-    <tr>
-      <th>audio_ext</th>
-      <td></td>
+      <th>bits</th>
+      <td><p>integer.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
+    <p>a character vector of the same size of audio_files with the file names of the transformed wavs.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-
+    <p>The transformations are:</p>
+<p>- mp3 to wav
+- normalization
+- stereo to mono</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>mestrado</span><span class='op'>)</span>
+<span class='va'>mp3_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"mp3_sample"</span>, package <span class='op'>=</span> <span class='st'>"mestrado"</span><span class='op'>)</span>
+<span class='va'>mp3_files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>mp3_dir</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='va'>wav_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"wav_sample"</span>, package <span class='op'>=</span> <span class='st'>"mestrado"</span><span class='op'>)</span>
-<span class='va'>temp_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='va'>slices_path</span> <span class='op'>&lt;-</span> <span class='fu'>slice_wavs</span><span class='op'>(</span><span class='va'>wav_dir</span>, <span class='va'>temp_dir</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'from' &gt; 'to', object is unchanged</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='input'><span class='va'>slices_path</span>
-</div><div class='output co'>#&gt; [1] "/tmp/RtmpRkl5Za"</div><div class='input'>
-<span class='va'>slices</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>slices_path</span><span class='op'>)</span>
-<span class='va'>slices</span><span class='op'>[</span><span class='fl'>4</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; [1] "file5d217271e539.txt"                  
-#&gt; [2] "Glaucidium-minutissimum-24426@0@0@.wav"
-#&gt; [3] "libloc_169_8f48fc7d1db1bb3e.rds"       
-#&gt; [4] "libloc_191_2a3ca631eb71c4b7.rds"       </div></pre>
+<span class='va'>wav_files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tidy_audio.html'>tidy_audio</a></span><span class='op'>(</span><span class='va'>mp3_files</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in (function (classes, fdef, mtable) {    methods &lt;- .findInheritedMethods(classes, fdef, mtable)    if (length(methods) == 1L)         return(methods[[1L]])    else if (length(methods) == 0L) {        cnames &lt;- paste0("\"", vapply(classes, as.character,             ""), "\"", collapse = ", ")        stop(gettextf("unable to find an inherited method for function %s for signature %s",             sQuote(fdef@generic), sQuote(cnames)), domain = NA)    }    else stop("Internal error in finding inherited methods; didn't return a unique method",         domain = NA)})(list("character"), new("standardGeneric", .Data = function (object,     unit = c("1", "8", "16", "24", "32", "64", "0"), center = TRUE,     level = 1, rescale = TRUE, pcm = object@pcm) standardGeneric("normalize"), generic = structure("normalize", package = "tuneR"),     package = "tuneR", group = list(), valueClass = character(0),     signature = c("object", "unit", "center", "level", "rescale",     "pcm"), default = NULL, skeleton = (function (object, unit = c("1",         "8", "16", "24", "32", "64", "0"), center = TRUE, level = 1,         rescale = TRUE, pcm = object@pcm)     stop("invalid call in method dispatch to 'normalize' (no default method)",         domain = NA))(object, unit, center, level, rescale, pcm)),     &lt;environment&gt;): unable to find an inherited method for function ‘normalize’ for signature ‘"character"’</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

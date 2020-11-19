@@ -51,6 +51,8 @@ navbar:
         href: articles/05-data-labeling.html
       - text: Data Train/Test Spliting
         href: articles/06-data-train-test-spliting.html
+      - text: Modeling - Raw Audio + 1DConv
+        href: articles/09-modeling-raw-audio-1dconv.html
     github:
       icon: fa-github
       href: https://github.com/athospd/mestrado

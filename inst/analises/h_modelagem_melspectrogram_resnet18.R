@@ -76,7 +76,7 @@ count_parameters <- function(model) {
 }
 count_parameters(model)
 
-optimizer <- torch::optim_adam(model$parameters, lr = 0.005, weight_decay = 0.001)
+optimizer <- torch::optim_sgd(model$parameters, lr = 0.005, weight_decay = 0.00001)
 scheduler <- torch::lr_step(optimizer, step_size = 10, gamma = 0.1)  # reduce the learning after 20 epochs by a factor of 10
 criterion <- nn_cross_entropy_loss()
 
@@ -110,6 +110,8 @@ train <- function(model, epoch, log_interval) {
   }
 }
 
+
+
 number_of_correct <- function(pred, target) {
   # count number of correct predictions
   return(pred$squeeze()$eq(target)$sum()$item())
@@ -124,6 +126,7 @@ test <- function(model, epoch) {
   model$eval()
   correct <- 0
   batches <- enumerate(bcbr2_test_dl)
+  obs_vs_pred <- data.frame(obs = integer(0), pred = numeric(0))
   for(batch_idx in seq_along(batches)) {
     batch <- batches[batch_idx][[1]]
     data <- batch[[1]]$to(device = device)
@@ -134,20 +137,18 @@ test <- function(model, epoch) {
     
     pred <- get_likely_index(output)
     correct <- correct + number_of_correct(pred, target)
+    obs_vs_pred <- rbind(obs_vs_pred, data.frame(obs = as.integer(target$to(device = torch_device("cpu"))), pred = as.numeric(pred$to(device = torch_device("cpu")))))
     
     # update progress bar
     pbar$tick()
   }
-  
-  print(glue::glue("
-Test Epoch: {epoch}	Accuracy: {correct}/{length(bcbr2_test_dl$dataset)} ({scales::percent(correct / length(bcbr2_test_dl$dataset))})"))
+  print(glue::glue("Test Epoch: {epoch}	Accuracy: {correct}/{length(bcbr2_test_dl$dataset)} ({scales::percent(correct / length(bcbr2_test_dl$dataset))})"))
+  print(obs_vs_pred %>% dplyr::mutate_all(as.factor) %>% yardstick::conf_mat(obs, pred))
 }
 
 
-
-
-log_interval <- 10
-n_epoch <- 20
+log_interval <- 40
+n_epoch <- 50
 
 losses <- c()
 
@@ -158,5 +159,20 @@ for(epoch in seq.int(n_epoch)) {
   
   train(model, epoch, log_interval)
   test(model, epoch)
+  plot(losses, type = "l", col = "royalblue")
   scheduler$step()
 }
+
+
+
+# guarda ------------------------------------------------------------------
+# torch::torch_save(model, "inst/modelos/raw_1dconv_1seg.pt")
+
+
+# recarrega ---------------------------------------------------------------
+# model <- torch::torch_load("inst/modelos/raw_1dconv_1seg.pt")
+# model$parameters %>% purrr::walk(function(param) param$requires_grad_(TRUE))
+
+
+# predicao de uma imagem --------------------------------------------------
+# TO DO

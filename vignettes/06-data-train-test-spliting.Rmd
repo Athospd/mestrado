@@ -26,7 +26,7 @@ Data Train/Test spliting must be done at audio file level (by `audio_id`), not s
 ```{r, eval=FALSE}
 set.seed(1)
 # load .rds file built at data-labeling step
-audio_ids <- readr::read_rds(glue::glue("data_/slices_1000ms_labels_by_humans.rds")) %>% 
+audio_ids <- readr::read_rds(glue::glue("../data_/slices_1000ms_labels_by_humans.rds")) %>% 
   distinct(audio_id)
 
 # 85% for training/ 15% for testing (could be any %)
@@ -37,4 +37,15 @@ audio_ids_test <- audio_ids %>% anti_join(audio_ids_train)
 readr::write_rds(audio_ids_train, "data_/audio_ids_train.rds")
 readr::write_rds(audio_ids_test, "data_/audio_ids_test.rds")
 ```
+
+``` r
+audio_ids
+#> # A tibble: 3 x 1
+#>   audio_id                         
+#>   <chr>                            
+#> 1 Glaucidium-minutissimum-24426.wav
+#> 2 Megascops-atricapilla-1261496.wav
+#> 3 Megascops-atricapilla-1393458.wav
+```
+
 

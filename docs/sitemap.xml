@@ -4,6 +4,9 @@
     <loc>https://athospd.github.io/mestrado//index.html</loc>
   </url>
   <url>
+    <loc>https://athospd.github.io/mestrado//reference/birdcallbr_dataset.html</loc>
+  </url>
+  <url>
     <loc>https://athospd.github.io/mestrado//reference/identity_resampling.html</loc>
   </url>
   <url>
@@ -16,7 +19,7 @@
     <loc>https://athospd.github.io/mestrado//reference/pipe.html</loc>
   </url>
   <url>
-    <loc>https://athospd.github.io/mestrado//reference/plot_spectrogram_matrix.html</loc>
+    <loc>https://athospd.github.io/mestrado//reference/plot_pixel_matrix.html</loc>
   </url>
   <url>
     <loc>https://athospd.github.io/mestrado//reference/slice_one_wav_randomly.html</loc>

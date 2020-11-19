@@ -2,6 +2,7 @@
 library(mestrado)
 library(torch)
 library(torchaudio)
+library(torchvision)
 library(purrr)
 
 bcbr2_train <- birdcallbr_dataset("data-raw", 1, download = TRUE, train = TRUE)
@@ -23,7 +24,10 @@ collate_fn <- function(batch) {
   targets <- batch$label_index
   
   # Group the list of tensors into a batched tensor
+  melspec <- transform_mel_spectrogram(n_fft = 1024, win_length = 1024, hop_length = 256, f_max = 8000, n_mels = 128, power = 1, device = device)
   tensors <- pad_sequence(tensors)$to(device = device)
+  tensors <- melspec(tensors)
+  tensors <- torch::torch_hstack(c(tensors, tensors, tensors))
   targets <- torch::torch_tensor(unlist(targets))$to(device = device)
   
   return(list(tensors = tensors, targets = targets))
@@ -52,63 +56,15 @@ bcbr2_test_dl <- dataloader(
   num_workers = num_workers, pin_memory = pin_memory
 )
 
-Raw1DNet <- nn_module(
-  "Raw1DNet",
-  initialize = function() {
-    self$conv1 <- nn_conv1d( 1,  16, kernel_size = 64, stride = 2) # (1, 16000) --> (16, 7969)
-    self$bn1   <- nn_batch_norm1d(16) 
-    self$pool1 <- nn_avg_pool1d(8) # (16, 996)
-    self$conv2 <- nn_conv1d(16,  32, kernel_size = 32, stride = 2) # (16, 1996) --> (32, 483)
-    self$bn2   <- nn_batch_norm1d(32)
-    self$pool2 <- nn_avg_pool1d(8) # (32, 60)
-    self$conv3 <- nn_conv1d(32,  64, kernel_size = 16, stride = 2) # (32, 123) --> (64, 23)
-    self$bn3   <- nn_batch_norm1d(64)
-    self$pool3 <- nn_avg_pool1d(2) # (64, 11)
-    self$conv4 <- nn_conv1d(64, 128, kernel_size =  2, stride = 1) # (64, 11) --> (128, 10)
-    self$bn4   <- nn_batch_norm1d(128)
-    self$pool4 <- nn_avg_pool1d(10)
-    self$lin1 <- nn_linear(128, 64)
-    self$bn5   <- nn_batch_norm1d(64)
-    self$lin2 <- nn_linear(64, 10)
-    self$bn6   <- nn_batch_norm1d(10)
-    self$lin3 <- nn_linear(10, 3)
-    self$softmax <- nn_log_softmax(2)
-  },
-  
-  forward = function(x) {
-    out <- x %>%
-      self$conv1() %>%
-      nnf_relu() %>%
-      self$bn1() %>%
-      self$pool1() %>%
-      self$conv2() %>%
-      nnf_relu() %>%
-      self$bn2() %>% 
-      self$pool2() %>%
-      self$conv3() %>%
-      nnf_relu() %>%
-      self$bn3() %>%
-      self$pool3() %>%
-      self$conv4() %>%
-      nnf_relu() %>%
-      self$bn4() 
-    
-    out <- self$pool4(out)$squeeze(3) %>% 
-      self$lin1() %>%
-      self$bn5() %>%
-      nnf_relu() %>%
-      self$lin2() %>%
-      self$bn6() %>%
-      nnf_relu() %>%
-      self$lin3() %>%
-      self$softmax()
-    
-    return(out)
-  }
-)
+it <- bcbr2_train_dl$.iter()
+it$.next()
 
-model <- Raw1DNet()
-model$to(device = device)
+model <- model_resnet18(pretrained = TRUE)
+model$parameters %>% purrr::walk(function(param) param$requires_grad_(FALSE))
+num_features <- model$fc$in_features
+model$fc <- nn_linear(in_features = num_features, out_features = length(bcbr2_train$labels))
+model <- model$to(device = device)
+
 # model(bcbr2_train_dl$.iter()$.next()$tensors)
 
 str(model$parameters)
@@ -122,7 +78,7 @@ count_parameters(model)
 
 optimizer <- torch::optim_sgd(model$parameters, lr = 0.005, weight_decay = 0.00001)
 scheduler <- torch::lr_step(optimizer, step_size = 10, gamma = 0.1)  # reduce the learning after 20 epochs by a factor of 10
-criterion <- nn_nll_loss()
+criterion <- nn_cross_entropy_loss()
 
 train <- function(model, epoch, log_interval) {
   model$train()
@@ -206,25 +162,15 @@ for(epoch in seq.int(n_epoch)) {
   plot(losses, type = "l", col = "royalblue")
   scheduler$step()
 }
-
-
-# desempenho --------------------------------------------------------------
-# Accuracy: 2934/3316 (88%)
-#           Truth
-# Prediction    1    2    3
-#          1  246   39    3
-#          2   60 2286  207
-#          3    0   73  402
+  
 
 
 # guarda ------------------------------------------------------------------
-# torch::torch_save(model, "inst/modelos/raw_1dconv_1seg.pt")
+# torch::torch_save(model, "inst/modelos/melspectrogram_resnet18_1seg.pt")
 
 
 # recarrega ---------------------------------------------------------------
-model <- torch::torch_load("inst/modelos/raw_1dconv_1seg.pt")
-model$parameters %>% purrr::walk(function(param) param$requires_grad_(TRUE))
-
+# model <- torch::torch_load("inst/modelos/melspectrogram_resnet18_1seg.pt")
 
 # predicao de uma imagem --------------------------------------------------
 # TO DO

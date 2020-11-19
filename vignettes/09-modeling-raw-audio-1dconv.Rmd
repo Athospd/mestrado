@@ -1,0 +1,44 @@
+---
+title: "Modeling - Raw Audio + 1DConv"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{data-spliting}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+## Reference
+
+- [Abdoli, S., Cardinal, P., Koerich, A L (2019). End-to-End Environmental Sound Classification using a 1D Convolutional Neural Network](http://arxiv.org/abs/1904.08990)
+
+
+```{r setup, eval=FALSE}
+library(mestrado)
+library(torch)
+library(torchaudio)
+library(purrr)
+```
+
+## BirdcallBR {torch} Dataset
+
+The function `birdcallbr_dataset()` is a [torch::dataset()] ready to be used for modeling with {torch} framework. To know more about torch datasets, see [this](https://torch.mlverse.org/docs/articles/examples/dataset.html) and [this](https://torch.mlverse.org/docs/reference/dataset.html).
+
+```{r}
+bcbr2_train <- birdcallbr_dataset("data-raw", 1, download = FALSE, train = TRUE)
+bcbr2_test <- birdcallbr_dataset("data-raw", 1, download = FALSE, train = FALSE)
+
+length(bcbr2_train)
+length(bcbr2_test)
+```
+
+
+
