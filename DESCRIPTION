@@ -23,7 +23,10 @@ Imports:
     tidyr,
     tibble,
     dplyr,
-    fuzzyjoin
+    fuzzyjoin,
+    zeallot,
+    tidyselect,
+    ggplot2
 Suggests: 
     knitr,
     rmarkdown,

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
   <head>
-    <title>Detectores acústicos automáticos de espécies de aves noturnas em seu bioma natural</title>
+    <title>Automated Bird Species Recognition Based on Their Songs</title>
     <meta charset="utf-8" />
     <meta name="author" content="Athos Petri Damiani" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
@@ -14,34 +14,39 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Detectores acústicos automáticos de espécies de aves noturnas em seu bioma natural
-## Projeto de Mestrado
+# Automated Bird Species Recognition Based on Their Songs
+## Project for Master Degree
 ### Athos Petri Damiani
-### Maio 2020 - Engenharia Mecânica/USP
+### November 2020 - School of Engineering/USP
 
 ---
 
 
 
 
-## Sobre mim e meu trabalho
+# About me
 
 .pull-left[
 
-Athos Damiani, 31, Estatístico pela USP.
+Athos Damiani, 32, Statistician from IME-USP, Brazil.
+
+Master Student at Poli-USP, Brazil.
+
 &lt;hr/&gt;
-Tema do mestrado:
+Project topic:
 
 &lt;div align="center"&gt;
-&lt;strong style = "color: red"&gt;Reconhecimento automático de espécies de aves baseados em seus cantos&lt;/strong&gt;
+&lt;strong style = "color: red"&gt;Automated Bird Species Recognition Based on Their Songs&lt;/strong&gt;
 &lt;/div&gt;
 
 .small[
-- Abordagem: Aprendizagem de máquina supervisionada
 
-- **Orientator:** Prof. Dr. Linilson Padovese
+- **Advisor:** PhD. Linilson Padovese
 
-- **Co-orientator:** Prof. Dr. Paulo Hubert Jr
+- **Co-advisor:** PhD. Paulo Hubert Jr
+
+- Approach: Supervised Machine Learning
+
 ]
 ]
 
@@ -53,7 +58,336 @@ Tema do mestrado:
 
 ---
 
-# Referências
+# About LACMAM
+
+
+&lt;img src="img/lacman.png" width="850" /&gt;
+
+
+
+---
+
+# Objectives
+
+1) Literature review of methodologies used in bird species regocgnition tasks.
+
+2) Build an automatic detector (classifier) for 5 brazilian bird species.
+
+3) Scan a 5TB sized soundscape to try to spot those 5 bird species in it.
+
+# Agenda for this presentation
+
+1) My findings and perception about my literature review
+
+2) Some early experiments and partial results
+
+---
+
+# Conclusions from literature review
+
+### 1) Deep learning methods are proving to be the best approach for bird species recognition tasks.
+
+### 2) Annotated dataset needed.
+
+
+---
+
+# Methodologies
+
+.pull-left[
+
+&lt;img src="img/avianbiology.png" width="850" /&gt;
+
+Setups:
+
+- Wavelet Denoising
+- Crops/Filters
+- Data augmentation
+- Resampling
+
+
+]
+
+.pull-right[
+
+Data Representations
+
+- Raw amplitudes
+- Spectrogram
+- Mel Spec
+- MFCC
+- DWT
+- Morphological
+- SIFS
+
+Methods
+
+- HMM
+- GMM
+- Random Forest
+- Deep Learning
+- SVM
+
+]
+
+---
+
+# Evidences of deep learning success
+
+&lt;img src="img/kaggle1.png" width="850" /&gt;
+
+All of the top solutions used `PyTorch` for fiting the models
+
+---
+
+# Evidences of deep learning success
+
+**Other audio competitions:**
+ 
+ (ongoing)
+ 
+&lt;img src="img/kaggle2.png" width="450" /&gt;
+
+- [Freesound Audio Tagging](https://www.kaggle.com/c/freesound-audio-tagging-2019) - CNNs
+- [Bird Challange](https://www.kaggle.com/c/the-icml-2013-bird-challenge) - CNNs
+- [Whale Detection](https://www.kaggle.com/c/whale-detection-challenge) - template matching approach
+- [DCase - Bird Detection](http://dcase.community/challenge2018/task-bird-audio-detection) - CNNs (Lasseck, 2018)
+
+.footnote[
+[Lasseck, Mario. 2018. ACOUSTIC BIRD DETECTION WITH DEEP CONVOLUTIONAL NEURAL NETWORKS. Berlin.](http://dcase.community/documents/challenge2018/technical_reports/DCASE2018_Lasseck_76.pdf)
+]
+
+
+---
+
+# Partial Results...
+
+.pull-left[
+
+#### MFCC + LightGBM
+
+```r
+##           Truth
+## Prediction    1    2    3
+##          1 4057    4  172
+##          2  187  358    1
+##          3  361    1  322
+```
+
+Accuracy: 87%
+
+
+#### MelSp+ResNet18 (Keydana, 2020)
+
+```r
+##           Truth
+## Prediction    1    2    3
+##          1 4049   20  164
+##          2   79  443    0
+##          3  222    1  461
+```
+
+Accuracy: 91%
+
+
+]
+
+.pull-right[
+
+#### Raw Audio + 1D CNN (Abdoli, 2019)
+
+```r
+##           Truth
+## Prediction    1    2    3
+##          1 4010   24  199
+##          2  102  443    1
+##          3  248    3  433
+```
+
+Accuracy: 89%
+
+
+#### Ideas from other papers
+
+1) Duration of audio slices and FFT size
+
+2) Usage of two or more algoritms ensembled (stacking)
+
+3) Rectangular Kernels
+
+]
+
+---
+
+# Discussion/Opinion
+
+**Pros of Deep Learning**
+
+- Automatic feature engineering and powerful performance (even when dealing with noisy audios).
+
+- Modular, easy to share, reuse and reproduce.
+
+- Tools shuch as [PyTorch](https://pytorch.org/) are free and "research-and-production-first".
+
+- Designed to be fast (optimized for GPUs).
+
+**Cons of Deep Learning**
+
+- It is not a trivial field to initiate.
+
+- Requires at least basic programming background.
+
+- **Requires large amount of data!**
+
+
+---
+
+# Hand crafted vs Automatic Feature Engineering: An Illustration
+
+&lt;img src="img/kernels.png" width="650" /&gt;
+
+---
+
+# Annotated dataset needed
+
+Absence of labelled datasets is the "bottle neck".
+
+&gt;  "It is important that benchmark datasets are available, so that different researchers can compare their methods on the same datasets, and using the same metrics."
+
+&lt;br/&gt;
+
+&gt; “There is the need for shared datasets with annotations of a wide variety of calls for a large number of species if methods that are suitable for conservation work are to be developed.” 
+
+&lt;br/&gt;
+
+**— Automated birdsong recognition in complex acoustic environments: a review (Nirosha Priyadarshani, Stephen Marsland and Isabel Castro, 2017)**
+
+
+---
+
+# Datasets "Culture" in Machine Learning
+
+.pull-left[
+
+
+&lt;img src="img/datasets.png" width="330" /&gt;
+
+Source: Pytorch.org
+
+]
+
+.pull-rigth[
+
+
+&lt;img src="img/datasetdownload.png" width="370" /&gt;
+
+&lt;br/&gt;
+
+&lt;img src="img/datasetcitation.png" width="370" /&gt;
+
+]
+
+---
+
+# Datasets "Culture" in Machine Learning
+
+.pull-left[
+
+Sources of brazilian bird calls that are not "machine-learning-ready" yet:
+
+- Xeno-canto.org
+- Wikiaves.com.br 
+
+Datasets of bird sounds from Kaggle are "Machine-learning-ready", but lacks of brazilian representants.
+
+Solution is to build our own.
+
+]
+
+.pull-right[
+
+
+&lt;img src="img/birdcallbr.png" width="250" /&gt;
+
+**Not published yet**
+
+]
+
+
+---
+
+# Data Gathering
+
+## Xeno-canto 
+
+{warbleR} R package by Marcelo Araya-Salas (2010)
+
+
+```r
+metadata_xc = map(bird_species, ~querxc(.x))
+```
+
+## Wikiaves
+
+{wikiaves} R package from LACMAM (2019)
+
+
+```r
+metadata_wa = map(bird_species, ~querwa(.x))
+```
+
+
+---
+
+# Data Gathering
+
+.mp3 files downloaded.
+
+
+Table: MP3 files downloaded.
+
+|Species                  | #mp3|
+|:------------------------|----:|
+|Megascops-choliba        |  803|
+|Pulsatrix-koeniswaldiana |  334|
+|Strix-hylophila          |  318|
+|Megascops-atricapilla    |  258|
+|Glaucidium-minutissimum  |  208|
+|Total                    | 1921|
+
+
+
+---
+
+# Side products
+
+.pull-left[
+
+Step-by-step tutorials with code for reproducibility
+
+&lt;img src="img/site2.png" width="330" /&gt;
+
+[https://athospd.github.io/mestrado/](https://athospd.github.io/mestrado/)
+
+]
+
+.pull-right[
+R packages created: 
+
+- `{wikiaves}` - mp3 download
+- `{wavesurfer}` - annotation
+- `{torchaudio}` - modeling
+- `{mestrado}` - reproducibility
+
+]
+
+
+
+
+
+---
+
+# References
 
 - Padovese B., Padovese L. (2019) **Machine Learning for Identifying an Endangered Brazilian Psittacidae Species**
 
@@ -62,23 +396,23 @@ Tema do mestrado:
 - Serra, O. et al. (2019) **Active contour-based detection of estuarine dolphin whistles in spectrogram images**
 
 - Jawaherlalnehru, J. et al. (2019) **Music Instrument Recognition from Spectrogram Images Using Convolution Neural Network**
+
+- Keydana, S. (2020) **Classifying images with torch**
+
+- Sajjad, A et al. (2019) **End-to-End Environmental Sound Classification using a 1D Convolutional Neural Network**
+
 ---
 
-# Objetivos
+class: inverse, center, middle
 
-1) Desenvolver e comparar metodologias de modelagem preditiva e de pré-processamento.
+# Thank you!
 
-2) Disponibilizar bases de dados de sons de pássaros anotadas, prontas para aplicação de aprendizagem de máquina.
-
-3) Disponibilizar ferramentas livres e de código aberto para facilitar tanto a reprodutibilidade das metodologias propostas em (1) quanto para facilitar o embarque dos algoritmos em aparelhos acústicos.
-
-&gt; “There is the need for shared datasets with annotations of a wide variety of calls for a large number of species if methods that are suitable for conservation work are to be developed.” — Automated birdsong recognition in complex acoustic environments: a review
 
 ---
 
 ## library(wavesurfer)
 
-Ferramenta de anotação de áudio
+Tool for audio annotation in R [<i class="fab fa-github"></i> `Athospd/wavesurfer`](http://github.com/Athospd/wavesurfer)
 
 
 ```r
@@ -97,138 +431,22 @@ wavesurfer(
 
 ---
 
-## annotator_app()
+## library(wavesurfer)
+
+Tool for audio annotation in R [<i class="fab fa-github"></i> `Athospd/wavesurfer`](http://github.com/Athospd/wavesurfer)
 
 ![](img/annotator_app1.png)
 
 
 ---
 
-## annotator_app()
-
-![](img/annotator_app7.png)
-
-Feito por enquanto com `warbleR::auto_detec()`
-
----
-
-## annotator_app()
-
-Uma vantagem a ser explorada: pode ser colocado em um aplicativo web em que todos podem contribuir com anotações.
-
-
-[<i class="fab fa-github"></i> `Athospd/wavesurfer`](http://github.com/Athospd/wavesurfer)
-
----
-
-# Dados - Treino/Teste
-
-## Xeno-canto 
-
-Uso do pacote {warbleR} do Marcelo Araya-Salas (2010)
-
-
-```r
-metadata_xc = map(bird_species, ~querxc(.x))
-```
-
-## Wikiaves
-
-Uso do pacote {wikiaves} do LACMAM (2019)
-
-
-```r
-metadata_wa = map(bird_species, ~querwa(.x))
-```
-
-
----
-
-# Dados - Treino/Teste
-
-Arquivos .mp3 baixados.
-
-
-|Species                  | #mp3|
-|:------------------------|----:|
-|Megascops-choliba        |  803|
-|Pulsatrix-koeniswaldiana |  334|
-|Strix-hylophila          |  318|
-|Megascops-atricapilla    |  258|
-|Glaucidium-minutissimum  |  208|
-|Total                    | 1921|
-
-
----
-
-# Reprodutibilidade
-
-- {wavesurfer}, {wikiaves} e {mestrado}
-
-
-&lt;img src="img/site.png" width="630" /&gt;
-
-
----
-
-# Dados para aplicação
-
-Duas paisagens acústicas levantadas pelo LACMAM (Laboratório de Acústica e Meio Ambiente):
-
-- INB-Rezende: 8 meses de duração em 4 pontos. Banda = 12kHz. Tamanho = 8TB.
-
-- Morro Grande: 12 meses de duração em 3 pontos. Banda = 12kHz. Tamanho = 7TB.
-
-![aplicacao](img/aplicacao.png)
-
----
-
-# Pré-processamento dos dados
-
-Cada MP3 baixado do Wikiaves e do Xeno-Canto sofreu as seguintes transformações:
-
-1) Conversão de MP3 para WAV;
-
-2) Stereo para Mono;
-
-3) Downsample para 12kHz;
-
-4) Normalização da amplitude para 16-bits (inteiros em [-32767, 32767]);
-
-5) Fatiados em pedaços disjuntos de X em X segundos.
-
-OBS: tentar depender de o mínimo possível de pré-processamento.
-
----
-
-# Metodologias de Modelagem Preditiva
-
-## Tratamentos acústicos
-
-- Espectrograma
-
-- MFCC
-
-## Algoritmos
-
-- Redes Neurais "Padrão" (Multi Layer Perseptrons)
-
-- Redes Neurais Convolucionais
-
-- Gradient Boosting Machines
-
-- Hidden Markov Models
-
-
----
-
-# Metodologias de Modelagem Preditiva
+# Predictive Modeling Methodologies
 
 .pull-left[
 
-### Espectrograma
+### Spectrogram
 
-&lt;img src="img/espectrograma.jpg" width="430" /&gt;
+&lt;img src="img/Espectrograma.jpg" width="430" /&gt;
 
 
 ### MFCC
@@ -240,7 +458,7 @@ OBS: tentar depender de o mínimo possível de pré-processamento.
 .pull-right[
 
 &lt;br&gt; 
-**passo 1)** transforma...
+**passo 1)** transform...
 
 &lt;br&gt; 
 $$
@@ -248,7 +466,7 @@ mel = 2595 \log_{10}(1 + \frac{f}{700})
 $$
 
 &lt;br&gt; 
-**passo 2)** tira uma média ponderada por faixa...
+**passo 2)** weighted mean by frequency region...
 
 &lt;br&gt; 
 &lt;img src="img/mel_filters.jpg" width="430" /&gt;
@@ -260,11 +478,10 @@ Fonte: [haythamfayek.com](https://haythamfayek.com/2016/04/21/speech-processing-
 
 ---
 
-# Metodologias de Modelagem Preditiva
+# Predictive Modeling Methodologies
 
-## Redes Neurais Convolucionais (CNN's)
+## Convolutional Neural Networks (CNN's)
 
-- É uma arquitetura de redes neurais que é útil principalmente para classificação de imagens. 
 
 ![](img/cnn.png)
 
@@ -273,44 +490,19 @@ Fonte: [haythamfayek.com](https://haythamfayek.com/2016/04/21/speech-processing-
 fonte: http://tommymullaney.com/projects/rhythm-games-neural-networks
 ]
 
----
-
-# Metodologias de Modelagem Preditiva
-
-## Redes Neurais Convolucionais (CNN's)
-
-
-.pull-left[
-
-### filtros fixos
-
-![](img/filtros_prof.png)
-
-]
-
-.pull-right[
-
-### filtros "aprendidos"
-
-&lt;img src="img/cnn_wider.png" width="300" /&gt;
-
-
-cada pixel do filtro é como se fosse um beta da regressão.
-
-]
 
 ---
 
-# Metodologias de Modelagem Preditiva
+# Predictive Modeling Methodologies
 
-## Redes Neurais Convolucionais (CNN's)
+## Convolutional Neural Networks (CNN's)
 
 .pull-left[
-- Definimos uma matriz de pesos (a "sombra" na representação ao lado)
+- Define a matrix of weights (the "shadow" onto animation)
 
-- Andamos com essa matriz de pesos para cada parte da imagem (em azul ao lado). 
+- Scan the image with this matrix (blue matrix). 
 
-- Esses pesos são multiplicados e depois somados para gerar uma nova 'imagem' (em verde).
+- The new 'imagem' (in green) is made by the convolution between the blue matrix and the shadow.
 
 ]
 
@@ -322,76 +514,20 @@ cada pixel do filtro é como se fosse um beta da regressão.
 Fonte: [Conv arithmetic](https://github.com/vdumoulin/conv_arithmetic)
 ---
 
-# Metodologias de Modelagem Preditiva
+# Predictive Modeling Methodologies
 
 ## Gradient Boosting Machines
 
 &lt;img src="img/gbm.png" width="430" /&gt;
 
-Em que x representa todos os pixels dentro de uma fatia de áudio: 
-- fatia de 1 segundo 
-- janela FFT de 512 amostras e amostragem de 16kHz sem overlap
+Where x represents all of the pixels from a MFCC set of an audio sample: 
+- 1 second long slices 
+- FFT window of 512 samples and sample rate of 16kHz with no overlap
 - 13 MFCC's
 
-Total de pixels: `\(13 \times 1 \times (16000 / 512) \approx 406\)`
+Total pixels: `\(13 \times 1 \times (16000 / 512) \approx 406\)`
 
 ---
-
-# Alguns resultados...
-
-.pull-left[
-
-### MFCC + XGBoost
-
-
-```
-##           Truth
-## Prediction    1    2    3
-##          1 4057    4  172
-##          2  187  358    1
-##          3  361    1  322
-```
-
-Acurácia: 87%
-
-]
-
-.pull-right[
-
-### Espectrograma + CNN
-
-
-```
-##           Truth
-## Prediction    1    2    3
-##          1 4010   24  199
-##          2  102  443    1
-##          3  248    3  433
-```
-
-Acurácia: 89%
-
-]
-
----
-
-# Metodologias de Modelagem Preditiva
-
-Demais parâmetros para testar:
-
-1) Tamanho da fatia do áudio.
-
-2) Parametrizações do FFT.
-
-2) Uso de dois algoritmos ou mais ao mesmo tempo (stacking).
-
-3) Arquiteturas de Redes Neurais.
-
----
-
-class: inverse, center, middle
-
-# Obrigado!
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -438,9 +574,25 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
-
-<script>
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
 (function() {
   var links = document.getElementsByTagName('a');
   for (var i = 0; i < links.length; i++) {
@@ -449,7 +601,23 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
   }
 })();
-</script>
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 slideshow._releaseMath = function(el) {

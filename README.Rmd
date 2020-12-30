@@ -53,6 +53,10 @@ knitr::include_graphics("https://github.com/Athospd/mestrado/blob/master/inst/im
 
 - [file:///C:/Users/ap_da/OneDrive/Documents/mestrado/ignorar/automated%20birdsong%20review.pdf](file:///C:/Users/ap_da/OneDrive/Documents/mestrado/ignorar/automated%20birdsong%20review.pdf) (Acesso em 2019-05-27)
 
+- [Experimental test of birdcall detection by autonomous recorder units and by human observers using broadcast](https://onlinelibrary.wiley.com/doi/epdf/10.1002/ece3.4775) (Acesso em 2020-11-19)
+
+- [Bird population density estimated from acoustic signals]()
+
 ### Algoritmos de identificação de músicas
 
 - [https://www.toptal.com/algorithms/shazam-it-music-processing-fingerprinting-and-recognition](https://www.toptal.com/algorithms/shazam-it-music-processing-fingerprinting-and-recognition)

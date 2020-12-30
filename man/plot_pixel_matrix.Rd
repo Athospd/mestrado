@@ -6,6 +6,11 @@
 \usage{
 plot_pixel_matrix(pixel_matrix, title = "")
 }
+\arguments{
+\item{pixel_matrix}{a 2D array or torch tensor.}
+
+\item{title}{text to put as the image title.}
+}
 \value{
 
 }
