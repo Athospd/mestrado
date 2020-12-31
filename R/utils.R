@@ -70,9 +70,11 @@ ggpixelgrid <- function(image_tensor_tbl, nrow = NULL, ncol = NULL, x = x, y = y
   pixel_colours <- rlang::exec(grDevices::rgb, channel_columns, maxColorValue = if(max(channel_columns) > 1) 255 else 1)
   
   image_tensor_tbl %>%
-    dplyr::mutate(label = {{label}}) %>%
+    dplyr::group_by({{label}}) %>%
+    dplyr::mutate(label = {{label}},
+                  y = rev({{y}})) %>%
     ggplot2::ggplot() +
-    ggplot2::geom_tile(ggplot2::aes(x = {{x}}, y = rev({{y}})), fill = pixel_colours, colour = grid_colour, size = grid_tickness, show.legend = FALSE) +
+    ggplot2::geom_tile(ggplot2::aes(x = {{x}}, y = y), fill = pixel_colours, colour = grid_colour, size = grid_tickness, show.legend = FALSE) +
     ggplot2::facet_wrap(facets = "label", nrow = nrow, ncol = ncol, ...) +
     ggplot2::theme_void(12) +
     ggplot2::coord_equal() +
